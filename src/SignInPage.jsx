@@ -19,13 +19,13 @@ function SignInPage() {
 
         <form>
             <label htmlFor="username">Nom d'utilisateur</label>
-            <input id="username" type="text" class="text-input"/>
-            <br></br>
+            <input id="username" type="text" className="text-input"/>
 
             <label htmlFor="password">Mot de passe</label>
-            <input id="password" type="text" class="text-input"/>
+            <input id="password" type="text" className="text-input"/>
         </form> 
-        <button id="login" type="button" onClick={onSignIn(username,password)}>Connexion</button>
+
+        <button id="login" type="button" onClick={onSignIn(username,password)}>Connexion</button> 
 
         <button id="register" type="button">Inscription</button>
     </div>)

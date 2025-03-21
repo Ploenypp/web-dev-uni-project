@@ -1,6 +1,5 @@
 body {
-    display:flex;
-    place-items:center;
+    display: flex;
     min-width: 320px;
     min-height: 100vh;
 
@@ -8,6 +7,12 @@ body {
     color: white;
     font-family: serif;
     font-size: 1.5em;
+}
+
+h {
+    font-family: sans-serif;
+    margin: 5em;
+    padding: 5em;
 }
 
 form {
@@ -63,8 +68,10 @@ button {
     border-color: rgb(194, 57, 103);
 }
 
-#logo { 
+#logo {
+    align-self: center;
+    place-self: top;
     width: auto;
-    height: 2.5em;
-    transform: scale(0.5,0.5);
+    height: 0.5em;
+    transform: scale(0.2,0.2) translateY(-40em);
 }
