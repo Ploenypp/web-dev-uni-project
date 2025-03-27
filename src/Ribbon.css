@@ -1,0 +1,45 @@
+
+.Ribbon {
+    display: grid;
+    width: 100%;
+    height: max-content;
+
+    grid-template-columns: 10% 50% 20% 20%;
+    column-gap: 1%;
+
+    border-bottom: 2px solid white;
+    
+    place-self: center;
+    align-items: center;
+    justify-items: center;
+}
+
+#logo_ribbon {
+    transform: scale(0.2,0.2);
+    margin: -12.5em -27em -12.5em -27em;
+}
+
+#nothing {
+    width: auto;
+    height: 100%;
+}
+
+#profile {
+    background-color: rgb(62, 64, 199);
+    border: 2px solid rgb(110, 112, 203);
+}
+
+#profile:hover {
+    background-color: rgb(37, 40, 196);
+    border-color: rgb(62, 64, 199);
+}
+
+#logout {
+    background-color: rgb(194, 57, 103);
+    border: 2px solid rgb(195, 112, 139);
+}
+
+#logout:hover {
+    background-color: rgb(195, 28, 84);
+    border-color: rgb(194, 57, 103);
+}

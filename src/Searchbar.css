@@ -1,0 +1,96 @@
+body {
+    background-color: black;
+    color:white;
+    font-family:serif;
+}
+
+.Searchbar {
+    width: 100%;
+    border-bottom: 2px double white;
+    padding-bottom:1%;
+}
+
+#searchbar_form {
+    display: flex;
+    width: 100%;
+    justify-content: stretch;
+    align-items: center;
+    margin:1%;
+}
+
+.text-input {
+    box-sizing: border-box;
+    width:55%;
+    height:3.5em;
+    margin-inline: 1em;
+    padding-inline: 1em;
+    border: 2px solid white;
+    border-radius: 25px;
+
+    background-color: black;
+    color:white;
+    font-family:sans-serif;
+}
+
+#date-search {
+    display: grid;
+    grid-auto-flow: column;
+    width: fit-content;
+    place-self: center;
+    margin: fit-content;
+
+    font-size: 0.75em;
+    place-items: center;
+}
+
+.date-input {
+    box-sizing: border-box;
+    width: 7.5em;
+    height: 3em;
+    margin-inline: 0.5em;
+    padding-inline: 0.5em;
+    text-align: center;
+    border: 2px solid white;
+    border-radius: 10px;
+
+    background-color: black;
+    color: white;
+    font-family:sans-serif;
+}
+
+select:required {
+    box-sizing: border-box;
+    width: 7.5em;
+    height: 3em;
+    margin-inline: 0.5em;
+    padding-inline: 0.5em;
+    text-align: center;
+    border: 2px solid white;
+    border-radius: 10px;
+
+    background-color: black;
+    color: white;
+    font-family:sans-serif;
+}
+
+select:required:invalid {
+    color: gray;
+}
+
+select:required:valid {
+    color: white;
+}
+
+#submit-search {
+    height: 2.5em;
+    background-color: rgb(62, 64, 199);
+    border: 2px solid rgb(110, 112, 203);
+
+    margin-right:1%;
+    margin-left:1%;
+}
+
+#submit-search:hover {
+    background-color: rgb(37, 40, 196);
+    border-color: rgb(62, 64, 199);
+}

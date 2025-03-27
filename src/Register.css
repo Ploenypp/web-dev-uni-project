@@ -1,77 +1,99 @@
 body {
-    display: flex;
-    min-width: 320px;
-    min-height: 100vh;
-
-    background-color: rgb(0,0,0);
-    color: white;
-    font-family: serif;
-    font-size: 1.5em;
+    justify-content: center;
 }
 
-h {
-    font-family: sans-serif;
-    margin: 5em;
-    padding: 5em;
+#logo {
+    transform: scale(0.25,0.25);
+    margin-top: -7.5em;
+    margin-bottom: -7.5em;
 }
 
-form {
+#register_box {
+    width: 100%;
+    padding-bottom: 2%;
+
+    justify-self: center;
+    justify-items: center;
+    align-content: center;
+
+    border: 5px solid rgb(18, 12, 41);;
+    background-color:rgb(9, 6, 23);
+    border-radius: 25px;
+}
+
+#register_form {
     display: grid;
     grid-template-columns: auto auto;
-    place-content: center;
+    width: 100%;
+
+    padding-inline: 1em;
+
+    margin: 3%;
+    row-gap: 0.5em;
+
+    place-self: center;
     text-align: left;
 }
 
-.text-input {
+#dob:required {
     box-sizing: border-box;
-    width:25em;
-    height:2.5em;
+    height: 2.5em;
+
     margin-inline: 2em;
     padding-inline: 1em;
     border: 2px solid white;
-    border-radius:25px;
+    border-radius: 25px;
 
-    background-color: black;
+    background-color: rgb(0, 0, 0);
     color:white;
     font-family:sans-serif;
 }
 
-button {
-    box-sizing: border-box;
-    width: auto;
-    height: 2.5em;
-    border-radius: 25px;
-    margin: 2em;
+#dob:required:invalid {
+    color: gray;
+}
 
+#dob:required:valid {
     color: white;
-    font-family: serif;
-    font-size: large;
+    border-color:rgb(32, 221, 32);
 }
 
-#login {
-    background-color: rgb(62, 64, 199);
-    border: 2px solid rgb(110, 112, 203);
+.text-input:not(:placeholder-shown) {
+    border-color:rgb(32, 221, 32);
 }
 
-#login:hover {
-    background-color: rgb(37, 40, 196);
-    border-color: rgb(62, 64, 199);
+select:required {
+    box-sizing: border-box;
+    margin-inline: 0.5em;
+    padding-inline: 0.5em;
+    text-align: center;
+    border: 2px solid white;
+    border-radius: 10px;
+
+    background-color: black;
+    color: white;
+    font-family:sans-serif;
 }
 
-#register {
+select:required:invalid {
+    color: gray;
+}
+
+select:required:valid {
+    color: white;
+    border-color:rgb(32, 221, 32);
+}
+
+.dob-input:not(:placeholder-shown) {
+    border-color:rgb(32, 221, 32);
+}
+
+#register_btn {
     background-color: rgb(194, 57, 103);
     border: 2px solid rgb(195, 112, 139);
 }
 
-#register:hover {
+#register_btn:hover {
     background-color: rgb(195, 28, 84);
     border-color: rgb(194, 57, 103);
-}
-
-#logo {
-    align-self: center;
-    place-self: top;
-    width: auto;
-    height: 0.5em;
-    transform: scale(0.2,0.2) translateY(-40em);
 }

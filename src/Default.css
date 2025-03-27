@@ -1,0 +1,38 @@
+body {
+    display: flex;
+
+    background-color: rgb(0,0,0);
+    color: white;
+    font-family: serif;
+    font-size: 1.5em;
+}
+
+button {
+    box-sizing: border-box;
+    width: fit-content;
+    height: 2em;
+
+
+    border-radius: 25px;
+    padding-inline: 1em;
+
+    color: white;
+    font-family: serif;
+    font-size: large;
+}
+
+.text-input {
+    box-sizing: border-box;
+    width: 25em;
+    height: 2.5em;
+
+    margin:0%;
+
+    padding-inline: 1em;
+    border: 2px solid white;
+    border-radius: 25px;
+
+    background-color: black;
+    color:white;
+    font-family:sans-serif;
+}
