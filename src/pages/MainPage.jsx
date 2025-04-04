@@ -1,9 +1,9 @@
 import {useState, useEffect, useRef} from 'react';
-import "./MainPage.css";
-import logo from './assets/logo.png';
+import "../styles/MainPage.css";
+import logo from '../assets/logo.png';
 
-import Ribbon from "./Ribbon.jsx";
-import Searchbar from "./Searchbar.jsx";
+import Ribbon from "../objects/Ribbon.jsx";
+import Searchbar from "../objects/Searchbar.jsx";
 
 function MainPage () {
     return(<div className="MainPage">

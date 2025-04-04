@@ -1,7 +1,7 @@
 import {useState, useEffect, useRef} from 'react';
 
-import "./SignIn.css";
-import logo from './assets/logo.png';
+import "../styles/SignIn.css";
+import logo from '../assets/logo.png';
 
 function SignInPage() {
     const [username,setUsername] = useState("");

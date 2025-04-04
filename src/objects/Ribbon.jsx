@@ -1,6 +1,6 @@
 import {useState, useEffect, useRef} from 'react';
-import logo from './assets/logo.png';
-import "./Ribbon.css";
+import logo from '../assets/logo.png';
+import "../styles/Ribbon.css";
 
 function Ribbon() {
     return(<div className="Ribbon">
