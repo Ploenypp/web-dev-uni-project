@@ -36,12 +36,12 @@ body {
     border-radius: 25px;
 }
 
-#register_form {
+#register_form_login {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: max-content max-content;
+    width: max-content;
     column-gap: 5%;
-    width: 25em;
-    
+
     justify-self: center;
     justify-items: center;
     align-items: center;

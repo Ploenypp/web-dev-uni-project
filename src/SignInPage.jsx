@@ -39,7 +39,7 @@ function SignInPage() {
             <button id="login_btn" type="button" onClick={onSignIn()}>Connexion</button>
         </div>
         
-        <div id="register_form">
+        <div id="register_form_login">
             <p>Pas encore inscrit(e)?</p>
             <button id="register_btn" type="button">Inscription</button>
         </div>
