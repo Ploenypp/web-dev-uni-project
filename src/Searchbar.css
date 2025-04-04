@@ -1,61 +1,49 @@
-body {
+.Searchbar {
     background-color: black;
     color:white;
     font-family:serif;
-}
-
-.Searchbar {
+    
     width: 100%;
     border-bottom: 2px double white;
-    padding-bottom:1%;
 }
 
 #searchbar_form {
-    display: flex;
+    display: grid;
+    grid-template-columns:auto max-content auto auto;
     width: 100%;
+    column-gap: 2%;
+
     justify-content: stretch;
     align-items: center;
     margin:1%;
 }
 
-.text-input {
+#text-search {
+    width: 60em;
+}
+
+
+#date-search:required {
     box-sizing: border-box;
-    width:55%;
-    height:3.5em;
-    margin-inline: 1em;
+    width: fit-content;
+    height: 2.5em;
+
     padding-inline: 1em;
     border: 2px solid white;
     border-radius: 25px;
 
-    background-color: black;
+    background-color: rgb(0, 0, 0);
     color:white;
     font-family:sans-serif;
 }
 
-#date-search {
-    display: grid;
-    grid-auto-flow: column;
-    width: fit-content;
-    place-self: center;
-    margin: fit-content;
-
-    font-size: 0.75em;
-    place-items: center;
+#date-search:required:invalid {
+    color: gray;
 }
 
-.date-input {
-    box-sizing: border-box;
-    width: 7.5em;
-    height: 3em;
-    margin-inline: 0.5em;
-    padding-inline: 0.5em;
-    text-align: center;
-    border: 2px solid white;
-    border-radius: 10px;
-
-    background-color: black;
+#date-search:required:valid {
     color: white;
-    font-family:sans-serif;
+    border-color:rgb(32, 221, 32);
 }
 
 select:required {
@@ -82,12 +70,8 @@ select:required:valid {
 }
 
 #submit-search {
-    height: 2.5em;
     background-color: rgb(62, 64, 199);
     border: 2px solid rgb(110, 112, 203);
-
-    margin-right:1%;
-    margin-left:1%;
 }
 
 #submit-search:hover {

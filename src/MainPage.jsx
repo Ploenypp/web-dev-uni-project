@@ -8,6 +8,7 @@ import Searchbar from "./Searchbar.jsx";
 function MainPage () {
     return(<div className="MainPage">
         <Ribbon />
+        <Searchbar />
     </div>)
     
 }
