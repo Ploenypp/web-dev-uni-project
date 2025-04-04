@@ -1,30 +1,38 @@
-
 .Ribbon {
     display: grid;
-    width: 100%;
-    height: max-content;
+    grid-template-areas: 
+        "a b c d";
+    grid-template-columns: max-content max-content max-content max-content;
+    column-gap: 5%;
 
-    grid-template-columns: 10% 50% 20% 20%;
-    column-gap: 1%;
+    width:100%;
 
     border-bottom: 2px solid white;
-    
-    place-self: center;
+
+    position: absolute;
+    top: 0%;
     align-items: center;
-    justify-items: center;
 }
 
 #logo_ribbon {
     transform: scale(0.2,0.2);
-    margin: -12.5em -27em -12.5em -27em;
+    margin-right: -20em;
+    margin-left: -20em;
+    margin-top: -10em;
+    margin-bottom: -10em;
+    height:fit-content;
+
+    grid-area: a;
 }
 
 #nothing {
-    width: auto;
-    height: 100%;
+    grid-area: b;
+    width: 25em;
 }
 
 #profile {
+    grid-area: c;
+
     background-color: rgb(62, 64, 199);
     border: 2px solid rgb(110, 112, 203);
 }
@@ -35,6 +43,7 @@
 }
 
 #logout {
+    grid-area: d;
     background-color: rgb(194, 57, 103);
     border: 2px solid rgb(195, 112, 139);
 }

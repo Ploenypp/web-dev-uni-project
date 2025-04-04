@@ -9,7 +9,7 @@ import "./Default.css";
 
 
 createRoot(document.getElementById('root')).render(
-  <SignInPage />
+  //<SignInPage />
   //<RegisterPage />
-  //<MainPage />
+  <MainPage />
 )

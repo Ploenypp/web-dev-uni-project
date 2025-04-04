@@ -6,7 +6,7 @@ import Ribbon from "./Ribbon.jsx";
 import Searchbar from "./Searchbar.jsx";
 
 function MainPage () {
-    return(<div clasName="MainPage">
+    return(<div className="MainPage">
         <Ribbon />
     </div>)
     
