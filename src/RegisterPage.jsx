@@ -18,7 +18,7 @@ function RegisterPage() {
                 <input id="lstname" type="text" className="text-input" placeholder="nom de famille..."/>
 
                 <label htmlFor="dob">Date de naissance</label>
-                <input id="dob" type="date" min="1900-01-01" max="2015-01-01" required/>
+                <input id="dob" type="date" min="1900-01-01" max="2007-12-31" required/>
 
                 <label htmlFor="username">Nom d'utilisateur</label>
                 <input id="username" type="text" className="text-input" placeholder="nom d'utilisateur..."/>
