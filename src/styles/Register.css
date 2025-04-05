@@ -1,5 +1,28 @@
 body {
+    display: flex;
+
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+
     justify-content: center;
+    justify-items: center;
+    align-items: center;
+}
+
+.RegisterPage {
+    display: grid;
+    grid-template-rows: fit-content fit-content fit-content;
+    row-gap: 1%;
+
+    width: fit-content;
+    min-height: fit-content;
+
+    justify-items: center;
+    align-content: center;
+
+
+    text-align: center;
 }
 
 #logo {
@@ -9,12 +32,17 @@ body {
 }
 
 #register_box {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+
+    row-gap: 1em;
     width:max-content;
     padding: 2%;
 
-    justify-self: center;
     justify-items: center;
     align-content: center;
+    justify-content: center;
 
     border: 5px solid rgb(18, 12, 41);;
     background-color:rgb(9, 6, 23);
@@ -28,7 +56,6 @@ body {
 
     padding-inline: 1em;
 
-    margin: 3%;
     row-gap: 0.5em;
     column-gap: 2.5%;
 
