@@ -24,10 +24,17 @@ body {
     width: 100%;
 }
 
+#pf_subcontainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
 #profile_sidebar {
     display: flex;
     flex-direction: column;
     width: 25%;
+    height: max-content;
     gap: 0.5em;
     padding-inline: 2em;
     padding: 1em;
@@ -48,7 +55,7 @@ body {
     height: 5em;
     padding: 1em;
 
-    border: 5px solid rgb(110, 112, 203);
+    border: 3px dashed rgb(110, 112, 203);
     border-radius: 50px;
 }
 
@@ -75,6 +82,14 @@ body {
 .profile_search {
     display: flex;
     width: 100%;
+    max-height: fit-content;
     justify-content: flex-start;
     align-items: flex-start;
+}
+
+.profile_posts {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    gap: 0.5em;
 }
