@@ -1,11 +1,9 @@
 .Ribbon {
-    display: grid;
-    grid-template-areas: 
-        "a b c d";
-    grid-template-columns: max-content max-content max-content max-content;
-    column-gap: 5%;
-
-    width:100%;
+    display: flex;
+    gap: 1em;
+    justify-content: space-between;
+    align-items: center;
+    width: 100vw;
 
     border-bottom: 2px solid white;
     align-items: center;
@@ -23,13 +21,11 @@
 }
 
 #nothing {
-    grid-area: b;
-    width: 25em;
+    flex-grow: 1;
 }
 
 #profile {
-    grid-area: c;
-
+    width: fit-content;
     background-color: rgb(62, 64, 199);
     border: 2px solid rgb(110, 112, 203);
 }
@@ -40,7 +36,6 @@
 }
 
 #logout {
-    grid-area: d;
     background-color: rgb(194, 57, 103);
     border: 2px solid rgb(195, 112, 139);
 }

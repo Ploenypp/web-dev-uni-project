@@ -27,6 +27,10 @@ function SignInPage() {
         navigate('/register');
     }
 
+    const toTmp = () => {
+        navigate('/home');
+    }
+
     return(<div className="SignInPage">
         <img src={logo} id="logo" alt="Organiz'asso Logo"/>
 
@@ -43,7 +47,7 @@ function SignInPage() {
                     <input id="password" type="text" className="text-input" placeholder="mot de passe..." onChange={getPassword}/>
                 </div>
             </div></form>
-            <button id="login_btn" type="button" onClick={onSignIn}>Connexion</button>
+            <button id="login_btn" type="button" onClick={toTmp}>Connexion</button>
         </div>
         
         <div id="register_form_login">
