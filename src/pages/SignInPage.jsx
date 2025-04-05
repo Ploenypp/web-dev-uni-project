@@ -28,7 +28,7 @@ function SignInPage() {
     }
 
     const toTmp = () => {
-        navigate('/home');
+        navigate('/dashboard');
     }
 
     return(<div className="SignInPage">
