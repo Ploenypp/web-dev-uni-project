@@ -1,6 +1,5 @@
 body {
     display: flex;
-
     min-height: 100vh;
 
     justify-content: center;
@@ -9,7 +8,8 @@ body {
 }
 
 .ProfilePage {
-    display: flex-box;
+    display: flex;
+    flex-direction: column;
     column-gap: 10%;
     width: 100%;
 }
@@ -19,11 +19,16 @@ body {
     font-size: medium;
 }
 
+#pf_container {
+    display: flex;
+    width: 100%;
+}
+
 #profile_sidebar {
     display: flex;
     flex-direction: column;
     width: 25%;
-    gap: 5%;
+    gap: 0.5em;
     padding-inline: 2em;
     padding: 1em;
 
@@ -53,4 +58,23 @@ body {
     width: 100%;
     gap: 10%;
     justify-content:center;
+}
+
+#edit {
+    background-color: rgb(62, 64, 199);
+    border: 2px solid rgb(110, 112, 203);
+    font-size: small;
+    font-family: sans-serif;
+}
+
+#edit:hover {
+    background-color: rgb(37, 40, 196);
+    border-color: rgb(62, 64, 199);
+}
+
+.profile_search {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
