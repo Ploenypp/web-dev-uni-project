@@ -8,7 +8,7 @@ function Post(props) {
         <div>
             <div id="post_title"><strong>{props.title}</strong></div>
             <div id="post_info">
-                by {props.author}, {props.timestamp}
+                {props.author}, {props.timestamp}
             </div>
         </div>
         <div id="post_content">

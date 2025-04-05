@@ -86,10 +86,3 @@ body {
     justify-content: flex-start;
     align-items: flex-start;
 }
-
-.profile_posts {
-    display: flex;
-    flex-direction: column;
-    padding: 1em;
-    gap: 0.5em;
-}
