@@ -3,7 +3,10 @@
     gap: 1em;
     justify-content: space-between;
     align-items: center;
-    width: 100vw;
+
+    width: 100vw; 
+    padding-inline: 1em;
+    box-sizing: border-box;
 
     border-bottom: 2px solid white;
     align-items: center;

@@ -4,6 +4,8 @@
     font-family:serif;
 
     width: 100vw; 
+    padding-inline: 1em;
+    box-sizing: border-box;
 
     border-bottom: 2px double white;
 }
