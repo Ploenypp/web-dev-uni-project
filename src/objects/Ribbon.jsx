@@ -6,6 +6,10 @@ import "../styles/Ribbon.css";
 
 function Ribbon() {
     const navigate = useNavigate();
+
+    const toProfile = () => {
+        navigate("/profile");
+    }
     const toLogOut = () => {
         navigate("/");
     }
@@ -13,7 +17,7 @@ function Ribbon() {
     return(<div className="Ribbon">
         <img src={logo} id="logo_ribbon" alt="Organiz'asso Logo"/>
         <div id="nothing"></div>
-        <button id="profile" type="button">Mon Profil</button>
+        <button id="profile" type="button" onClick={toProfile}>Mon Profil</button>
         <button id="logout" type="button" onClick={toLogOut}>Deconnexion</button>
     </div>)
 }

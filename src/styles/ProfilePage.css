@@ -1,0 +1,56 @@
+body {
+    display: flex;
+
+    min-height: 100vh;
+
+    justify-content: center;
+    justify-items: center;
+    align-items: flex-start;
+}
+
+.ProfilePage {
+    display: flex-box;
+    column-gap: 10%;
+    width: 100%;
+}
+
+.ProfilePage p {
+    font-family: sans-serif;
+    font-size: medium;
+}
+
+#profile_sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    gap: 5%;
+    padding-inline: 2em;
+    padding: 1em;
+
+    align-items: center;
+
+    border-top: 5px double rgb(42, 45, 132);
+    border-right: 5px double rgb(42, 45, 132);
+    border-bottom: 5px double rgb(42, 45, 132);
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+
+    background-color: rgb(6, 7, 45);
+}
+
+#profile_pic {
+    width: 5em;
+    height: 5em;
+    padding: 1em;
+
+    border: 5px solid rgb(110, 112, 203);
+    border-radius: 50px;
+}
+
+#profile_text {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10%;
+    justify-content:center;
+}
