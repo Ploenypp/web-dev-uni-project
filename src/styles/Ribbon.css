@@ -29,6 +29,8 @@
 
 #profile {
     width: fit-content;
+    max-width: 100%;
+    white-space: nowrap;
     background-color: rgb(62, 64, 199);
     border: 2px solid rgb(110, 112, 203);
 }
