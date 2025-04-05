@@ -11,15 +11,16 @@ body {
 }
 
 .RegisterPage {
-    display: grid;
-    grid-template-rows: fit-content fit-content fit-content;
+    display: flex;
+    flex-direction: column;
     row-gap: 1%;
 
     width: fit-content;
     min-height: fit-content;
 
+    place-content: center;
     justify-items: center;
-    align-content: center;
+    align-items: center;
 
 
     text-align: center;
@@ -32,11 +33,10 @@ body {
 }
 
 #register_box {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
+    display: flex;
+    flex-direction: column;
 
-    row-gap: 1em;
+    gap: 1em;
     width:max-content;
     padding: 2%;
 
@@ -119,6 +119,7 @@ select:required:valid {
 }
 
 #register_btn {
+    place-self: center;
     background-color: rgb(194, 57, 103);
     border: 2px solid rgb(195, 112, 139);
 }
