@@ -1,13 +1,20 @@
 import {useState, useEffect, useRef} from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import logo from '../assets/logo.png';
 import "../styles/Ribbon.css";
 
 function Ribbon() {
+    const navigate = useNavigate();
+    const toLogOut = () => {
+        navigate("/");
+    }
+
     return(<div className="Ribbon">
         <img src={logo} id="logo_ribbon" alt="Organiz'asso Logo"/>
         <div id="nothing"></div>
         <button id="profile" type="button">Mon Profil</button>
-        <button id="logout" type="button">Deconnexion</button>
+        <button id="logout" type="button" onClick={toLogOut}>Deconnexion</button>
     </div>)
 }
 
