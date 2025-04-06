@@ -77,4 +77,8 @@
     border-top: 2px solid rgba(85, 109, 177, 0.605);
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
+
+    max-height: 20em;
+    overflow: scroll;
+    scrollbar-color: rgba(85, 109, 177, 0.605) rgba(16, 20, 31, 0.363);
 }
