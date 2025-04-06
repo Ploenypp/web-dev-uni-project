@@ -2,6 +2,7 @@ import {useState, useEffect, useRef} from 'react';
 
 import Ribbon from "../objects/Ribbon.jsx";
 import Searchbar from "../objects/Searchbar.jsx";
+import NewPost from '../objects/NewPost.jsx';
 import Post from "../objects/Post.jsx";
 
 import "../styles/MainPage.css";
@@ -73,16 +74,17 @@ function MainPage () {
     return(<div className="MainPage">
         <Ribbon />
         <Searchbar />
-        <div className="posts">
-            {dummyPosts.map((post, index) => (
-            <Post
-                key={index}
-                title={post.title}
-                author={post.author}
-                timestamp={post.timestamp}
-                content={post.content}
-            />))}
-        </div>
+          <div className="posts">
+            <NewPost />
+              {dummyPosts.map((post, index) => (
+              <Post
+                  key={index}
+                  title={post.title}
+                  author={post.author}
+                  timestamp={post.timestamp}
+                  content={post.content}
+              />))}
+          </div>
     </div>)
     
 }
