@@ -14,7 +14,7 @@ function ProfileInfo() {
                     <p>Équipe(s) : <strong>Heart Collection</strong></p>
                     <p>Intérêts : <strong>Music</strong> </p>
                 </div>
-                <button id="profile_edit" type="button">modifier</button>
+                <button id="profile_edit" type="button">modifier</button> 
     </div>)
 }
 
