@@ -71,19 +71,40 @@ function MainPage () {
         }
       ];
 
+    const [showWrite, setShowWrite] = useState(false);
+
+    const [writeBtnText, setWriteBtnText] = useState("ouvrir une nouvelle discussion");
+
+    const toggleShowWrite = () => {
+        if (showWrite) {
+            setShowWrite(false)
+            setWriteBtnText("ouvrir une nouvelle discussion");
+            
+        } else {
+            setShowWrite(true)
+            setWriteBtnText("annuler");
+        }
+        console.log(write);
+    }
+
     return(<div className="MainPage">
         <Ribbon />
         <Searchbar />
           <div className="posts">
-            <NewPost />
-              {dummyPosts.map((post, index) => (
-              <Post
-                  key={index}
-                  title={post.title}
-                  author={post.author}
-                  timestamp={post.timestamp}
-                  content={post.content}
-              />))}
+          <button id="togglewritebtn" type="button" onClick = {toggleShowWrite}>{writeBtnText}</button>
+
+          {showWrite && (
+            <div><NewPost /></div>
+          )}
+
+          {dummyPosts.map((post, index) => (
+            <Post
+                key={index}
+                title={post.title}
+                author={post.author}
+                timestamp={post.timestamp}
+                content={post.content}
+            />))}
           </div>
     </div>)
     

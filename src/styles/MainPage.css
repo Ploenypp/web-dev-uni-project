@@ -23,3 +23,14 @@ body {
     display: flex;
     flex-direction: column;
 }
+
+#togglewritebtn {
+    background-color: rgba(62, 142, 199, 0.177);
+    border: 2px solid rgba(110, 158, 203, 0.183);
+
+}
+
+#togglewritebtn:hover {
+    background-color: rgba(62, 142, 199, 0.381);
+    border: 2px solid rgba(110, 158, 203, 0.438);
+}

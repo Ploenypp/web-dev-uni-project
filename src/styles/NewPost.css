@@ -9,6 +9,7 @@
     background-color:rgb(28, 39, 55);
 }
 
+
 #write-title {
     color: white;
     font-family: sans-serif;
@@ -20,7 +21,6 @@
     border-radius: 25px;
     padding-inline: 1em;
 }
-
 
 #write-content {
     color: white;
