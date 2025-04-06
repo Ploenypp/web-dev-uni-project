@@ -24,6 +24,7 @@
 }
 
 #comment_buttons {
+    font-family: serif;
     display: flex;
     flex-direction: row;
     align-self:flex-end;
@@ -32,7 +33,7 @@
 
 #reply_comment {
     font-size: small;
-    font-family: sans-serif;
+    font-family: serif;
 
     width: fit-content;
     max-width: 100%;

@@ -50,11 +50,15 @@ function Post(props) {
 
     const [showReplyDraft, setShowReplyDraft] = useState(false);
 
+    const [replyBtnText, setReplyBtnText] = useState("répondre");
+
     const toggleReplyDraft = () => {
         if (showReplyDraft) {
             setShowReplyDraft(false);
+            setReplyBtnText("répondre");
         } else {
             setShowReplyDraft(true);
+            setReplyBtnText("annuler");
         }
     }
 
@@ -69,7 +73,7 @@ function Post(props) {
             {props.content}
         </div>
         <div id="post_buttons">
-            <button id="reply_post" type="button" onClick={toggleReplyDraft}>répondre</button>
+            <button id="reply_post" type="button" onClick={toggleReplyDraft}>{replyBtnText}</button>
             <button id="show_thread" type="button" onClick={toggleThread}>{threadBtnText}</button>
         </div>
         {showReplyDraft && (

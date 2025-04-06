@@ -4,10 +4,11 @@
     justify-content: space-between;
     align-items: center;
 
-    width: 100vw; 
+    width: 100%;
     padding-inline: 1em;
     box-sizing: border-box;
 
+    background-color: black;
     border-bottom: 2px solid white;
     align-items: center;
 }
@@ -31,21 +32,21 @@
     width: fit-content;
     max-width: 100%;
     white-space: nowrap;
-    background-color: rgb(62, 64, 199);
-    border: 2px solid rgb(110, 112, 203);
+    background-color: rgba(62, 64, 199, 0.462);
+    border: 2px solid rgba(110, 112, 203, 0.481);
 }
 
 #profile:hover {
-    background-color: rgb(37, 40, 196);
-    border-color: rgb(62, 64, 199);
+    background-color: rgba(37, 40, 196, 0.691);
+    border-color: rgba(62, 64, 199, 0.674);
 }
 
 #logout {
-    background-color: rgb(194, 57, 103);
-    border: 2px solid rgb(195, 112, 139);
+    background-color: rgba(194, 57, 103, 0.353);
+    border: 2px solid rgba(195, 112, 140, 0.298);
 }
 
 #logout:hover {
-    background-color: rgb(195, 28, 84);
-    border-color: rgb(194, 57, 103);
+    background-color: rgba(194, 57, 103, 0.652);
+    border-color: rgba(195, 112, 140, 0.616);
 }

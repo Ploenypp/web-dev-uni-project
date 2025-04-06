@@ -30,8 +30,8 @@ body {
 
     padding: 1.5em;
 
-    border: 5px solid rgb(18, 12, 41);;
-    background-color:rgb(9, 6, 23);
+    border: 5px double rgb(42, 45, 132);
+    background-color:rgba(6, 7, 45, 0.66);
     border-radius: 25px;
 }
 
@@ -61,6 +61,11 @@ body {
     font-size: 0.75em;
 }
 
+.text-input {
+    background-color: rgba(6, 7, 45, 0.66);
+    border: 2px solid rgb(31, 32, 92);
+}
+
 .text-input:not(:placeholder-shown) {
     border-color:rgb(32, 221, 32);
 }
@@ -76,13 +81,13 @@ body {
 
     place-self : center;
 
-    background-color: rgb(62, 64, 199);
-    border: 2px solid rgb(110, 112, 203);
+    background-color: rgba(62, 64, 199, 0.237);
+    border: 2px solid rgba(110, 112, 203, 0.204);
 }
 
 #login_btn:hover {
-    background-color: rgb(37, 40, 196);
-    border-color: rgb(62, 64, 199);
+    background-color: rgba(37, 40, 196, 0.449);
+    border-color: rgba(62, 64, 199, 0.442);
 }
 
 #register_btn {
@@ -94,11 +99,11 @@ body {
     font-family: serif;
     font-size: large;
 
-    background-color: rgb(194, 57, 103);
-    border: 2px solid rgb(195, 112, 139);
+    background-color: rgba(194, 57, 103, 0.353);
+    border: 2px solid rgba(195, 112, 140, 0.298);
 }
 
 #register_btn:hover {
-    background-color: rgb(195, 28, 84);
-    border-color: rgb(194, 57, 103);
+    background-color: rgba(194, 57, 103, 0.652);
+    border-color: rgba(195, 112, 140, 0.616);
 }

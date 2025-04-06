@@ -43,8 +43,8 @@ body {
     align-content: center;
     justify-content: center;
 
-    border: 5px solid rgb(18, 12, 41);;
-    background-color:rgb(9, 6, 23);
+    border: 5px double rgb(42, 45, 132);
+    background-color: rgba(6, 7, 45, 0.66);
     border-radius: 25px;
 }
 
@@ -68,12 +68,11 @@ body {
     width: 25em;
     height: 2.5em;
 
-
     padding-inline: 1em;
-    border: 2px solid white;
     border-radius: 25px;
-
-    background-color: rgb(0, 0, 0);
+    
+    background-color: rgba(6, 7, 45, 0.66);
+    border: 2px solid rgb(31, 32, 92);
     color:white;
     font-family:sans-serif;
 }
@@ -85,6 +84,11 @@ body {
 #dob:required:valid {
     color: white;
     border-color:rgb(32, 221, 32);
+}
+
+.text-input {
+    background-color: rgba(6, 7, 45, 0.66);
+    border: 2px solid rgb(31, 32, 92);
 }
 
 .text-input:not(:placeholder-shown) {
@@ -119,11 +123,11 @@ select:required:valid {
 
 #register_btn {
     place-self: center;
-    background-color: rgb(194, 57, 103);
-    border: 2px solid rgb(195, 112, 139);
+    background-color: rgba(194, 57, 103, 0.353);
+    border: 2px solid rgba(195, 112, 140, 0.298);
 }
 
 #register_btn:hover {
-    background-color: rgb(195, 28, 84);
-    border-color: rgb(194, 57, 103);
+    background-color: rgba(194, 57, 103, 0.652);
+    border-color: rgba(195, 112, 140, 0.616);
 }

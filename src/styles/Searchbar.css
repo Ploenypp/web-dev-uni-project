@@ -1,5 +1,4 @@
 .Searchbar {
-    background-color: black;
     color:white;
     font-family:serif;
 
@@ -8,6 +7,8 @@
     box-sizing: border-box;
 
     border-bottom: 2px solid white;
+
+    font-size: medium;
 }
 
 #searchbar_form {
@@ -23,6 +24,8 @@
 #text-search {
     flex: 1;
     width: 100%;
+    background-color: rgb(0, 0, 0);
+    border: 2px solid rgba(110, 158, 203, 0.262);
 }
 
 #date-search:required {
@@ -31,7 +34,7 @@
     height: 2.5em;
 
     padding-inline: 1em;
-    border: 2px solid white;
+    border: 2px solid rgba(110, 158, 203, 0.262);
     border-radius: 25px;
 
     background-color: rgb(0, 0, 0);
@@ -72,11 +75,12 @@ select:required:valid {
 }
 
 #submit-search {
-    background-color: rgb(62, 64, 199);
-    border: 2px solid rgb(110, 112, 203);
+    font-size: medium;
+    background-color: rgba(62, 142, 199, 0.177);
+    border: 2px solid rgba(110, 158, 203, 0.183);
 }
 
 #submit-search:hover {
-    background-color: rgb(37, 40, 196);
-    border-color: rgb(62, 64, 199);
+    background-color: rgba(62, 142, 199, 0.381);
+    border: 2px solid rgba(110, 158, 203, 0.438);
 }

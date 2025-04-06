@@ -25,9 +25,9 @@
     padding: 1em;
 }
 
-#writebtn {
+#reply_btn {
     font-size: medium;
-    font-family: sans-serif;
+    font-family: serif;
 
     width: fit-content;
     max-width: 100%;
@@ -38,7 +38,7 @@
     border: 2px solid rgba(195, 112, 140, 0.248);
 }
 
-#writebtn:hover {
+#reply_btn:hover {
     background-color: rgba(194, 57, 103, 0.33);
     border-color: rgba(195, 112, 140, 0.336);
 }

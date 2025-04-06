@@ -1,11 +1,18 @@
 import {useState, useEffect, useRef} from 'react';
+import {useNavigate} from 'react-router-dom';
 import "../styles/Register.css";
 import logo from '../assets/logo.png';
 
 function RegisterPage() {
 
+    const navigate = useNavigate();
+
+    const toSignIn = () => {
+        navigate("/");
+    }
+
     return(<div className ="RegisterPage">
-        <img src={logo} id="logo" alt="Organiz'asso Logo"/>
+        <img src={logo} id="logo" alt="Organiz'asso Logo" onClick={toSignIn}/>
         
         <div id="register_box">
             <p>Inscrivez-vous</p>

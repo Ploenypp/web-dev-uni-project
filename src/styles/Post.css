@@ -5,7 +5,8 @@
     padding: 1em;
     
     border-radius: 25px;
-    background-color:rgb(16, 20, 31);
+    background-color:
+    rgb(16, 20, 31);
 
     display: flex;
     flex-direction: column;
@@ -28,6 +29,7 @@
 }
 
 #post_buttons {
+    font-family: serif;
     display: flex;
     flex-direction: row;
     gap: 0.5em;
@@ -35,7 +37,6 @@
 
 #reply_post {
     font-size: small;
-    font-family: sans-serif;
 
     width: fit-content;
     max-width: 100%;
@@ -53,7 +54,6 @@
 
 #show_thread {
     font-size: small;
-    font-family: sans-serif;
 
     width: fit-content;
     max-width: 100%;
