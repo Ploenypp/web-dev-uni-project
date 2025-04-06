@@ -36,10 +36,13 @@ body {
     width: 25%;
     height: max-content;
     gap: 0.5em;
-    padding-inline: 2em;
-    padding: 1em;
 
-    align-items: center;
+}
+
+.ProfileInfo {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
 
     border-top: 5px double rgb(42, 45, 132);
     border-right: 5px double rgb(42, 45, 132);
@@ -51,8 +54,9 @@ body {
 }
 
 #profile_pic {
-    width: 5em;
-    height: 5em;
+    width: fit;
+    height: auto;
+    max-width: 7em;
     padding: 1em;
 
     border: 3px dashed rgb(110, 112, 203);
@@ -72,6 +76,7 @@ body {
     border: 2px solid rgba(110, 112, 203, 0.204);
     font-size: small;
     font-family: sans-serif;
+    align-self: center;
 }
 
 #profile_edit:hover {

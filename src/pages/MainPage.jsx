@@ -84,7 +84,7 @@ function MainPage () {
             setShowWrite(true)
             setWriteBtnText("annuler");
         }
-        console.log(write);
+        console.log(showWrite);
     }
 
     return(<div className="MainPage">
