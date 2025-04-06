@@ -6,7 +6,8 @@ import "../styles/ProfilePage.css";
 import Ribbon from "../objects/Ribbon.jsx";
 import Searchbar from "../objects/Searchbar.jsx"
 import Post from "../objects/Post.jsx"
-import ProfileInfo from '../objects/ProfileInfo';
+import ProfileInfo from "../objects/ProfileInfo";
+import RequestLst from "../objects/RequestLst.jsx";
 
 function ProfilePage() {
     const [role,setRole] = useState("");
@@ -67,6 +68,7 @@ function ProfilePage() {
         <div id="pf_container">
             <div id="profile_sidebar">
                 <ProfileInfo />
+                <RequestLst />
             </div>
             <div id="pf_subcontainer">
                 <div className="profile_search">
