@@ -1,0 +1,56 @@
+.NewReply { 
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    padding: 1em;
+
+    border-radius: 25px;
+
+    background-color:rgb(28, 39, 55);
+}
+
+#write-title {
+    color: white;
+    font-family: sans-serif;
+    font-size: medium;
+    background-color:rgb(28, 39, 55);
+
+    height: 2.5em;
+    border: 2px solid rgb(55, 76, 107);
+    border-radius: 25px;
+    padding-inline: 1em;
+}
+
+
+#write-content {
+    color: white;
+    font-family: sans-serif;
+    font-size: medium;
+    background-color:rgb(28, 39, 55);
+
+    border: 2px solid rgb(55, 76, 107);
+    border-radius: 25px;
+    padding-inline: 1em;
+
+    height: 10em;
+    
+
+}
+
+#writebtn {
+    font-size: medium;
+    font-family: sans-serif;
+
+    width: fit-content;
+    max-width: 100%;
+    white-space: nowrap;
+    
+    color: rgb(238, 222, 226);
+    background-color: rgba(194, 57, 103, 0.151);
+    border: 2px solid rgba(195, 112, 140, 0.248);
+}
+
+#writebtn:hover {
+    background-color: rgba(194, 57, 103, 0.33);
+    border-color: rgba(195, 112, 140, 0.336);
+}

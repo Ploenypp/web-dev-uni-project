@@ -1,6 +1,7 @@
 import {useState, useEffect, useRef} from 'react';
 
 import Comment from "./Comment.jsx";
+import NewReply from './NewReply.jsx';
 import "../styles/Post.css";
 
 function Post(props) {
@@ -47,6 +48,16 @@ function Post(props) {
         console.log(showThread);
     }
 
+    const [showReplyDraft, setShowReplyDraft] = useState(false);
+
+    const toggleReplyDraft = () => {
+        if (showReplyDraft) {
+            setShowReplyDraft(false);
+        } else {
+            setShowReplyDraft(true);
+        }
+    }
+
     return(<div className="Post">
         <div>
             <div id="post_title"><strong>{props.title}</strong></div>
@@ -58,9 +69,12 @@ function Post(props) {
             {props.content}
         </div>
         <div id="post_buttons">
-            <button id="reply_post" type="button">répondre</button>
+            <button id="reply_post" type="button" onClick={toggleReplyDraft}>répondre</button>
             <button id="show_thread" type="button" onClick={toggleThread}>{threadBtnText}</button>
         </div>
+        {showReplyDraft && (
+            <NewReply />
+        )}
         {showThread && (
                 <div className="thread">
                     {dummyComments.map((comment,index) => (
