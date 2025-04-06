@@ -74,7 +74,7 @@ function ProfilePage() {
                     <p>Équipe(s) : <strong>Heart Collection</strong></p>
                     <p>Intérêts : <strong>Music</strong> </p>
                 </div>
-                <button id="edit" type="button">Modifier</button>
+                <button id="profile_edit" type="button">modifier</button>
             </div>
             <div id="pf_subcontainer">
                 <div className="profile_search">

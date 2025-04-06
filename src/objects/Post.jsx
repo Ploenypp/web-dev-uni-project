@@ -14,6 +14,10 @@ function Post(props) {
         <div id="post_content">
             {props.content}
         </div>
+        <div id="post_buttons">
+            <button id="reply_post" type="button">répondre</button>
+            <button id="show_thread" type="button">afficher le fil de discussion</button>
+        </div>
     </div>)
 }
 
