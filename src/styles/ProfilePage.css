@@ -68,8 +68,8 @@ body {
 }
 
 #profile_edit {
-    background-color: rgba(62, 64, 199, 0.448);
-    border: 2px solid rgba(110, 112, 203, 0.429);
+    background-color: rgba(62, 64, 199, 0.237);
+    border: 2px solid rgba(110, 112, 203, 0.204);
     font-size: small;
     font-family: sans-serif;
 }

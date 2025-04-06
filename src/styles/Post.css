@@ -20,6 +20,7 @@
     font-size: small;
     font-style:italic;
     color: rgb(85, 110, 177);
+
 }
 
 #post_content {
@@ -66,4 +67,14 @@
 #show_thread:hover {
     background-color: rgba(194, 57, 103, 0.33);
     border-color: rgba(195, 112, 140, 0.336);
+}
+
+.thread {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    border-left: 2px solid rgba(85, 109, 177, 0.605);
+    border-top: 2px solid rgba(85, 109, 177, 0.605);
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
 }

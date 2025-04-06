@@ -1,37 +1,35 @@
 import {useState, useEffect, useRef} from 'react';
 
-import Comment from "./Comment.jsx";
-import "../styles/Post.css";
+import "../styles/Comment.css"
 
-function Post(props) {
+function Comment(props) {
     const dummyComments = [
         {
-          author: "chaosGoblin23",
-          timestamp: "2 minutes ago",
-          content: "I laughed so hard I dropped my phone on my face. 10/10, would suffer again."
+          author: "noodles_over_people",
+          timestamp: "5 minutes ago",
+          content: "I was eating ramen while reading this. Now I'm crying into soup."
         },
         {
-          author: "eggstentialist",
-          timestamp: "just now",
-          content: "Is this post a cry for help or performance art? Either way, I relate."
+          author: "yeet_priest",
+          timestamp: "45 seconds ago",
+          content: "You’ve committed a holy act of chaos. I’m proud. Unhinged, but proud."
         },
         {
-          author: "toebeans4life",
-          timestamp: "13 minutes ago",
-          content: "I read this to my cat. He blinked twice. That's basically a standing ovation."
+          author: "spilledmatcha",
+          timestamp: "22 hours ago",
+          content: "This unlocked a memory I swore I repressed. Thanks. I think?"
         },
         {
-          author: "404braincells",
-          timestamp: "1 hour ago",
-          content: "I understood none of this and still feel spiritually nourished."
+          author: "feral_mango",
+          timestamp: "11 minutes ago",
+          content: "I want to print this post and frame it in my bathroom."
         },
         {
-          author: "baguetteKnight",
-          timestamp: "3 days ago",
-          content: "This post has the same energy as shouting into a baguette during a thunderstorm. Beautiful."
-        }
-      ]
-
+          author: "hotpotenthusiast",
+          timestamp: "6 hours ago",
+          content: "This post made me audibly gasp. My hotpot almost boiled over from shock."
+    }]
+    
     const [showThread, setShowThread] = useState(false);
 
     const [threadBtnText, setThreadBtnText] = useState("afficher la discussion")
@@ -47,18 +45,17 @@ function Post(props) {
         console.log(showThread);
     }
 
-    return(<div className="Post">
+    return(<div className="Comment">
         <div>
-            <div id="post_title"><strong>{props.title}</strong></div>
-            <div id="post_info">
+            <div id="comment_info">
                 {props.author}, {props.timestamp}
             </div>
         </div>
-        <div id="post_content">
+        <div id="comment_content">
             {props.content}
         </div>
-        <div id="post_buttons">
-            <button id="reply_post" type="button">répondre</button>
+        <div id="comment_buttons">
+            <button id="reply_comment" type="button">répondre</button>
             <button id="show_thread" type="button" onClick={toggleThread}>{threadBtnText}</button>
         </div>
         {showThread && (
@@ -75,4 +72,4 @@ function Post(props) {
     </div>)
 }
 
-export default Post;
+export default Comment;
