@@ -3,7 +3,6 @@
     flex-direction: column;
     gap: 0.5em;
     padding: 1em;
-
     border-radius: 25px;
 
     background-color:rgb(28, 39, 55);
@@ -30,11 +29,12 @@
 
     border: 2px solid rgb(55, 76, 107);
     border-radius: 25px;
-    padding-inline: 1em;
 
-    height: 10em;
-    
+    min-height: 10em;
+    resize: vertical;
 
+    box-sizing: border-box;
+    padding: 1em;
 }
 
 #writebtn {
