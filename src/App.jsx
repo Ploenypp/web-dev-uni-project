@@ -5,6 +5,7 @@ import SignInPage from './pages/SignInPage.jsx';
 import RegisterPage from './pages/RegisterPage.jsx';
 import MainPage from './pages/MainPage.jsx';
 import ProfilePage from './pages/ProfilePage.jsx';
+import ChatPage from './pages/ChatPage.jsx';
 
 import "./Default.css";
 
@@ -15,6 +16,7 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/dashboard" element={<MainPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/chats" element={<ChatPage />} />
         </Routes>
     </div>);
 };

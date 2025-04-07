@@ -73,34 +73,29 @@ body {
     justify-content:center;
 }
 
-#profile_edit {
-    background-color: rgba(62, 64, 199, 0.237);
-    border: 2px solid rgba(110, 112, 203, 0.204);
-    font-size: small;
-    font-family: sans-serif;
-    align-self: center;
-}
+#redirChat_btn {
+    background-color: rgba(16, 34, 50, 0.743);
 
-#profile_edit:hover {
-    background-color: rgba(37, 40, 196, 0.449);
-    border-color: rgba(62, 64, 199, 0.442);
-}
+    border-top: 5px double rgb(35, 65, 85);
+    border-right: 5px double rgb(35, 65, 85);
+    border-bottom: 5px double rgb(35, 65, 85);
+    border-left: 0px solid black;
 
-#profile_main_btn {
-    border-bottom: 2px solid rgba(110, 158, 203, 0.183);
-}
-
-#messages_btn {
-    background-color: rgba(62, 142, 199, 0.177);
-    border : 2px solid rgba(110, 158, 203, 0.183);
-    border-bottom : 2px solid rgba(110, 158, 203, 0.183);
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
+
+    width: 100%;
+    height: fit-content;
+    padding:0.5em;
 }
 
-#profile_posts_btn {
-    background-color: rgba(62, 142, 199, 0.177);
-    border : 2px solid rgba(110, 158, 203, 0.183);
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
+#redirChat_btn:hover {
+    background-color: rgba(25, 53, 78, 0.743);
+
+    border-top: 5px double rgb(45, 85, 112);
+    border-right: 5px double rgb(45, 85, 112);
+    border-bottom: 5px double rgb(45, 85, 112);
+    border-left: 0px solid black;
 }

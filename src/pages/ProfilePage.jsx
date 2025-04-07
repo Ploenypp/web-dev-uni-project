@@ -1,4 +1,5 @@
-import {useState, useEffect, useRef} from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import msg_pfp from "../assets/msg_pfp.png";
 import "../styles/ProfilePage.css";
@@ -254,51 +255,37 @@ function ProfilePage() {
       console.log("Current chat selected:",chatSelected);
     }, [chatSelected]);
 
+    const navigate = useNavigate();
+
+    const toChats = () => {
+      navigate("/chats");
+    }
+
     return(<div className="ProfilePage">
         <Ribbon />
         <div id="pf_container">
-            <div id="profile_sidebar"> <ProfileInfo /> <RequestLst /> </div>
-            <div id="pf_subcontainer">
-                <div id="profile_main_btn" >
-                  <button id="messages_btn" type="button" onClick={showProfileMsg}>Messages</button>
-                  <button id="profile_posts_btn" type="button" onClick={showProfilePosts}>Mes Posts</button>
-                </div>
-                <div id="profile_main">
-                  {mainContent === "messages" && (<div id="profile_messages">
-                        <div id="chat_lst">
-                        {dummyChats.map((chat,index) => <button key={index} id="chat_btn" type="button" onClick={() => selectChat(chat.friend)} name={chat.friend}>{chat.friend}</button>)}</div>
-
-                        <div id="msg_space">
-                          {chatSelected === "none" ? (<div id="msg_placeholder"> selectionner un chat... </div>) : (
-                            <div id="messages"> 
-                              {currentChat && currentChat.messages.map((msg,index) => (
-                              <Message key={index}pfp={msg_pfp} author={msg.author} content={msg.content} /> ))}
-                            </div>
-                          )}
-                          {chatSelected != "none" && (<div id="new_msg">
-                            <input id="write_new_msg" type="text" placeholder="écrivez..."/>
-                            <button id="send_msg_btn" type="button">→</button>
-                          </div>)}
-                        </div>
-                    </div>)}
-                  </div>
-                  {mainContent === "posts" && (<div id="profile_posts">
-                        <Searchbar />
-                    <div className="posts">
-                        {dummyPosts.map((post, index) => (
-                        <Post
-                            key={index}
-                            title={post.title}
-                            author={post.author}
-                            timestamp={post.timestamp}
-                            content={post.content}
-                        />))}
-                    </div>
-                  </div>)}
-                </div>
+            <div id="profile_sidebar"> 
+              <ProfileInfo /> <RequestLst /> 
+              <button id="redirChat_btn" type="button" onClick={toChats}>Messages</button>
             </div>
-        </div>)
-
+            <div id="pf_subcontainer">
+              <Searchbar />
+              <div id="profile_posts">
+              <div className="posts">
+              {dummyPosts.map((post, index) => (
+                <Post
+                  key={index}
+                  title={post.title}
+                  author={post.author}
+                  timestamp={post.timestamp}
+                  content={post.content}
+                />
+              ))}
+              </div>
+            </div>
+            </div>
+        </div>
+    </div>)
 }
 
 export default ProfilePage;

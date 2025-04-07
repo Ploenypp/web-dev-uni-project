@@ -1,3 +1,45 @@
+.ChatPage {
+    width: 100vw;
+    height: 28.5em;
+    max-height: 28.5em;
+}
+
+#chatpage_subcontainer {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: 28.5em;
+    max-height: 28.5em;
+}
+
+#chat_sidebar {
+    width: 25%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    text-align: center;
+    padding-top: 1em;
+    gap: 1em;
+
+    background-color: rgba(10, 20, 29, 0.743);
+    border-right: 5px double rgb(35, 65, 85);
+    border-bottom: 5px double rgb(35, 65, 85);
+    border-bottom-right-radius: 25px;
+}
+
+#chat_lst {
+    display: flex;
+    flex-direction: column;
+
+    padding: 0.5em;
+    gap: 0.5em;
+    align-items: center;
+
+    overflow: scroll;
+}
+
 #chat_btn {
     background-color: rgba(30, 49, 65, 0.517);
     
@@ -15,75 +57,50 @@
     background-color: rgba(26, 56, 81, 0.683);
 }
 
-#profile_messages {
-    display: flex;
-    flex-direction: row;
-    max-height: 100vw;
-
-    border-bottom-left-radius: 25px;
-
-    background-color: rgb(5, 10, 15);
-}
-
-#chat_lst {
+#chat_area {
     display: flex;
     flex-direction: column;
-    width: 25%;
-    height: 64vw;
+    width: 75%;
+    height: 29.5em;
 
-    padding: 0.5em;
-    gap: 0.5em;
-    align-items: center;
-    
-    background-color: rgba(10, 20, 29, 0.743);
+    border-left: 5px double rgb(35, 65, 85);
     border-right: 5px double rgb(35, 65, 85);
     border-bottom: 5px double rgb(35, 65, 85);
-    border-left: 5px double rgb(35, 65, 85);
     border-bottom-left-radius: 25px;
-
-    overflow: scroll;
+    border-bottom-right-radius: 25px;
 }
 
-#msg_space {
-    width: 75%;
-    height: 65.75vw;
-    border-bottom: 5px double rgb(35, 65, 85);
-}
-
-#msg_placeholder {
+#chat_placeholder {
     color: rgb(126, 124, 106);
     font-size:medium;
     font-family: sans-serif;
-
-    height: 38.75em;
     align-content: top;
     padding: 1em;
 }
 
-#messages {
+#msg_lst {
     display: flex;
     flex-direction: column;
 
+    width: 100%;
     height: 90%;
     
     overflow:scroll;
-    border-bottom: 5px double rgb(35, 65, 85);
-    border-left: 5px double rgb(35, 65, 85);
 }
 
 #new_msg {
     display: flex;
     flex-direction: row;
+    
+    height: 5%;
+    border-top: 5px solid rgb(35, 65, 85);
 
-    height: max-content;
     padding: 0.5em;
+    
     gap: 0.5em;
-
-    align-items: center;
-    justify-content:space-between;
 }
 
-#write_new_msg {
+#new_msg_text {
     background-color:rgba(62, 142, 199, 0.177);
     color: white;
     font-family: sans-serif;
@@ -93,7 +110,7 @@
     border-radius: 25px;
 
     width: 100%;
-    height: max-content;
+    height: 5%;
     padding: 1em;
 }
 
@@ -101,7 +118,9 @@
     background-color:rgba(133, 34, 67, 0.353);
     border: 2px solid rgba(195, 112, 140, 0.416);
     font-size: medium;
-    height: 3.5em;
+
+    width: max-content;
+    height: 2.5em;
     border-radius:15px;
 }
 
