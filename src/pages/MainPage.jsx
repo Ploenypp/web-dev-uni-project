@@ -94,7 +94,7 @@ function MainPage () {
           <button id="togglewritebtn" type="button" onClick = {toggleShowWrite}>{writeBtnText}</button>
 
           {showWrite && (
-            <div><NewPost /></div>
+            <NewPost />
           )}
 
           {dummyPosts.map((post, index) => (

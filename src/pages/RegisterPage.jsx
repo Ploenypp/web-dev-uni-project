@@ -45,6 +45,7 @@ function RegisterPage() {
         `);
     }, [fstname,surname,dob,username,password,pwdMatch]);
 
+
     return(<div className ="RegisterPage">
         <img src={logo} id="logo" alt="Organiz'asso Logo" onClick={toSignIn}/>
         

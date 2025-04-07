@@ -28,7 +28,7 @@
     border: 2px solid rgba(110, 158, 203, 0.262);
 }
 
-#date-search:required {
+#date-search {
     box-sizing: border-box;
     width: fit-content;
     height: 2.5em;
@@ -38,40 +38,8 @@
     border-radius: 25px;
 
     background-color: rgb(0, 0, 0);
-    color:white;
+    color:gray;
     font-family:sans-serif;
-}
-
-#date-search:required:invalid {
-    color: gray;
-}
-
-#date-search:required:valid {
-    color: white;
-    border-color:rgb(32, 221, 32);
-}
-
-select:required {
-    box-sizing: border-box;
-    width: 7.5em;
-    height: 3em;
-    margin-inline: 0.5em;
-    padding-inline: 0.5em;
-    text-align: center;
-    border: 2px solid white;
-    border-radius: 10px;
-
-    background-color: black;
-    color: white;
-    font-family:sans-serif;
-}
-
-select:required:invalid {
-    color: gray;
-}
-
-select:required:valid {
-    color: white;
 }
 
 #submit-search {

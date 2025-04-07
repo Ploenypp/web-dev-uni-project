@@ -3,20 +3,22 @@ import {useState, useEffect, useRef} from 'react';
 import "../styles/NewPost.css";
 
 function NewPost() {
-    const [write, setWrite] = useState(false);
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
 
-    const toggleWrite = () => {
-        if (write) {
-            setWrite(false)
-        } else {
-            setWrite(true)
-        }
-        console.log(write);
-    }
+    const getTitle = (evt) => { setTitle(evt.target.value); }
+    const getContent = (evt) => { setContent(evt.target.value); }
+
+    useEffect(() => {
+        console.log(`
+        title: ${title}
+        content: ${content}
+        `)
+    },[title,content]);
 
     return(<div className="NewPost">
-        <input id="write-title" type="text" placeholder="titre..."/>
-        <textarea id="write-content" type="text" placeholder="écrivez..."></textarea>
+        <input id="write-title" type="text" onChange={getTitle} placeholder="titre..."/>
+        <textarea id="write-content" type="text" onChange={getContent} placeholder="écrivez..."></textarea>
         <button id="post_btn" type="button">publier</button>
     </div>)
     

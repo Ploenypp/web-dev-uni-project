@@ -20,7 +20,7 @@ function SignInPage() {
         console.log(`username: ${username}, password: ${password}`);
     },[username,password]);
 
-    const onSignIn = () => {}
+    const handleSignIn = () => {}
 
     const navigate = useNavigate();
 

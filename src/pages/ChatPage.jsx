@@ -193,11 +193,18 @@ function ChatPage() {
             setToggleChat("active");
         }
     }
-    useEffect(() => {
-        console.log("current chat selected : ",chatSelected);
-    }, [chatSelected]);
 
     const currentChat = dummyChats.find(chat => chat.friend === chatSelected);
+
+    const [message,setMessage] = useState("");
+    const getMessage = (evt) => { setMessage(evt.target.value); }
+
+    useEffect(() => {
+      console.log(`
+      current chat selected : ${chatSelected}
+      message : ${message}
+      `);
+  }, [chatSelected,message]);
 
     return(<div className="ChatPage">
         <Ribbon />
@@ -215,7 +222,7 @@ function ChatPage() {
                     </div>)
                 }
                 {chatSelected === "none" ? (<div></div>) : (<div id="new_msg">
-                    <input id="new_msg_text" type="text"/>
+                    <input id="new_msg_text" type="text" onChange={getMessage} placeholder="écrivez..."/>
                     <button id="send_msg_btn" type="button">→</button>
                 </div>) }
             </div>
