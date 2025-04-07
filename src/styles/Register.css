@@ -103,7 +103,6 @@ select:required {
     border: 2px solid white;
     border-radius: 10px;
 
-    background-color: black;
     color: white;
     font-family:sans-serif;
 }
@@ -130,4 +129,25 @@ select:required:valid {
 #register_btn:hover {
     background-color: rgba(194, 57, 103, 0.652);
     border-color: rgba(195, 112, 140, 0.616);
+}
+
+.chkPwd {
+    box-sizing: border-box;
+    width: 25em;
+    height: 2.5em;
+
+    margin:0%;
+
+    padding-inline: 1em;
+    border-radius: 25px;
+
+    color:white;
+    font-family:sans-serif;
+
+    background-color: rgba(6, 7, 45, 0.66);
+    border: 2px solid rgb(31, 32, 92);
+}
+
+.chkPwd.match {
+    border-color: rgb(32, 221, 32);
 }

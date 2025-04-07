@@ -12,12 +12,13 @@ function SignInPage() {
 
     const getUsername = (evt) => {
         setUsername(evt.target.value);
-        console.log({username});
     }
     const getPassword = (evt) => {
         setPassword(evt.target.value);
-        console.log({password});
     }
+    useEffect(() => {
+        console.log(`username: ${username}, password: ${password}`);
+    },[username,password]);
 
     const onSignIn = () => {}
 
