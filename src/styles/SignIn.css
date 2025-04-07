@@ -55,10 +55,11 @@ body {
 }
 
 .field {
-    display: grid;
-    grid-template-rows: auto auto;
+    display: flex;
+    flex-direction: column;
     place-items: left;
     font-size: 0.75em;
+    gap: 0.3em;
 }
 
 .text-input {
