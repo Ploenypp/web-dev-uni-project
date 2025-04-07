@@ -7,7 +7,16 @@
     padding: 1em;
 }
 
-#msg_header {
+.Message.self {
+    place-self: flex-end;
+    place-items: flex-end;
+}
+
+.Message.other {
+    place-self: flex-start;
+}
+
+.msg_header {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -22,9 +31,19 @@
     border-radius: 40px;
 }
 
-#msg_content {
+.msg_content {
     font-family: sans-serif;
     background-color:rgba(62, 142, 199, 0.177);
     padding: 1em;
     border-radius: 25px;
+
+    width: fit-content;
+}
+
+.msg_content.self {
+    text-align: right;
+}
+
+.msg_content.other {
+    text-align: left;
 }
