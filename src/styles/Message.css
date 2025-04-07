@@ -1,0 +1,30 @@
+.Message {
+    font-size: medium;
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.5em;
+    padding: 1em;
+}
+
+#msg_header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+}
+
+#msg_pfp {
+    max-width: 2.5em;
+    height: 2.5em;
+
+    border: 2px dashed rgb(31, 102, 149);
+    border-radius: 40px;
+}
+
+#msg_content {
+    font-family: sans-serif;
+    background-color:rgba(62, 142, 199, 0.177);
+    padding: 1em;
+    border-radius: 25px;
+}

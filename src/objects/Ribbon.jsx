@@ -18,7 +18,7 @@ function Ribbon() {
     }
 
     return(<div className="Ribbon">
-        <img src={logo} id="logo_ribbon" alt="Organiz'asso Logo"onClick={toDashboard}/>
+        <img src={logo} id="logo_ribbon" alt="Organiz'asso Logo" onClick={toDashboard}/>
         <div id="nothing"></div>
         <button id="profile" type="button" onClick={toProfile}>Mon Profil</button>
         <button id="logout" type="button" onClick={toLogOut}>Deconnexion</button>

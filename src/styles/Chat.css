@@ -1,0 +1,111 @@
+#chat_btn {
+    background-color: rgba(30, 49, 65, 0.517);
+    
+    border: 0px;
+    width: 100%;
+
+    font-size: large;
+    height: fit-content;
+
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+#chat_btn:hover {
+    background-color: rgba(26, 56, 81, 0.683);
+}
+
+#profile_messages {
+    display: flex;
+    flex-direction: row;
+    max-height: 100vw;
+
+    border-bottom-left-radius: 25px;
+
+    background-color: rgb(5, 10, 15);
+}
+
+#chat_lst {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    height: 64vw;
+
+    padding: 0.5em;
+    gap: 0.5em;
+    align-items: center;
+    
+    background-color: rgba(10, 20, 29, 0.743);
+    border-right: 5px double rgb(35, 65, 85);
+    border-bottom: 5px double rgb(35, 65, 85);
+    border-left: 5px double rgb(35, 65, 85);
+    border-bottom-left-radius: 25px;
+
+    overflow: scroll;
+}
+
+#msg_space {
+    width: 75%;
+    height: 65.75vw;
+    border-bottom: 5px double rgb(35, 65, 85);
+}
+
+#msg_placeholder {
+    color: rgb(126, 124, 106);
+    font-size:medium;
+    font-family: sans-serif;
+
+    height: 38.75em;
+    align-content: top;
+    padding: 1em;
+}
+
+#messages {
+    display: flex;
+    flex-direction: column;
+
+    height: 90%;
+    
+    overflow:scroll;
+    border-bottom: 5px double rgb(35, 65, 85);
+    border-left: 5px double rgb(35, 65, 85);
+}
+
+#new_msg {
+    display: flex;
+    flex-direction: row;
+
+    height: max-content;
+    padding: 0.5em;
+    gap: 0.5em;
+
+    align-items: center;
+    justify-content:space-between;
+}
+
+#write_new_msg {
+    background-color:rgba(62, 142, 199, 0.177);
+    color: white;
+    font-family: sans-serif;
+    font-size: medium;
+
+    border: 2px solid rgb(37, 65, 84);
+    border-radius: 25px;
+
+    width: 100%;
+    height: max-content;
+    padding: 1em;
+}
+
+#send_msg_btn {
+    background-color:rgba(133, 34, 67, 0.353);
+    border: 2px solid rgba(195, 112, 140, 0.416);
+    font-size: medium;
+    height: 3.5em;
+    border-radius:15px;
+}
+
+#send_msg_btn:hover {
+    background-color: rgba(133, 34, 67, 0.511);
+    border-color: rgba(195, 112, 140, 0.584);
+}

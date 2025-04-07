@@ -11,7 +11,8 @@ body {
     display: flex;
     flex-direction: column;
     column-gap: 10%;
-    width: 100%;
+    width: 100vw;
+    overflow: hidden;
 }
 
 .ProfilePage p {
@@ -22,12 +23,14 @@ body {
 #pf_container {
     display: flex;
     width: 100%;
+    overflow: scroll;
 }
 
 #pf_subcontainer {
     display: flex;
     flex-direction: column;
     width: 100%;
+    padding-top: 0.5em;
 }
 
 #profile_sidebar {
@@ -36,7 +39,6 @@ body {
     width: 25%;
     height: max-content;
     gap: 0.5em;
-
 }
 
 .ProfileInfo {
@@ -84,10 +86,21 @@ body {
     border-color: rgba(62, 64, 199, 0.442);
 }
 
-.profile_search {
-    display: flex;
-    width: 100%;
-    max-height: fit-content;
-    justify-content: flex-start;
-    align-items: flex-start;
+#profile_main_btn {
+    border-bottom: 2px solid rgba(110, 158, 203, 0.183);
+}
+
+#messages_btn {
+    background-color: rgba(62, 142, 199, 0.177);
+    border : 2px solid rgba(110, 158, 203, 0.183);
+    border-bottom : 2px solid rgba(110, 158, 203, 0.183);
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+#profile_posts_btn {
+    background-color: rgba(62, 142, 199, 0.177);
+    border : 2px solid rgba(110, 158, 203, 0.183);
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
 }
