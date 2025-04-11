@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import "../styles/SignIn.css";
 import logo from '../assets/logo.png';
 
+import axios from 'axios';
+
 function SignInPage() {
     const [username,setUsername] = useState("");
     const [password,setPassword] = useState("");
-    const [isLoading,setLoading] = useState(false);
-    const [error,setError] = useState("");
 
     const getUsername = (evt) => {
         setUsername(evt.target.value);
@@ -20,16 +20,25 @@ function SignInPage() {
         console.log(`username: ${username}, password: ${password}`);
     },[username,password]);
 
-    const handleSignIn = () => {}
+    const handleLogin = async () => {
+        try {
+            const response = await axios.post('http://localhost:8000/api/auth/login', {
+                username,
+                password
+            }, { withCredentials: true });
+            alert(response.data.message);
+            navigate('/dashboard');
+
+        } catch (error) {
+            console.error("Login failed", error.response?.data?.message || error.message);
+            alert(error.response?.data?.message || "Something went wrong");
+        }
+    };
 
     const navigate = useNavigate();
 
     const toRegister = () => {
         navigate('/register');
-    }
-
-    const toTmp = () => {
-        navigate('/dashboard');
     }
 
     return(<div className="SignInPage">
@@ -48,7 +57,7 @@ function SignInPage() {
                     <input id="password" type="text" className="text-input" placeholder="mot de passe..." onChange={getPassword}/>
                 </div>
             </div></form>
-            <button id="login_btn" type="button" onClick={toTmp}>Connexion</button>
+            <button id="login_btn" type="button" onClick={handleLogin}>Connexion</button>
         </div>
         
         <div id="register_form_login">
