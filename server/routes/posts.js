@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { MongoClient } = require("mongodb");
+const { ObjectId } = require('bson'); 
 
 const uri = process.env.MONGODB_URI || "mongodb+srv://Ploenypp:technoweb017-SU25@lu3in017-su2025.mopemx5.mongodb.net/?retryWrites=true&w=majority&appName=LU3IN017-SU2025";
 const client = new MongoClient(uri);
@@ -11,8 +12,9 @@ router.post('/newpost', async(req,res) => {
     }
 
     const { title, content } = req.body;
-    const author = req.session.userId;
+    const userID = req.session.userId;
     const timestamp = new Date().toISOString();
+    console.log(userID);
 
     try {
         await client.connect();
@@ -22,7 +24,12 @@ router.post('/newpost', async(req,res) => {
         const existingPost = await posts.findOne({ title });
         if (existingPost) { return res.status(400).json({ message: "titre déjà pris" })}
 
-        await posts.insertOne({ title, author, timestamp, content });
+        const users = db.collection("users");
+        const user = await users.findOne({ _id: new ObjectId(userID) });
+        if (!user) { return res.status(404).json( {message: "user not found", userID }); }
+        const author = user.fstname.concat(" ",user.surname);
+
+        await posts.insertOne({ title, author, "userID": new ObjectId(userID), timestamp, content });
         res.status(201).json({ message: "publication réussie" });
 
     } catch (err) {
