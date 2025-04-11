@@ -7,7 +7,7 @@ function ProfileInfo() {
     const [userInfo, setUserInfo] = useState("");
 
     useEffect(() => {
-        fetch('http://localhost:8000/api/user/profile', { credentials: 'include'})
+        fetch('http://localhost:8000/api/user/profile', { credentials: 'include' })
             .then(res => res.json())
             .then(data => setUserInfo(data))
             .catch(err => console.error("Error fetching user data:", err));

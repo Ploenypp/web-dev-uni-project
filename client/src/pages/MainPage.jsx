@@ -87,6 +87,19 @@ function MainPage () {
         console.log(showWrite);
     }
 
+    const [postsContent, setPostContents] = useState([]);
+
+    useEffect(() => {
+      fetch('http://localhost:8000/api/posts/all-posts', {
+        credentials: 'include' })
+          .then(res => res.json())
+          .then(data => {
+            console.log(data)
+            setPostContents(data) 
+          })
+          .catch(err => console.error("Error fetching posts:",err));
+    }, []);
+
     return(<div className="MainPage">
         <Ribbon />
         <Searchbar />
@@ -97,7 +110,7 @@ function MainPage () {
             <NewPost />
           )}
 
-          {dummyPosts.map((post, index) => (
+          {postsContent.map((post, index) => (
             <Post
                 key={index}
                 title={post.title}

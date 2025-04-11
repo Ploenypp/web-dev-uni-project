@@ -24,8 +24,8 @@ router.get('/profile', async(req,res) => {
 
     } catch (err) {
         console.error("user not found?",err);
-        res.status(500).json({ message: "Internal server error"});
+        res.status(500).json({ message: "Internal server error" });
     }
-})
+});
 
 module.exports = router;
