@@ -13,7 +13,7 @@ router.post('/newpost', async(req,res) => {
 
     const { title, content } = req.body;
     const userID = req.session.userId;
-    const timestamp = new Date().toISOString();
+    const timestamp = new Date(Date.now());
     console.log(userID);
 
     try {
@@ -42,7 +42,7 @@ router.get('/all-posts', async(req,res) => {
     try {
         await client.connect();
         const db = client.db("IN017");
-        const coll = db.collection("posts").find();
+        const coll = db.collection("posts").find().sort({'_id': -1});
         const posts = await coll.toArray();
     
         res.json(posts);
