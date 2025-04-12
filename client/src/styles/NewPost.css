@@ -1,15 +1,38 @@
-.NewPost { 
+.NewPost {
+    width: 100%;
+}
+
+#togglewritebtn {
+    font-size: medium;
+    background-color: rgba(62, 142, 199, 0.177);
+    border: 2px solid rgba(110, 158, 203, 0.183);
+
+    margin-top: 1em;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+#togglewritebtn:hover {
+    background-color: rgba(62, 142, 199, 0.381);
+    border: 2px solid rgba(110, 158, 203, 0.438);
+}
+
+#write-post {
     font-size: medium;
     display: flex;
     flex-direction: column;
     gap: 0.5em;
+
+
+    margin-top: 1em;
+    margin-left: 1em;
+    margin-right: 1em;
 
     padding: 1em;
     border-radius: 25px;
 
     background-color:rgb(20, 29, 43);
 }
-
 
 #write-title {
     color: white;
@@ -38,7 +61,30 @@
     padding: 1em;
 }
 
+#write_btns {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 #post_btn {
+    font-size: medium;
+
+    width: fit-content;
+    max-width: 100%;
+    white-space: nowrap;
+    
+    color: white;
+    background-color: rgba(39, 151, 125, 0.269);
+    border: 2px solid rgba(110, 203, 189, 0.318);
+}
+
+#post_btn:hover {
+    background-color: rgba(39, 151, 125, 0.408);
+    border-color: rgba(110, 203, 189, 0.521);
+}
+
+#cancel_btn {
     font-size: medium;
 
     width: fit-content;
@@ -50,7 +96,7 @@
     border: 2px solid rgba(195, 112, 140, 0.248);
 }
 
-#post_btn:hover {
+#cancel_btn:hover {
     background-color: rgba(194, 57, 103, 0.33);
     border-color: rgba(195, 112, 140, 0.336);
 }
