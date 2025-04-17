@@ -69,6 +69,18 @@
     border-color: rgba(195, 112, 140, 0.336);
 }
 
+#no_comment {
+    font-size: small;
+
+    width: fit-content;
+    max-width: 100%;
+    white-space: nowrap;
+    
+    color: rgb(238, 222, 226);
+    background-color: rgba(207, 26, 26, 0.203);
+    border: 2px solid rgba(195, 112, 112, 0.248);
+}
+
 .thread {
     display: flex;
     flex-direction: column;

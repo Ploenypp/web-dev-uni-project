@@ -65,7 +65,7 @@ function Post(props) {
         </div>
         <div id="post_buttons">
             <button id="reply_post" type="button" onClick={toggleReplyDraft}>{replyBtnText}</button>
-            <button id="show_thread" type="button" onClick={toggleThread}>{threadBtnText}</button>
+            {comments.length > 0 ? (<button id="show_thread" type="button" onClick={toggleThread}>{threadBtnText}</button>) : <button id="no_comment" type="button">pas de commentaire</button>}
         </div>
         {showReplyDraft && (
             <NewReply parentPostID={ postID }/>
