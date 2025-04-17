@@ -32,8 +32,8 @@ router.post('/newpost', async(req,res) => {
         await posts.insertOne({ title, author, "userID": new ObjectId(userID), timestamp, content });
         res.status(201).json({ message: "publication réussie" });
 
-    } catch (err) {
-        console.error("Registration error:",err);
+    } catch(err) {
+        console.error("publication error:",err);
         res.status(500).json({ message: "Internal server error"});
     }
 });
@@ -47,10 +47,55 @@ router.get('/all-posts', async(req,res) => {
     
         res.json(posts);
 
-    } catch (err) {
+    } catch(err) {
         console.error("posts not found?",err);
         res.status(500).json({ message: "Internal server error" });
     }
 });
+
+router.get('/postID', async(req,res) => {
+    const title = req.query;
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const post = db.collection("posts").findOne({ title });
+
+        res.json( { postID : new ObjectId(post._id) });
+    } catch(err) {
+        console.error("post not found", err);
+        res.status(500).json({ message: "internal server error" });
+    }
+})
+
+router.post('/newcomment', async(req,res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ message: "pas connecté" });
+    }
+
+    const { parentPostID, content } = req.body;
+    const userID = req.session.userId;
+    const timestamp = new Date(Date.now());
+    console.log(userID);
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const comments = db.collection("comments");
+
+        const users = db.collection("users");
+        const user = await users.findOne({ _id: new ObjectId(userID) });
+        if (!user) { return res.status(404).json( {message: "user not found", userID }); }
+        const author = user.fstname.concat(" ",user.surname);
+
+        await comments.insertOne({ "parentPostID": new ObjectId(parentPostID), author, "userID": new ObjectId(userID), timestamp, content });
+        res.status(201).json({ message: "publication réussie" });
+
+    } catch(err) {
+        console.error("publication error:",err);
+        res.status(500).json({ message: "Internal server error"});
+    }
+});
+
+
 
 module.exports = router;

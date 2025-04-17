@@ -8,21 +8,6 @@ import Post from "../objects/Post.jsx";
 import "../styles/MainPage.css";
 
 function MainPage () {
-    const [showWrite, setShowWrite] = useState(false);
-    const [writeBtnText, setWriteBtnText] = useState("ouvrir une nouvelle discussion");
-
-    const toggleShowWrite = () => {
-        if (showWrite) {
-            setShowWrite(false)
-            setWriteBtnText("ouvrir une nouvelle discussion");
-            
-        } else {
-            setShowWrite(true)
-            setWriteBtnText("annuler");
-        }
-        console.log(showWrite);
-    }
-
     const [postsContent, setPostContents] = useState([]);
 
     useEffect(() => {
@@ -34,7 +19,7 @@ function MainPage () {
             setPostContents(data) 
           })
           .catch(err => console.error("Error fetching posts:",err));
-    }, [postsContent]);
+    }, []);
 
     return(<div className="MainPage">
         <Ribbon />

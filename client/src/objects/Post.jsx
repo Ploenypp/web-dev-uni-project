@@ -5,6 +5,18 @@ import NewReply from './NewReply.jsx';
 import "../styles/Post.css";
 
 function Post(props) {
+    const [postID, setPostID] = useState("");
+
+    useEffect(() => {
+        fetch('http://localhost:8000/api/posts/postID', { credentials : 'include' })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                setPostID(data);
+            })
+            .catch(err => console.error("Error fetching postID", err));
+    },[]);
+
     const dummyComments = [
         {
           author: "chaosGoblin23",
@@ -31,7 +43,7 @@ function Post(props) {
           timestamp: "3 days ago",
           content: "This post has the same energy as shouting into a baguette during a thunderstorm. Beautiful."
         }
-      ]
+    ]
 
     const [showThread, setShowThread] = useState(false);
 
@@ -77,7 +89,7 @@ function Post(props) {
             <button id="show_thread" type="button" onClick={toggleThread}>{threadBtnText}</button>
         </div>
         {showReplyDraft && (
-            <NewReply />
+            <NewReply parentPost={ postID }/>
         )}
         {showThread && (
                 <div className="thread">

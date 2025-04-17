@@ -43,7 +43,7 @@ function NewPost() {
             setWriteBtnText("ouvrir une nouvelle discussion");
 
 
-        } catch (error) {
+        } catch(error) {
             console.error("Publication failed:", error.response?.data?.message || error.message);
             alert(error.response?.data?.message || "Something went wrong");
         }

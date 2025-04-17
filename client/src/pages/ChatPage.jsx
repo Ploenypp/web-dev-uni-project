@@ -180,17 +180,13 @@ function ChatPage() {
         }
     ];
 
-    const [toggleChat, setToggleChat] = useState("inactive");
-
     const [chatSelected, setChatSelected] = useState("none");
     const selectChat = (name) => {
         const chatName = name;
         if (chatSelected === chatName) {
             setChatSelected("none");
-            setToggleChat("inactive");
         } else {
             setChatSelected(chatName);
-            setToggleChat("active");
         }
     }
 
