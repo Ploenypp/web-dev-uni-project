@@ -18,7 +18,7 @@ function MainPage () {
             console.log(data)
             setPostContents(data) 
           })
-          .catch(err => console.error("Error fetching posts:",err));
+          .catch(err => console.error("Error fetching posts",err));
     }, []);
 
     return(<div className="MainPage">

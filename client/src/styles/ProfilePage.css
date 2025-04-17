@@ -72,6 +72,11 @@ body {
     justify-content:center;
 }
 
+#profile_posts {
+    max-height: 73vw;
+    overflow: scroll;
+}
+
 #redirChat_btn {
     background-color: rgba(16, 34, 50, 0.743);
 

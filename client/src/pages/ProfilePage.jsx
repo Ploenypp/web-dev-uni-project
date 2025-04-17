@@ -9,7 +9,6 @@ import Searchbar from "../objects/Searchbar.jsx"
 import Post from "../objects/Post.jsx"
 import ProfileInfo from "../objects/ProfileInfo";
 import RequestLst from "../objects/RequestLst.jsx";
-import Message from "../objects/Message.jsx";
 
 function ProfilePage() {
     const dummyPosts = [
@@ -55,19 +54,26 @@ function ProfilePage() {
           timestamp: "1 month ago",
           content: "Had headphones in. Thought I was humming quietly. Apparently I was full-volume belting out a dramatic anime opening in the supermarket. Someone applauded. Not sure if it was sarcastic or sincere. Still bowed. No regrets."
         }
-      ];
-
-    const [mainContent, setMainContent] = useState("posts");
-
-    const showProfileMsg = () => { setMainContent("messages"); }
-
-    const showProfilePosts = () => { setMainContent("posts"); }
+    ];
+    const [posts, setPosts] = useState([]);
 
     const navigate = useNavigate();
 
     const toChats = () => {
       navigate("/chats");
     }
+
+    useEffect(() => {
+      fetch('http://localhost:8000/api/posts/profile-posts', { credentials: 'include' })
+        .then(res => res.json())
+        .then(data => { 
+          console.log(data)
+          if (Array.isArray(data)) { setPosts(data); } 
+          else { setPosts([]); }
+        })
+
+        .catch(err=> console.error("Error fetching user posts", err));
+    }, []);
 
     return(<div className="ProfilePage">
         <Ribbon />
@@ -80,7 +86,7 @@ function ProfilePage() {
               <Searchbar />
               <div id="profile_posts">
               <div className="posts">
-              {dummyPosts.map((post, index) => (
+              {posts.map((post, index) => (
                 <Post
                   key={index}
                   title={post.title}

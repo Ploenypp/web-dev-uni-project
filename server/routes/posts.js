@@ -110,5 +110,22 @@ router.get('/comments', async(req,res) => {
     }
 });
 
+router.get('/profile-posts', async(req,res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ message: "pas connecté" });
+    }
+    const user = req.session.userId;
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const posts = await db.collection("posts").find({ userID : new ObjectId(user)}).sort({'_id': -1}).toArray();
+
+        res.json(posts || []);
+    } catch(err) {
+        console.error("user posts not found",err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
 
 module.exports = router;
