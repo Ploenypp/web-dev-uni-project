@@ -5,45 +5,24 @@ import NewReply from './NewReply.jsx';
 import "../styles/Post.css";
 
 function Post(props) {
-    const [postID, setPostID] = useState("");
+    const postID = props.postID;
+    const [comments, setComments] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:8000/api/posts/postID', { credentials : 'include' })
+        if (postID) {
+        fetch(`http://localhost:8000/api/posts/comments?parentPostID=${postID.toString()}`, { credentials: 'include' })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
-                setPostID(data);
+                if (Array.isArray(data)) { setComments(data); }
+                else { setComments([]); }
             })
-            .catch(err => console.error("Error fetching postID", err));
-    },[]);
+            .catch(err => console.error("Error fetching comments", err)
+        ); }
+    }, []);
 
-    const dummyComments = [
-        {
-          author: "chaosGoblin23",
-          timestamp: "2 minutes ago",
-          content: "I laughed so hard I dropped my phone on my face. 10/10, would suffer again."
-        },
-        {
-          author: "eggstentialist",
-          timestamp: "just now",
-          content: "Is this post a cry for help or performance art? Either way, I relate."
-        },
-        {
-          author: "toebeans4life",
-          timestamp: "13 minutes ago",
-          content: "I read this to my cat. He blinked twice. That's basically a standing ovation."
-        },
-        {
-          author: "404braincells",
-          timestamp: "1 hour ago",
-          content: "I understood none of this and still feel spiritually nourished."
-        },
-        {
-          author: "baguetteKnight",
-          timestamp: "3 days ago",
-          content: "This post has the same energy as shouting into a baguette during a thunderstorm. Beautiful."
-        }
-    ]
+    useEffect(() => {
+        if (comments.length > 0) { console.log(comments); }
+    },[comments])
 
     const [showThread, setShowThread] = useState(false);
 
@@ -89,11 +68,11 @@ function Post(props) {
             <button id="show_thread" type="button" onClick={toggleThread}>{threadBtnText}</button>
         </div>
         {showReplyDraft && (
-            <NewReply parentPost={ postID }/>
+            <NewReply parentPostID={ postID }/>
         )}
         {showThread && (
                 <div className="thread">
-                    {dummyComments.map((comment,index) => (
+                    { comments.map((comment,index) => (
                         <Comment 
                         key={index}
                         author={comment.author}

@@ -96,6 +96,19 @@ router.post('/newcomment', async(req,res) => {
     }
 });
 
+router.get('/comments', async(req,res) => {
+    const { parentPostID } = req.query;
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const comments = await db.collection("comments").find({ 'parentPostID': new ObjectId(parentPostID) }).toArray();
+
+        res.json(comments);
+    } catch(err) {
+        console.error("comments not found?", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
 
 
 module.exports = router;
