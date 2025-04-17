@@ -54,21 +54,6 @@ function Comment(props) {
         <div id="comment_content">
             {props.content}
         </div>
-        <div id="comment_buttons">
-            <button id="reply_comment" type="button">répondre</button>
-            <button id="show_thread" type="button" onClick={toggleThread}>{threadBtnText}</button>
-        </div>
-        {showThread && (
-                <div className="thread">
-                    {dummyComments.map((comment,index) => (
-                        <Comment 
-                        key={index}
-                        author={comment.author}
-                        timestamp={comment.timestamp}
-                        content={comment.content} />
-                    ))}
-                </div>
-            )}
     </div>)
 }
 
