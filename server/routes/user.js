@@ -60,4 +60,53 @@ router.get('/visit-user', async(req,res) => {
 
 })
 
+router.get('/friends', async(req,res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ message: "pas connecté" });
+    }
+
+    const userID = req.session.userId;
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const friends = await db.collection("friends").find({ $or: [ 
+            { friend1ID: new ObjectId(userID) },
+            { friend2ID: new ObjectId(userID) }
+        ]}).toArray();
+        res.json(friends || []);
+    } catch(err) {
+        console.error("friends not found :(", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+router.post('/friend-request', async(req,res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ message: "pas connecté" });
+    }
+
+    const senderID = req.session.userId;
+    const { recepientID } = req.body;
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const friendreqs = db.collection("friend_requests");
+        const sender = await db.collection("users").findOne({ _id: new ObjectId(senderID) });
+
+        await friendreqs.insertOne({
+            "recepientID": new ObjectId(recepientID),
+            "senderID": new ObjectId(senderID),
+            "sender_fstname": sender.fstname,
+            "sender_surname": sender.surname
+        });
+
+        res.status(201).json({ message: "friend request sent" });
+    } catch(err) {
+        console.error("request error",err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+})
+
 module.exports = router;

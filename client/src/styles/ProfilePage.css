@@ -78,7 +78,7 @@ body {
 }
 
 #redirChat_btn {
-    background-color: rgba(16, 34, 50, 0.743);
+    background-color: #102232bd;
 
     border-top: 5px double rgb(35, 65, 85);
     border-right: 5px double rgb(35, 65, 85);
@@ -101,5 +101,32 @@ body {
     border-top: 5px double rgb(45, 85, 112);
     border-right: 5px double rgb(45, 85, 112);
     border-bottom: 5px double rgb(45, 85, 112);
+    border-left: 0px solid black;
+}
+
+#friendreq_btn {
+    background-color: rgba(133, 34, 67, 0.353);
+
+    border-top: 5px double rgba(195, 112, 140, 0.416);
+    border-right: 5px double rgba(195, 112, 140, 0.416);
+    border-bottom: 5px double rgba(195, 112, 140, 0.416);
+    border-left: 0px solid black;
+
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+
+    width: 100%;
+    height: fit-content;
+    padding:0.5em;
+}
+
+#friendreq_btn:hover {
+    background-color: rgba(133, 34, 67, 0.511);
+
+    border-top: 5px double rgba(195, 112, 140, 0.584);
+    border-right: 5px double rgba(195, 112, 140, 0.584);
+    border-bottom: 5px double rgba(195, 112, 140, 0.584);
     border-left: 0px solid black;
 }
