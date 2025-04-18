@@ -19,6 +19,16 @@ function Comment(props) {
         hour12: true
     });
 
+    const formatText = (text) => {
+      return text.split('\n').map((line, index) => (
+          <span key={index}>
+              {line}
+              <br />
+          </span>
+      ));
+  };
+
+
     const navigate = useNavigate();
     const handleToUser = async () => {
       console.log(userID);
@@ -40,7 +50,7 @@ function Comment(props) {
             </div>
         </div>
         <div id="comment_content">
-            {props.content}
+            {formatText(props.content)}
         </div>
     </div>)
 }

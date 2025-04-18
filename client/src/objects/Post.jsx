@@ -22,6 +22,14 @@ function Post(props) {
         hour12: true
     });
 
+    const formatText = (text) => {
+        return text.split('\n').map((line, index) => (
+            <span key={index}>
+                {line}
+                <br />
+            </span>
+        ));
+    };
 
     const [comments, setComments] = useState([]);
 
@@ -79,7 +87,7 @@ function Post(props) {
             </div>
         </div>
         <div id="post_content">
-            { props.content }
+            { formatText(props.content) }
         </div>
         <div id="post-btns">
         <NewReply parentPostID={postID}/>
