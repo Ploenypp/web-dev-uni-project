@@ -53,20 +53,6 @@ router.get('/all-posts', async(req,res) => {
     }
 });
 
-router.get('/postID', async(req,res) => {
-    const title = req.query;
-    try {
-        await client.connect();
-        const db = client.db("IN017");
-        const post = db.collection("posts").findOne({ title });
-
-        res.json( { postID : new ObjectId(post._id) });
-    } catch(err) {
-        console.error("post not found", err);
-        res.status(500).json({ message: "internal server error" });
-    }
-})
-
 router.post('/newcomment', async(req,res) => {
     if (!req.session.userId) {
         return res.status(401).json({ message: "pas connecté" });
