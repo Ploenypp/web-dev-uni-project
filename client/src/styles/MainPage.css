@@ -17,11 +17,11 @@ body {
     
     align-items:center;
     place-self:center;
+
 }
 
-#main {
-    display: flex;
-    flex-direction: column;
+.posts {
+    width: 97.5%;
 }
 
 #togglewritebtn {

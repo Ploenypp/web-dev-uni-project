@@ -18,6 +18,8 @@
     flex-direction: column;
 
     gap: 0.25em;
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid rgb(43, 57, 96);
 }
 
 #post_title {
@@ -56,11 +58,14 @@
     font-size: medium;
 }
 
-#post_buttons {
+#post-btns {
     font-family: serif;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 0.5em;
+
+    padding-top: 0.5em;
+    border-top: 1px solid rgb(43, 57, 96);
 }
 
 #reply_post {

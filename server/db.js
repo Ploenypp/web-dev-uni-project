@@ -13,7 +13,7 @@ async function connectDB() {
         console.log("Successfully connected to Atlas");
 
         await client.db("admin").command({ ping: 1});
-        console.log("Pinged your deployment. Sucessfuly connected to MongoDB");
+        console.log("Pinged your deployment. Successfuly connected to MongoDB");
 
     } catch (err) {
         console.log(err.stack);

@@ -48,7 +48,7 @@ function OtherUserPage() {
 
     const [friendReqs, setFriendReqs] = useState([]);
     useEffect(() => {
-      fetch('http://localhost:8000/api/user/friend-requests', { credentials: 'include' })
+      fetch('http://localhost:8000/api/user/check-friend-requests', { credentials: 'include' })
         .then(res => res.json())
         .then(data => setFriendReqs(data))
         .catch(err => console.error("Error fetching friend requests", err));
@@ -67,7 +67,6 @@ function OtherUserPage() {
         const response = await axios.post('http://localhost:8000/api/user/request-friendship', { recipientID: visitID }, { withCredentials: true });
 
         alert(response.data.message);
-        reqSent = true;
         setShowBtn("Friend Request envoyé");
 
       } catch(err) {

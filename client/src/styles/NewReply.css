@@ -1,4 +1,4 @@
-.NewReply { 
+#newreply-draft { 
     display: flex;
     flex-direction: column;
     gap: 0.5em;
@@ -25,7 +25,31 @@
     padding: 1em;
 }
 
+#reply-btns {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 #reply_btn {
+    font-size: medium;
+    font-family: serif;
+
+    width: fit-content;
+    max-width: 100%;
+    white-space: nowrap;
+    
+    color: rgb(238, 222, 226);
+    background-color: rgba(39, 151, 125, 0.269);
+    border: 2px solid rgba(110, 203, 189, 0.318);
+}
+
+#reply_btn:hover {
+    background-color: rgba(39, 151, 125, 0.408);
+    border-color: rgba(110, 203, 189, 0.521);
+}
+
+#cancel-reply-btn {
     font-size: medium;
     font-family: serif;
 
@@ -38,7 +62,7 @@
     border: 2px solid rgba(195, 112, 140, 0.248);
 }
 
-#reply_btn:hover {
+#cancel-reply-btn:hover {
     background-color: rgba(194, 57, 103, 0.33);
     border-color: rgba(195, 112, 140, 0.336);
 }

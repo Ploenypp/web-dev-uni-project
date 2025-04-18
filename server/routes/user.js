@@ -109,7 +109,7 @@ router.post('/request-friendship', async(req,res) => {
     }
 })
 
-router.get('/friend-requests', async(req,res) => {
+router.get('/check-friend-requests', async(req,res) => {
     if (!req.session.userId) {
         return res.status(401).json({ message: "pas connecté" });
     }
@@ -120,6 +120,25 @@ router.get('/friend-requests', async(req,res) => {
         await client.connect();
         const db = client.db("IN017");
         const friendreqs = await db.collection("friend_requests").find({ senderID: new ObjectId(userID) }).toArray();
+        res.json(friendreqs || []);
+    } catch(err) {
+        console.error("friend requests not found", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+
+});
+
+router.get('/get-friend-requests', async(req,res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ message: "pas connecté" });
+    }
+
+    const userID = req.session.userId;
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const friendreqs = await db.collection("friend_requests").find({ recipientID: new ObjectId(userID) }).toArray();
         res.json(friendreqs || []);
     } catch(err) {
         console.error("friend requests not found", err);

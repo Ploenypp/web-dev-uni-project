@@ -20,6 +20,7 @@ function NewReply(props) {
             alert("Pas possible de publier un commentaire vide");
             return ;
         }
+        
         try {
             const response = await axios.post('http://localhost:8000/api/posts/newcomment', {
                 parentPostID, 
@@ -27,6 +28,8 @@ function NewReply(props) {
             }, { withCredentials: true });
 
             alert(response.data.message);
+            setShowReplyDraft(false);
+            setReplyBtnText("répondre");
 
         } catch(error) {
             console.error("Publication failed:", error.response?.data?.message || error.message);
@@ -34,9 +37,30 @@ function NewReply(props) {
         }
     };
 
+    const [showReplyDraft, setShowReplyDraft] = useState(false);
+
+    const [replyBtnText, setReplyBtnText] = useState("répondre");
+
+    const toggleReplyDraft = () => {
+        if (showReplyDraft) {
+            setShowReplyDraft(false);
+            setReplyBtnText("répondre");
+        } else {
+            setShowReplyDraft(true);
+            setReplyBtnText("annuler");
+        }
+    }
+
     return(<div className="NewReply">
-        <textarea id="write-content" type="text" placeholder="répondre..." onChange={getContent}></textarea>
-        <button id="reply_btn" type="button" onClick={handleComment}>publier</button>
+        {! showReplyDraft && (<button id="reply_post" type="button" onClick={toggleReplyDraft}>{replyBtnText}</button>)}
+
+        { showReplyDraft && (<div id="newreply-draft">
+            <textarea id="write-content" type="text" placeholder="répondre..." onChange={getContent}></textarea>
+            <div id="reply-btns">
+                <button id="reply_btn" type="button" onClick={handleComment}>publier</button>
+                <button id="cancel-reply-btn" type="button" onClick={toggleReplyDraft}>annuler</button>
+            </div>
+        </div>)}
     </div>)
     
 }

@@ -19,7 +19,7 @@ function MainPage () {
             setPostContents(data) 
           })
           .catch(err => console.error("Error fetching posts",err));
-    }, []);
+    }, [postsContent]);
 
     return(<div className="MainPage">
         <Ribbon />

@@ -3,19 +3,11 @@ import { useState, useEffect, useRef } from 'react';
 import Request from "./Request.jsx";
 import "../styles/Requests.css";
 
-function RequestLst() {
-    const dummyRequests = [
-        {fst_name: "Kallistrate", surname: "Wash"},
-        {fst_name: "Sun-Woo", surname: "Hjort"},
-        {fst_name: "Selig", surname: "Abram"},
-        {fst_name: "Adad-Nirari", surname: "Wrona"},
-        {fst_name: "Phanuel", surname:"Lewin"},
-        {fst_name: "Adad", surname:"Nishiyama"},
-    ];
+function RequestLst(props) {
+    const friendReqs = props.reqslst;
 
     const [showRequests, setShowRequests] = useState(false);
     const [reqState, setReqLstState] = useState("hidden");
-
     const toggleRequests = () => {
         if (showRequests) {
             setReqLstState("furling");
@@ -32,14 +24,20 @@ function RequestLst() {
         }
         
     }
+
     return(<div className={`RequestLst ${reqState}`}>
         <button id="RequestLstBtn" type="button" onClick={toggleRequests}>Friendship Requests</button>
         
-        {showRequests && <div className={`req_lst ${reqState}`}>{dummyRequests.map((req,index) => <Request 
-            key={index}
-            fst_name={req.fst_name}
-            surname={req.surname} />) 
-        }</div>}
+        {showRequests && <div className={`req_lst ${reqState}`}>
+            {Array.isArray(friendReqs) && friendReqs.length > 0 ?
+                (friendReqs.map((req,index) => <Request 
+                    key={index}
+                    fst_name={req.sender_fstname}
+                    surname={req.sender_surname} />)
+                ) : (<p> pas de requêtes</p>)
+            }
+        
+        </div>}
 
     </div>)
 }

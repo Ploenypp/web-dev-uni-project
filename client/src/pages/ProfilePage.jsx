@@ -37,11 +37,22 @@ function ProfilePage() {
         .catch(err=> console.error("Error fetching user posts", err));
     }, []);
 
+    const [reqslst, setReqLst] = useState([]);
+    useEffect(() => {
+      fetch('http://localhost:8000/api/user/get-friend-requests', { credentials: 'include' })
+          .then(res => res.json())
+          .then(data => {
+              console.log(data)
+              setReqLst(data)
+          })
+          .catch(err => console.error("Error fetching friend requests", err));
+  }, []);
+
     return(<div className="ProfilePage">
         <Ribbon />
         <div id="pf_container">
             <div id="profile_sidebar"> 
-              <ProfileInfo fstname={userInfo.fstname} surname={userInfo.surname} dob={userInfo.dob} status={userInfo.status} team={userInfo.team}/> <RequestLst /> 
+              <ProfileInfo fstname={userInfo.fstname} surname={userInfo.surname} dob={userInfo.dob} status={userInfo.status} team={userInfo.team}/> <RequestLst reqslst={reqslst}/> 
               <button id="redirChat_btn" type="button" onClick={toChats}>Messages</button>
             </div>
             <div id="pf_subcontainer">

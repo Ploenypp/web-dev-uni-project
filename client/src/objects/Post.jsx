@@ -43,20 +43,6 @@ function Post(props) {
         console.log(showThread);
     }
 
-    const [showReplyDraft, setShowReplyDraft] = useState(false);
-
-    const [replyBtnText, setReplyBtnText] = useState("répondre");
-
-    const toggleReplyDraft = () => {
-        if (showReplyDraft) {
-            setShowReplyDraft(false);
-            setReplyBtnText("répondre");
-        } else {
-            setShowReplyDraft(true);
-            setReplyBtnText("annuler");
-        }
-    }
-
     const navigate = useNavigate();
 
     const handleToUser = async () => {
@@ -81,24 +67,21 @@ function Post(props) {
         <div id="post_content">
             {props.content}
         </div>
-        <div id="post_buttons">
-            <button id="reply_post" type="button" onClick={toggleReplyDraft}>{replyBtnText}</button>
-            {comments.length > 0 ? (<button id="show_thread" type="button" onClick={toggleThread}>{threadBtnText}</button>) : <button id="no_comment" type="button">pas de commentaire</button>}
-        </div>
-        {showReplyDraft && (
-            <NewReply parentPostID={ postID }/>
-        )}
+        <div id="post-btns">
+        <NewReply parentPostID={ postID }/>
+        {comments.length > 0 ? (<button id="show_thread" type="button" onClick={toggleThread}>{threadBtnText}</button>) : <button id="no_comment" type="button">pas de commentaire</button>}
         {showThread && (
-                <div className="thread">
-                    { comments.map((comment,index) => (
-                        <Comment 
-                        key={index}
-                        author={comment.author}
-                        timestamp={comment.timestamp}
-                        content={comment.content} />
-                    ))}
-                </div>
-            )}
+            <div className="thread">
+                { comments.map((comment,index) => (
+                    <Comment 
+                    key={index}
+                    author={comment.author}
+                    timestamp={comment.timestamp}
+                    content={comment.content} />
+                ))}
+            </div>
+        )}
+        </div>
     </div>)
 }
 
