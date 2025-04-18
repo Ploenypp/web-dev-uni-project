@@ -1,54 +1,42 @@
-import {useState, useEffect, useRef} from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import axios from 'axios';
 
 import "../styles/Comment.css"
 
 function Comment(props) {
-    const dummyComments = [
-        {
-          author: "noodles_over_people",
-          timestamp: "5 minutes ago",
-          content: "I was eating ramen while reading this. Now I'm crying into soup."
-        },
-        {
-          author: "yeet_priest",
-          timestamp: "45 seconds ago",
-          content: "You’ve committed a holy act of chaos. I’m proud. Unhinged, but proud."
-        },
-        {
-          author: "spilledmatcha",
-          timestamp: "22 hours ago",
-          content: "This unlocked a memory I swore I repressed. Thanks. I think?"
-        },
-        {
-          author: "feral_mango",
-          timestamp: "11 minutes ago",
-          content: "I want to print this post and frame it in my bathroom."
-        },
-        {
-          author: "hotpotenthusiast",
-          timestamp: "6 hours ago",
-          content: "This post made me audibly gasp. My hotpot almost boiled over from shock."
-    }]
-    
-    const [showThread, setShowThread] = useState(false);
+    const userID = props.userID;
+    const date = new Date(props.timestamp);
+    const readableDate = date.toLocaleString('fr-FR', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        hour12: true
+    });
 
-    const [threadBtnText, setThreadBtnText] = useState("afficher la discussion")
-
-    const toggleThread = () => {
-        if (showThread) {
-            setShowThread(false);
-            setThreadBtnText("afficher la discussion");
-        } else {
-            setShowThread(true);
-            setThreadBtnText("masquer la discussion");
-        }
-        console.log(showThread);
+    const navigate = useNavigate();
+    const handleToUser = async () => {
+      console.log(userID);
+      try {
+          const response = await axios.post('http://localhost:8000/api/user/visit', { userID }, { withCredentials: true });
+          alert(response.data.message);
+          navigate('/user');
+      } catch(err) {
+          console.error("visit failed", err.response?.data?.message || err.message);
+          alert(err.response?.data?.message || "Something went wrong");
+      }
     }
 
     return(<div className="Comment">
         <div>
             <div id="comment_info">
-                {props.author}, {props.timestamp}
+              <button id="author_btn" type="button" onClick={handleToUser}>{props.author}</button>
+              {readableDate}
             </div>
         </div>
         <div id="comment_content">

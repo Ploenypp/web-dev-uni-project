@@ -13,10 +13,18 @@
 }
 
 #comment_info {
+    display: flex;
+    flex-direction: row;
+
+    gap: 1em;
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid rgb(43, 57, 96);
+
+    align-items: center;
+
     font-size: small;
     font-style:italic;
     color: rgb(85, 110, 177);
-
 }
 
 #comment_content {

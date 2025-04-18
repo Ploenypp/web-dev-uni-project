@@ -10,6 +10,19 @@ import "../styles/Post.css";
 function Post(props) {
     const postID = props.postID;
     const userID = props.userID;
+    const date = new Date(props.timestamp);
+    const readableDate = date.toLocaleString('fr-FR', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        hour12: true
+    });
+
+
     const [comments, setComments] = useState([]);
 
     useEffect(() => {
@@ -61,26 +74,28 @@ function Post(props) {
         <div id="post_head">
             <div id="post_title"><strong>{props.title}</strong></div>
             <div id="post_info">
-                <button id="author_btn" type="button" onClick={handleToUser}>{props.author}</button> {props.timestamp}
+                <button id="author_btn" type="button" onClick={handleToUser}>{props.author}</button> 
+                {readableDate}
             </div>
         </div>
         <div id="post_content">
-            {props.content}
+            { props.content }
         </div>
         <div id="post-btns">
-        <NewReply parentPostID={ postID }/>
-        {comments.length > 0 ? (<button id="show_thread" type="button" onClick={toggleThread}>{threadBtnText}</button>) : <button id="no_comment" type="button">pas de commentaire</button>}
-        {showThread && (
+        <NewReply parentPostID={postID}/>
+        { comments.length > 0 ? (<button id="show_thread" type="button" onClick={toggleThread}>{threadBtnText}</button>) : <button id="no_comment" type="button">pas de commentaire</button> }
+        { showThread && (
             <div className="thread">
                 { comments.map((comment,index) => (
                     <Comment 
                     key={index}
+                    userID={comment.userID}
                     author={comment.author}
                     timestamp={comment.timestamp}
                     content={comment.content} />
-                ))}
+                )) }
             </div>
-        )}
+        ) }
         </div>
     </div>)
 }
