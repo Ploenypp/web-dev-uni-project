@@ -13,15 +13,38 @@
     gap: 1em;
 }
 
+#post_head {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.25em;
+}
+
 #post_title {
     font-size: large;
 }
 
+#author_btn {
+    font-size: small;
+
+    width: fit-content;
+    max-width: 100%;
+    white-space: nowrap;
+
+    background-color: rgba(20, 50, 109, 0.316);
+    border: 2px solid rgba(26, 73, 130, 0.448);
+}
+
 #post_info {
+    display: flex;
+    flex-direction: row;
+
+    gap: 5%;
+    align-items: center;
+
     font-size: small;
     font-style:italic;
     color: rgb(85, 110, 177);
-
 }
 
 #post_content {

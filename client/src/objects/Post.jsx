@@ -6,6 +6,7 @@ import "../styles/Post.css";
 
 function Post(props) {
     const postID = props.postID;
+    const userID = props.userID;
     const [comments, setComments] = useState([]);
 
     useEffect(() => {
@@ -54,10 +55,10 @@ function Post(props) {
     }
 
     return(<div className="Post">
-        <div>
+        <div id="post_head">
             <div id="post_title"><strong>{props.title}</strong></div>
             <div id="post_info">
-                {props.author}, {props.timestamp}
+                <button id="author_btn" type="button">{props.author}</button> {props.timestamp}
             </div>
         </div>
         <div id="post_content">
