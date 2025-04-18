@@ -30,6 +30,7 @@ function MainPage () {
             <Post
                 key={index}
                 postID={post._id}
+                userID={post.userID}
                 title={post.title}
                 author={post.author}
                 timestamp={post.timestamp}

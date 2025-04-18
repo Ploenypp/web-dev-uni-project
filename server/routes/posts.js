@@ -128,4 +128,19 @@ router.get('/profile-posts', async(req,res) => {
     }
 });
 
+router.get('/visit-user-posts', async(req,res) => {
+    const userID = req.session.visitID;
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const posts = await db.collection("posts").find({ userID: new ObjectId(userID) }).sort({ '_id': -1 }).toArray();
+
+        res.json(posts || []);
+    } catch(err) {
+        console.error("user posts not found", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 module.exports = router;

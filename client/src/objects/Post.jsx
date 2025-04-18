@@ -1,4 +1,7 @@
-import {useState, useEffect, useRef} from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import axios from 'axios';
 
 import Comment from "./Comment.jsx";
 import NewReply from './NewReply.jsx';
@@ -54,11 +57,25 @@ function Post(props) {
         }
     }
 
+    const navigate = useNavigate();
+
+    const handleToUser = async () => {
+        console.log(userID);
+        try {
+            const response = await axios.post('http://localhost:8000/api/user/visit', { userID }, { withCredentials: true });
+            alert(response.data.message);
+            navigate('/user');
+        } catch(err) {
+            console.error("visit failed", err.response?.data?.message || err.message);
+            alert(err.response?.data?.message || "Something went wrong");
+        }
+    }
+
     return(<div className="Post">
         <div id="post_head">
             <div id="post_title"><strong>{props.title}</strong></div>
             <div id="post_info">
-                <button id="author_btn" type="button">{props.author}</button> {props.timestamp}
+                <button id="author_btn" type="button" onClick={handleToUser}>{props.author}</button> {props.timestamp}
             </div>
         </div>
         <div id="post_content">
