@@ -130,3 +130,21 @@ body {
     border-bottom: 5px double rgba(195, 112, 140, 0.584);
     border-left: 0px solid black;
 }
+
+#friendreq_btn_sent {
+    background-color: rgba(107, 34, 133, 0.353);
+
+    border-top: 5px double rgba(195, 112, 190, 0.416);
+    border-right: 5px double rgba(195, 112, 190, 0.416);
+    border-bottom: 5px double rgba(195, 112, 190, 0.416);
+    border-left: 0px solid black;
+
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+
+    width: 100%;
+    height: fit-content;
+    padding:0.5em;
+}
