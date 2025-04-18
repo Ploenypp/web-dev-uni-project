@@ -56,7 +56,7 @@ function NewPost() {
 
         {showWrite && (<div id="write-post">
             <input id="write-title" type="text" onChange={getTitle} placeholder="titre..."/>
-            <textarea id="write-content" type="text" onChange={getContent} placeholder="écrivez..."></textarea>
+            <textarea id="write-content-post" type="text" onChange={getContent} placeholder="écrivez..."></textarea>
             <div id="write_btns">
                 <button id="post_btn" type="button" onClick={handlePublish}>publier</button>
                 <button id="cancel_btn" type="button" onClick={toggleShowWrite}>annuler</button>

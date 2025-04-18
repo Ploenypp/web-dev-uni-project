@@ -80,7 +80,7 @@ function Post(props) {
 
     return(<div className="Post">
         <div id="post_head">
-            <div id="post_title"><strong>{props.title}</strong></div>
+            <div id="post_title">{props.title}</div>
             <div id="post_info">
                 <button id="author_btn" type="button" onClick={handleToUser}>{props.author}</button> 
                 {readableDate}
@@ -90,7 +90,6 @@ function Post(props) {
             { formatText(props.content) }
         </div>
         <div id="post-btns">
-        <NewReply parentPostID={postID}/>
         { comments.length > 0 ? (<button id="show_thread" type="button" onClick={toggleThread}>{threadBtnText}</button>) : <button id="no_comment" type="button">pas de commentaire</button> }
         { showThread && (
             <div className="thread">
@@ -104,6 +103,7 @@ function Post(props) {
                 )) }
             </div>
         ) }
+        <NewReply parentPostID={postID}/>
         </div>
     </div>)
 }

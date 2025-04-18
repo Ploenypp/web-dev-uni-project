@@ -55,7 +55,7 @@ function NewReply(props) {
         {! showReplyDraft && (<button id="reply_post" type="button" onClick={toggleReplyDraft}>{replyBtnText}</button>)}
 
         { showReplyDraft && (<div id="newreply-draft">
-            <textarea id="write-content" type="text" placeholder="répondre..." onChange={getContent}></textarea>
+            <textarea id="write-content-reply" type="text" placeholder="répondre..." onChange={getContent}></textarea>
             <div id="reply-btns">
                 <button id="reply_btn" type="button" onClick={handleComment}>publier</button>
                 <button id="cancel-reply-btn" type="button" onClick={toggleReplyDraft}>annuler</button>

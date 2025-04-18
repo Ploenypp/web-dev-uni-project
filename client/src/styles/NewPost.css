@@ -46,15 +46,16 @@
     padding-inline: 1em;
 }
 
-#write-content {
-    color: white;
+#write-content-post {
+    color: rgb(255, 255, 255);
     font-size: medium;
+    font-family: sans-serif;
     background-color:rgb(28, 39, 55);
 
     border: 2px solid rgb(55, 76, 107);
     border-radius: 25px;
 
-    min-height: 10em;
+    min-height: 15em;
     resize: vertical;
 
     box-sizing: border-box;
