@@ -29,7 +29,7 @@ function SignInPage() {
             alert(response.data.message);
             navigate('/dashboard');
 
-        } catch (error) {
+        } catch(error) {
             console.error("Login failed", error.response?.data?.message || error.message);
             alert(error.response?.data?.message || "Something went wrong");
         }
