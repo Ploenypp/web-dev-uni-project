@@ -51,6 +51,7 @@ function ProfilePage() {
               {posts.map((post, index) => (
                 <Post
                   key={index}
+                  postID={post._id}
                   title={post.title}
                   author={post.author}
                   timestamp={post.timestamp}
