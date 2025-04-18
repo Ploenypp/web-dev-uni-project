@@ -42,7 +42,7 @@ function ProfilePage() {
       fetch('http://localhost:8000/api/user/get-friend-requests', { credentials: 'include' })
           .then(res => res.json())
           .then(data => {
-              console.log(data)
+              console.log("reqslst",data)
               setReqLst(data)
           })
           .catch(err => console.error("Error fetching friend requests", err));
@@ -52,7 +52,8 @@ function ProfilePage() {
         <Ribbon />
         <div id="pf_container">
             <div id="profile_sidebar"> 
-              <ProfileInfo fstname={userInfo.fstname} surname={userInfo.surname} dob={userInfo.dob} status={userInfo.status} team={userInfo.team}/> <RequestLst reqslst={reqslst}/> 
+              <ProfileInfo fstname={userInfo.fstname} surname={userInfo.surname} dob={userInfo.dob} status={userInfo.status} team={userInfo.team}/> 
+              <RequestLst reqslst={reqslst}/> 
               <button id="redirChat_btn" type="button" onClick={toChats}>Messages</button>
             </div>
             <div id="pf_subcontainer">

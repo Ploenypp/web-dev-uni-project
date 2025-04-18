@@ -84,9 +84,11 @@
     display:flex;
     flex-direction: column;
     max-height: 12.75em;
+    min-width: 5em;
     gap: 0.5em;
     padding: 0.5em;
     
+
     overflow: scroll;
     scrollbar-color: rgba(195, 112, 140, 0.416) rgba(133, 34, 67, 0.123);
 }
@@ -113,6 +115,8 @@
     padding: 1em;
     justify-content:space-between;
     align-items: center;
+
+    min-width: 6em;
 
     border-radius: 25px;
 }

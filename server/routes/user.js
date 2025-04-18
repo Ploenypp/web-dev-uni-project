@@ -147,4 +147,76 @@ router.get('/get-friend-requests', async(req,res) => {
 
 });
 
+router.post('/accept-friend-request', async(req,res) => {
+    if(!req.session.userId) {
+        return res.status(401).json({ message: "pas connecté" });
+    }
+
+    const userID = req.session.userId;
+    const friendID = req.body.friendID;
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const friends = db.collection("friends");
+        const friend_reqs = db.collection("friend_requests");
+
+        const all_users = db.collection("users");
+        const friend1 = await all_users.findOne({ _id: new ObjectId(userID) });
+        const friend2 = await all_users.findOne({ _id: new ObjectId(friendID) });
+
+        await friends.insertOne({
+            "friend1": new ObjectId(userID),
+            "friend1_name" : friend1.fstname.concat(" ",friend1.surname),
+            "friend2": new ObjectId(friendID),
+            "friend2_name" : friend2.fstname.concat(" ",friend2.surname)
+        });
+
+        await friend_reqs.deleteOne({
+            "recipientID" : new ObjectId(userID),
+            "senderID": new ObjectId(friendID)
+        });
+
+        await friend_reqs.deleteOne({
+            "recipientID" : new ObjectId(friendID),
+            "senderID": new ObjectId(userID)
+        });
+
+        res.status(201).json({ message: "friendship accepted" });
+    } catch(err) {
+        console.error("acceptance error",err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+router.post('/reject-friend-request', async(req,res) => {
+    if(!req.session.userId) {
+        return res.status(401).json({ message: "pas connecté" });
+    }
+
+    const userID = req.session.userId;
+    const friendID = req.body.friendID;
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const friend_reqs = db.collection("friend_requests");
+
+        await friend_reqs.deleteOne({
+            "recipientID" : new ObjectId(userID),
+            "senderID": new ObjectId(friendID)
+        });
+
+        await friend_reqs.deleteOne({
+            "recipientID" : new ObjectId(friendID),
+            "senderID": new ObjectId(userID)
+        });
+
+        res.status(201).json({ message: "friendship rejected" });
+    } catch(err) {
+        console.error("rejection error",err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 module.exports = router;

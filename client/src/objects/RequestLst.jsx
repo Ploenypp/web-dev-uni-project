@@ -30,10 +30,11 @@ function RequestLst(props) {
         
         {showRequests && <div className={`req_lst ${reqState}`}>
             {Array.isArray(friendReqs) && friendReqs.length > 0 ?
-                (friendReqs.map((req,index) => <Request 
+                (friendReqs.map((request,index) => <Request 
                     key={index}
-                    fst_name={req.sender_fstname}
-                    surname={req.sender_surname} />)
+                    senderID={request.senderID}
+                    fst_name={request.sender_fstname}
+                    surname={request.sender_surname} />)
                 ) : (<p> pas de requêtes</p>)
             }
         
