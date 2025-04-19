@@ -66,7 +66,7 @@ function OtherUserPage() {
       try {
         const response = await axios.post('http://localhost:8000/api/user/request-friendship', { recipientID: visitID }, { withCredentials: true });
 
-        alert(response.data.message);
+        //alert(response.data.message);
         setShowBtn("Friend Request envoyé");
 
       } catch(err) {

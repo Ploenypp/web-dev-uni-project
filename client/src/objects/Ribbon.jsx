@@ -18,7 +18,7 @@ function Ribbon() {
     const handleLogout = async () => {
         try {
             const response = await axios.post('http://localhost:8000/api/auth/logout', {}, { withCredentials: true });
-            alert(response.data.message);
+            //alert(response.data.message);
             navigate('/');
 
         } catch (error) {

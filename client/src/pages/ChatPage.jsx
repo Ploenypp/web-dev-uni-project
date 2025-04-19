@@ -62,7 +62,7 @@ function ChatPage() {
           "content": message
         }, { withCredentials: true });
 
-        alert(response.data.message);
+        //alert(response.data.message);
         setMessage("");
         fetchMessages();
       } catch(err) {
@@ -95,7 +95,7 @@ function ChatPage() {
                     </div>)
                 }
                 {chatSelected === "none" ? (<div></div>) : (<div id="new_msg">
-                    <input id="new_msg_text" type="text" value={message} onChange={getMessage} placeholder="écrivez..."/>
+                    <textarea id="new_msg_text" type="text" value={message} onChange={getMessage} placeholder="écrivez..."/>
                     <button id="send_msg_btn" type="button" onClick={handleSendMessage}>→</button>
                 </div>) }
             </div>

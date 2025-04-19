@@ -9,7 +9,7 @@ function Request(props) {
     const handleAccept = async () => {
         try {
             const response = await axios.post('http://localhost:8000/api/user/accept-friend-request', { friendID: friendID }, { withCredentials: true });
-            alert(response.data.message);
+            //alert(response.data.message);
         } catch(err) {
             console.error("acceptance failed", err.reponse?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");

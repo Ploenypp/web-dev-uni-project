@@ -26,7 +26,7 @@ function SignInPage() {
                 username,
                 password
             }, { withCredentials: true });
-            alert(response.data.message);
+            //alert(response.data.message);
             navigate('/dashboard');
 
         } catch(error) {
