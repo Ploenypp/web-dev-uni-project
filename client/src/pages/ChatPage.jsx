@@ -55,6 +55,7 @@ function ChatPage() {
     };
 
     const handleSendMessage = async () => {
+      if (!message.trim()) { return ; }
       try {
         const response = await axios.post('http://localhost:8000/api/messages/new-message', { 
           "chatID": chatSelected, 
