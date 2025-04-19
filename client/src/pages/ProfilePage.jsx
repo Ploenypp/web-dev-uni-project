@@ -46,7 +46,7 @@ function ProfilePage() {
               setReqLst(data)
           })
           .catch(err => console.error("Error fetching friend requests", err));
-  }, []);
+    }, [reqslst]);
 
     return(<div className="ProfilePage">
         <Ribbon />

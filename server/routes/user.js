@@ -166,10 +166,11 @@ router.post('/accept-friend-request', async(req,res) => {
         const friend2 = await all_users.findOne({ _id: new ObjectId(friendID) });
 
         await friends.insertOne({
-            "friend1": new ObjectId(userID),
+            "friend1ID": new ObjectId(userID),
             "friend1_name" : friend1.fstname.concat(" ",friend1.surname),
-            "friend2": new ObjectId(friendID),
-            "friend2_name" : friend2.fstname.concat(" ",friend2.surname)
+            "friend2ID": new ObjectId(friendID),
+            "friend2_name" : friend2.fstname.concat(" ",friend2.surname),
+            "messages": []
         });
 
         await friend_reqs.deleteOne({

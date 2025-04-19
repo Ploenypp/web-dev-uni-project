@@ -6,6 +6,7 @@ const connectDB = require('./db'); // Import the database connection logic from 
 const authRoutes = require('./routes/auth.js');
 const postRoutes = require('./routes/posts.js');
 const userRoutes = require('./routes/user.js');
+const messagesRoutes = require('./routes/messages.js');
 
 require('dotenv').config();
 
@@ -36,6 +37,7 @@ connectDB();
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/messages', messagesRoutes);
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {

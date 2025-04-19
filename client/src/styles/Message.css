@@ -4,7 +4,10 @@
     flex-direction: column;
 
     gap: 0.5em;
-    padding: 1em;
+    padding-right: 0.5em;
+    padding-left: 1em;
+    padding-top: 0.5em;
+
 }
 
 .Message.self {
