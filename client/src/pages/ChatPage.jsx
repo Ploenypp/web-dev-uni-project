@@ -25,12 +25,15 @@ function ChatPage() {
     }, []);
 
     const [chatSelected, setChatSelected] = useState("none");
-    const selectChat = (name) => {
-        const chatName = name;
-        if (chatSelected === chatName) {
+    const [friendName, setFriendName] = useState("");
+    const selectChat = (ID, chatname) => {
+        const chatID = ID;
+        if (chatSelected === chatID) {
             setChatSelected("none");
+            setFriendName("");
         } else {
-            setChatSelected(chatName);
+            setChatSelected(chatID);
+            setFriendName(chatname);
         }
     }
 
@@ -79,7 +82,7 @@ function ChatPage() {
             <div id="chat_sidebar">
                 Messages 
                 <div id="chat_lst">
-                    {friends.map((chat,index) => <button key={index} id="chat_btn" type="button" onClick={() => selectChat(chat._id)}>
+                    {friends.map((chat,index) => <button key={index} className={`chat_btn ${(chat.friend1ID.toString() != userID ? chat.friend1_name : chat.friend2_name) === friendName}`} type="button" onClick={() => selectChat(chat._id, (chat.friend1ID.toString() != userID ? chat.friend1_name : chat.friend2_name ))}>
                       { chat.friend1ID.toString() != userID ? chat.friend1_name : chat.friend2_name }
                     </button>)}
                 </div>

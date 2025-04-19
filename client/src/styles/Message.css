@@ -1,12 +1,12 @@
 .Message {
     font-size: medium;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 
     gap: 0.5em;
-    padding-right: 0.5em;
-    padding-left: 1em;
     padding-top: 0.5em;
+    padding-right: 1em;
+    padding-left: 1em;
 
 }
 
@@ -45,6 +45,7 @@
 
 .msg_content.self {
     text-align: right;
+    background-color:rgba(62, 142, 199, 0.32);
 }
 
 .msg_content.other {
