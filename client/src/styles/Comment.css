@@ -9,26 +9,34 @@
     background-color:rgba(29, 36, 56, 0.439);
 
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 #comment_info {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 
+    height: 100%;
     gap: 1em;
     padding-bottom: 0.5em;
-    border-bottom: 1px solid rgb(43, 57, 96);
+    /*border-bottom: 1px solid rgb(43, 57, 96);*/
 
-    align-items: center;
+    align-self: center;
 
     font-size: small;
-    font-style:italic;
     color: rgb(85, 110, 177);
+}
+
+#comment_pfp {
+    width: 3em;
+    height: 3em;
+    border-radius: 50px;
 }
 
 #comment_content {
     font-size: medium;
+    align-content: center;
+
 }
 
 #comment_buttons {

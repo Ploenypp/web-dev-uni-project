@@ -57,11 +57,8 @@ body {
 #profile_pic {
     width: fit;
     height: auto;
-    max-width: 7em;
-    padding: 1em;
-
-    border: 3px dashed rgb(110, 112, 203);
-    border-radius: 50px;
+    max-width: 10em;
+    border-radius: 25px;
 }
 
 #profile_text {

@@ -7,6 +7,24 @@ import Comment from "./Comment.jsx";
 import NewReply from './NewReply.jsx';
 import "../styles/Post.css";
 
+// profile pictures 
+import tmp_pfp from "../assets/tmp_pfp.png";
+import xemnas from "../assets/profile_pics/xemnas.png";
+import xigbar from "../assets/profile_pics/xigbar.png";
+import xaldin from "../assets/profile_pics/xaldin.png";
+import vexen from "../assets/profile_pics/vexen.png";
+import lexaeus from "../assets/profile_pics/lexaeus.png";
+import zexion from "../assets/profile_pics/zexion.png";
+import saix from "../assets/profile_pics/saix.png";
+import axel from "../assets/profile_pics/axel.png";
+import demyx from "../assets/profile_pics/demyx.png";
+import luxord from "../assets/profile_pics/luxord.png";
+import marluxia from "../assets/profile_pics/marluxia.png";
+import larxene from "../assets/profile_pics/larxene.png";
+import roxas from "../assets/profile_pics/roxas.png";
+import xion from "../assets/profile_pics/xion.png";
+import msg_pfp from "../assets/msg_pfp.png";
+
 function Post(props) {
     const postID = props.postID;
     const userID = props.userID;
@@ -78,11 +96,29 @@ function Post(props) {
         }
     }
 
+    const pfp = (name) => {
+        if (name === "Xemnas Xehanort") { return xemnas; }
+        if (name === "Xigbar Braig") { return xigbar; }
+        if (name === "Xaldin Dilan") { return xaldin; }
+        if (name === "Vexen Even") { return vexen; }
+        if (name === "Lexaeus Aeleus") { return lexaeus; }
+        if (name === "Zexion Ienzo") { return zexion; }
+        if (name === "Saix Isa") { return saix; }
+        if (name === "Axel Lea") { return axel; }
+        if (name === "Demyx Medy") { return demyx; }
+        if (name === "Luxord Rodul") { return luxord; }
+        if (name === "Marluxia Lauriam") { return marluxia; }
+        if (name === "Larxene Elrena") { return larxene; }
+        if (name === "Roxas Sora") { return roxas; }
+        if (name === "Xion Noi") { return xion; }
+        return msg_pfp;
+    }
+
     return(<div className="Post">
         <div id="post_head">
             <div id="post_title">{props.title}</div>
             <div id="post_info">
-                <button id="author_btn" type="button" onClick={handleToUser}>{props.author}</button> 
+                <button id="author_btn" type="button" onClick={handleToUser}><img id="post_pfp" src={pfp(props.author)} alt="msg_pfp"/> {props.author}</button> 
                 {readableDate}
             </div>
         </div>

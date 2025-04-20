@@ -27,14 +27,24 @@
 }
 
 #author_btn {
-    font-size: small;
+    display: flex;
+    flex-direction: row;
+    font-size: medium;
 
     width: fit-content;
-    max-width: 100%;
-    white-space: nowrap;
+    height: fit-content;
+    align-items: center;
+    gap: 1em;
+    padding: 0.5em;
+    
+    background-color: rgba(20, 50, 109, 0);
+    border: 0px
+}
 
-    background-color: rgba(20, 50, 109, 0.316);
-    border: 2px solid rgba(26, 73, 130, 0.448);
+#post_pfp {
+    width: 3.5em;
+    height: 3.5em;
+    border-radius: 50px;
 }
 
 #author_btn:hover {
@@ -50,7 +60,6 @@
     align-items: center;
 
     font-size: small;
-    font-style:italic;
     color: rgb(85, 110, 177);
 }
 

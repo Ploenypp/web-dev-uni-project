@@ -27,11 +27,10 @@
 }
 
 #msg_pfp {
-    max-width: 2.5em;
-    height: 2.5em;
+    max-width: 3.5em;
+    height: 3.5em;
 
-    border: 2px dashed rgb(31, 102, 149);
-    border-radius: 40px;
+    border-radius: 50px;
 }
 
 .msg_content {
