@@ -39,6 +39,16 @@
     border-color: rgba(62, 64, 199, 0.674);
 }
 
+#chats {
+    background-color: #102232bd;
+    border: 2px solid rgb(35, 65, 85);
+}
+
+#chats:hover {
+    background-color: rgba(31, 68, 101, 0.743);
+    border-color: rgb(45, 85, 112);
+}
+
 #logout {
     background-color: rgba(194, 57, 103, 0.353);
     border: 2px solid rgba(195, 112, 140, 0.298);

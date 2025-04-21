@@ -14,6 +14,9 @@ function Ribbon() {
     const toProfile = () => {
         navigate("/profile");
     }
+    const toChats = () => {
+        navigate("/chats");
+    }
 
     const handleLogout = async () => {
         try {
@@ -31,6 +34,7 @@ function Ribbon() {
         <img src={logo} id="logo_ribbon" alt="Organiz'asso Logo" onClick={toDashboard}/>
         <div id="nothing"></div>
         <button id="profile" type="button" onClick={toProfile}>Mon Profil</button>
+        <button id="chats" type="button" onClick={toChats}>Messages</button>
         <button id="logout" type="button" onClick={handleLogout}>Deconnexion</button>
     </div>)
 }
