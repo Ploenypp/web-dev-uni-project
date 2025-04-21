@@ -23,7 +23,6 @@ body {
 #pf_container {
     display: flex;
     width: 100%;
-    overflow: scroll;
 }
 
 #pf_subcontainer {
@@ -87,8 +86,9 @@ body {
 }
 
 #profile_posts {
-    max-height: 73vw;
-    overflow: scroll;
+    padding-right: 1em;
+    max-height: 105vh;
+    overflow-y: scroll;
 }
 
 #redirChat_btn {
