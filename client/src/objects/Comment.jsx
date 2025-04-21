@@ -27,14 +27,11 @@ function Comment(props) {
     const userID = props.userID;
     const date = new Date(props.timestamp);
     const readableDate = date.toLocaleString('fr-FR', {
-        weekday: 'long',
-        year: 'numeric',
         month: 'long',
         day: 'numeric',
         hour: 'numeric',
         minute: 'numeric',
-        second: 'numeric',
-        hour12: true
+        hour12: false
     });
 
     const formatText = (text) => {
@@ -79,12 +76,12 @@ function Comment(props) {
 
     return(<div className="Comment">
         <div>
-            {/*<div id="comment_info">*/}
+            <div id="comment_info">
               <button id="author_btn" type="button" onClick={handleToUser}><img id="comment_pfp" src={pfp(props.author)} alt="msg_pfp"/>{props.author}</button>
-              {/*{readableDate}*/}
-            {/*</div>*/}
+            </div>
         </div>
         <div id="comment_content">
+            <div id="comment_time">{readableDate}</div>
             {formatText(props.content)}
         </div>
     </div>)

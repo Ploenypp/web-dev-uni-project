@@ -10,6 +10,8 @@
 
     display: flex;
     flex-direction: row;
+
+    align-items: center;
 }
 
 #comment_info {
@@ -21,7 +23,8 @@
     padding-bottom: 0.5em;
     /*border-bottom: 1px solid rgb(43, 57, 96);*/
 
-    align-self: center;
+    justify-content: center;
+    place-items: center;
 
     font-size: small;
     color: rgb(85, 110, 177);
@@ -34,9 +37,16 @@
 }
 
 #comment_content {
+    display: flex;
+    flex-direction: column;
     font-size: medium;
-    align-content: center;
 
+    gap: 0.5em;
+}
+
+#comment_time {
+    font-size: small;
+    color: rgb(85, 110, 177);
 }
 
 #comment_buttons {

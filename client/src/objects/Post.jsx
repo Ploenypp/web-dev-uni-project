@@ -36,8 +36,7 @@ function Post(props) {
         day: 'numeric',
         hour: 'numeric',
         minute: 'numeric',
-        second: 'numeric',
-        hour12: true
+        hour12: false
     });
 
     const formatText = (text) => {
