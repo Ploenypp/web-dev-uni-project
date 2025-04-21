@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+import gummiphone from '../assets/gummiphone.png';
 import "../styles/ProfilePage.css";
 import "../styles/Chat.css";
 
@@ -17,7 +18,7 @@ function OtherUserPage() {
             .then(res => res.json())
             .then(data => setUserInfo(data))
             .catch(err => console.error("Error fetching user data:", err));
-    }, []);
+    }, [userInfo]);
 
     const visitID = userInfo._id;
 
@@ -26,7 +27,7 @@ function OtherUserPage() {
       fetch('http://localhost:8000/api/posts/visit-user-posts', { credentials: 'include' })
         .then(res => res.json())
         .then(data => { 
-          console.log(data)
+          //console.log(data)
           if (Array.isArray(data)) { setPosts(data); } 
           else { setPosts([]); }
         })
@@ -58,7 +59,7 @@ function OtherUserPage() {
     useEffect(() => {
       if (reqSent) { setShowBtn("Friend Request envoyé"); }
       if (isFriend) { setShowBtn("Messager"); }
-      console.log(showBtn);
+      //console.log(showBtn);
     })
 
     const handleFriendReq = async () => {
@@ -89,7 +90,7 @@ function OtherUserPage() {
     }, []);
 
     return(<div className="ProfilePage">
-        <Ribbon fstname={currentUser.fstname} surname={currentUser.surname}/>
+        <Ribbon />
         <div id="pf_container">
             <div id="profile_sidebar"> 
               <ProfileInfo fstname={userInfo.fstname} surname={userInfo.surname} dob={userInfo.dob} status={userInfo.status} team={userInfo.team}/> 
@@ -98,7 +99,7 @@ function OtherUserPage() {
 
               { showBtn === "Friend Request envoyé" && (<button id="friendreq_btn_sent" type="button">{showBtn}</button>)}
 
-              { showBtn === "Messager" && (<button id="redirChat_btn" type="button" onClick={toChat}>{showBtn}</button>) }
+              { showBtn === "Messager" && (<button id="redirChat_btn" type="button" onClick={toChat}><img src={gummiphone} id="profile_msg_icon" alt="icon"/> {showBtn}</button>) }
 
 
             </div>

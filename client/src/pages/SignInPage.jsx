@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import "../styles/SignIn.css";
-import logo from '../assets/logo.png';
+import logo from '../assets/org13_ribbon.png';
 
 import axios from 'axios';
 
@@ -42,7 +42,7 @@ function SignInPage() {
     }
 
     return(<div className="SignInPage">
-        <img src={logo} id="logo" alt="Organiz'asso Logo"/>
+        <img src={logo} id="org_signin" alt="Organiz'asso Logo"/>
 
         <div id="login_box">
             <p>Bienvenue, connectez-vous!</p>

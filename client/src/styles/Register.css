@@ -12,15 +12,14 @@ body {
 .RegisterPage {
     display: flex;
     flex-direction: column;
-    row-gap: 1%;
+    gap: 1em;
 
     width: fit-content;
-    min-height: fit-content;
+    height: 100vh;
 
     place-content: center;
     justify-items: center;
     align-items: center;
-
 
     text-align: center;
 }

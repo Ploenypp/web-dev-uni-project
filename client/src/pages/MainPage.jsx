@@ -14,22 +14,14 @@ function MainPage () {
         credentials: 'include' })
           .then(res => res.json())
           .then(data => {
-            console.log(data)
+            //console.log(data)
             setPostContents(data) 
           })
           .catch(err => console.error("Error fetching posts",err));
-    }, []);
-
-    const [userInfo, setUserInfo] = useState("");
-    useEffect(() => {
-        fetch('http://localhost:8000/api/user/profile', { credentials: 'include' })
-            .then(res => res.json())
-            .then(data => setUserInfo(data))
-            .catch(err => console.error("Error fetching user data:", err));
-    }, []);
+    }, [postsContent]);
 
     return(<div className="MainPage">
-        <Ribbon fstname={userInfo.fstname} surname={userInfo.surname}/>
+        <Ribbon />
         <Searchbar />
         <NewPost />
         <div className="posts">

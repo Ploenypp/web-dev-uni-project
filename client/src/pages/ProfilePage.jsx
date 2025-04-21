@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import gummiphone from '../assets/gummiphone.png';
 import "../styles/ProfilePage.css";
 import "../styles/Chat.css";
 
@@ -54,7 +55,7 @@ function ProfilePage() {
             <div id="profile_sidebar"> 
               <ProfileInfo fstname={userInfo.fstname} surname={userInfo.surname} dob={userInfo.dob} status={userInfo.status} team={userInfo.team}/> 
               <RequestLst reqslst={reqslst}/> 
-              <button id="redirChat_btn" type="button" onClick={toChats}>Messages</button>
+              <button id="redirChat_btn" type="button" onClick={toChats}><img src={gummiphone} id="profile_msg_icon" alt="icon"/>Messages</button>
             </div>
             <div id="pf_subcontainer">
               <Searchbar />

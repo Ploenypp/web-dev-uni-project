@@ -91,7 +91,15 @@ body {
     overflow-y: scroll;
 }
 
+#profile_msg_icon {
+    width: 2em;
+    height: 2.5em;
+}
+
 #redirChat_btn {
+    display: flex;
+    flex-direction: row;
+
     background-color: #102232bd;
 
     border-top: 5px double rgb(35, 65, 85);
@@ -107,6 +115,9 @@ body {
     width: 100%;
     height: fit-content;
     padding:0.5em;
+    gap: 1em;
+    align-items: center;
+    justify-content: center;
 }
 
 #redirChat_btn:hover {
