@@ -29,7 +29,7 @@ function ProfilePage() {
       fetch('http://localhost:8000/api/posts/profile-posts', { credentials: 'include' })
         .then(res => res.json())
         .then(data => { 
-          console.log(data)
+          //console.log(data)
           if (Array.isArray(data)) { setPosts(data); } 
           else { setPosts([]); }
         })
@@ -42,7 +42,7 @@ function ProfilePage() {
       fetch('http://localhost:8000/api/user/get-friend-requests', { credentials: 'include' })
           .then(res => res.json())
           .then(data => {
-              console.log("reqslst",data)
+              //console.log("reqslst",data)
               setReqLst(data)
           })
           .catch(err => console.error("Error fetching friend requests", err));
