@@ -41,6 +41,9 @@
 }
 
 .chat_btn {
+    display: flex;
+    flex-direction: row;
+
     background-color: rgba(30, 49, 65, 0.517);
     
     border: 0px;
@@ -51,15 +54,23 @@
 
     padding-top: 1em;
     padding-bottom: 1em;
+
+    gap: 1em;
+    align-items: center;
 }
 
 .chat_btn.true {
     background-color: rgba(62, 142, 199, 0.237);
-    border: 3px solid rgba(62, 142, 199, 0.32);
 }
 
 #chat_btn:hover {
     background-color: rgba(26, 56, 81, 0.683);
+}
+
+#chat_pfp {
+    width: 5em;
+    height: 5em;
+    border-radius: 25px;
 }
 
 #chat_area {

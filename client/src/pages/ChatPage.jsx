@@ -119,6 +119,7 @@ function ChatPage() {
                 Messages 
                 <div id="chat_lst">
                     {friends.map((chat,index) => <button key={index} className={`chat_btn ${(chat.friend1ID.toString() != userID ? chat.friend1_name : chat.friend2_name) === friendName}`} type="button" onClick={() => selectChat(chat._id, (chat.friend1ID.toString() != userID ? chat.friend1_name : chat.friend2_name ))}>
+                      <img id="chat_pfp" src={pfp(chat.friend1ID.toString() != userID ? chat.friend1_name : chat.friend2_name)} alt="chat_pfp"/>
                       { chat.friend1ID.toString() != userID ? chat.friend1_name : chat.friend2_name }
                     </button>)}
                 </div>
@@ -126,7 +127,7 @@ function ChatPage() {
             <div id="chat_area">
                 {chatSelected === "none" ? (<div id="chat_placeholder">selectionner un chat...</div>) : 
                     (<div id="msg_lst">
-                        {messages && messages.map((msg,index) => (<Message key={index} type={(msg.authorID.toString() === userID.toString() ? "self" : "other")} pfp={pfp(msg.author)} author={msg.author} content={msg.content} />))}
+                        {messages && messages.map((msg,index) => (<Message key={index} type={(msg.authorID.toString() === userID.toString() ? "self" : "other")} pfp={pfp(msg.author)} author={msg.author} timestamp={msg.timestamp} content={msg.content} />))}
                     </div>)
                 }
                 {chatSelected === "none" ? (<div></div>) : (<div id="new_msg">
