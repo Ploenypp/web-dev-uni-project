@@ -9,7 +9,6 @@ import "../styles/MainPage.css";
 
 function MainPage () {
     const [postsContent, setPostContents] = useState([]);
-
     useEffect(() => {
       fetch('http://localhost:8000/api/posts/all-posts', {
         credentials: 'include' })
@@ -19,10 +18,18 @@ function MainPage () {
             setPostContents(data) 
           })
           .catch(err => console.error("Error fetching posts",err));
-    }, [postsContent]);
+    }, []);
+
+    const [userInfo, setUserInfo] = useState("");
+    useEffect(() => {
+        fetch('http://localhost:8000/api/user/profile', { credentials: 'include' })
+            .then(res => res.json())
+            .then(data => setUserInfo(data))
+            .catch(err => console.error("Error fetching user data:", err));
+    }, []);
 
     return(<div className="MainPage">
-        <Ribbon />
+        <Ribbon fstname={userInfo.fstname} surname={userInfo.surname}/>
         <Searchbar />
         <NewPost />
         <div className="posts">

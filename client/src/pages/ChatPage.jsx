@@ -113,7 +113,7 @@ function ChatPage() {
     }
 
     return(<div className="ChatPage">
-        <Ribbon />
+        <Ribbon fstname={userInfo.fstname} surname={userInfo.surname}/>
         <div id="chatpage_subcontainer">
             <div id="chat_sidebar">
                 Messages 

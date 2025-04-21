@@ -27,9 +27,16 @@
 }
 
 #profile {
+    display: flex;
+    flex-direction: row;
+
     width: fit-content;
-    max-width: 100%;
+    height: fit-content;
+
+    gap: 1em;
+    align-items: center;
     white-space: nowrap;
+
     background-color: rgba(62, 64, 199, 0.462);
     border: 2px solid rgba(110, 112, 203, 0.481);
 }
@@ -37,6 +44,12 @@
 #profile:hover {
     background-color: rgba(37, 40, 196, 0.691);
     border-color: rgba(62, 64, 199, 0.674);
+}
+
+#ribbon_pic {
+    width: 2em;
+    height: 2em;
+    border-radius: 25px;
 }
 
 #chats {

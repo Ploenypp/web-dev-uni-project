@@ -80,8 +80,16 @@ function OtherUserPage() {
       navigate('/chats');
     }
 
+    const [currentUser, setCurrentUser] = useState("");
+    useEffect(() => {
+        fetch('http://localhost:8000/api/user/profile', { credentials: 'include' })
+            .then(res => res.json())
+            .then(data => setCurrentUser(data))
+            .catch(err => console.error("Error fetching user data:", err));
+    }, []);
+
     return(<div className="ProfilePage">
-        <Ribbon />
+        <Ribbon fstname={currentUser.fstname} surname={currentUser.surname}/>
         <div id="pf_container">
             <div id="profile_sidebar"> 
               <ProfileInfo fstname={userInfo.fstname} surname={userInfo.surname} dob={userInfo.dob} status={userInfo.status} team={userInfo.team}/> 
