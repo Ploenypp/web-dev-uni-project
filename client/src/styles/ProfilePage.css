@@ -36,6 +36,7 @@ body {
     display: flex;
     flex-direction: column;
     width: 25%;
+    min-width: 10em;
     height: max-content;
     gap: 0.5em;
 }
@@ -44,6 +45,7 @@ body {
     display: flex;
     flex-direction: column;
     padding: 1em;
+    gap: 0.5em;
 
     border-top: 5px double rgb(42, 45, 132);
     border-right: 5px double rgb(42, 45, 132);
@@ -65,8 +67,23 @@ body {
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: 10%;
-    justify-content:center;
+    justify-content: center;
+    gap: 0.5em;
+
+    text-align: center;
+}
+
+#p_profile {
+    display: flex;
+    flex-direction: column;
+    
+    font-family: sans-serif;
+    font-size: medium;
+    text-align: left;
+    
+    gap: 0.5em;
+    border-top: 2px solid rgba(42, 45, 132, 0.662);
+    padding-top: 1em;
 }
 
 #profile_posts {
