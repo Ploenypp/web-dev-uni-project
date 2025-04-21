@@ -37,14 +37,22 @@ function ProfileInfo(props) {
         return tmp_pfp;
     }
 
+    const date = new Date(props.dob);
+    const readableDate = date.toLocaleString('fr-FR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+
     return(<div className="ProfileInfo">
         <img src={pfp(props.fstname)} id="profile_pic" alt="profile picture"/>
                 <div id="profile_text">
-                    <p>Prénom : <strong>{props.fstname}</strong> </p> 
-                    <p>Nom : <strong>{props.surname}</strong></p>
-                    <p>Date de naissance : <strong>{props.dob}</strong> </p> 
-                    <p>Status : <strong>{props.status}</strong> </p> 
-                    <p>Équipe(s) : <strong>{props.team}</strong></p>
+                    <strong>{props.fstname} {props.surname}</strong>
+                    <div id="p_profile">
+                        <div>Né(e) : <strong>{readableDate}</strong></div>
+                        <div>Status : <strong>{props.status}</strong></div>
+                        <div>Équipe(s) : <strong>{props.team}</strong></div>
+                    </div>
                 </div>
     </div>)
 }
