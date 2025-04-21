@@ -69,7 +69,7 @@ function Comment(props) {
       console.log(userID);
       try {
           const response = await axios.post('http://localhost:8000/api/user/visit', { userID }, { withCredentials: true });
-          alert(response.data.message);
+          //alert(response.data.message);
           navigate('/user');
       } catch(err) {
           console.error("visit failed", err.response?.data?.message || err.message);
