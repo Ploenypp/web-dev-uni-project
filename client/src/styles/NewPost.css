@@ -1,21 +1,33 @@
 .NewPost {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+
     width: 100%;
 }
 
-#togglewritebtn {
+.togglewritebtn {
     font-size: medium;
-    background-color: rgba(62, 142, 199, 0.177);
-    border: 2px solid rgba(110, 158, 203, 0.183);
-    border: 0px;
-
-    margin-top: 1em;
-    margin-left: 1em;
-    margin-right: 1em;
 }
 
-#togglewritebtn:hover {
-    background-color: rgba(62, 142, 199, 0.381);
-    border: 2px solid rgba(110, 158, 203, 0.438);
+.togglewritebtn.true {
+    background-color: rgba(62, 115, 199, 0.336);
+    border: 0px;
+}
+
+.togglewritebtn.true:hover {
+    background-color: rgba(62, 115, 199, 0.484);
+}
+
+.togglewritebtn.false {
+    background-color: rgba(194, 57, 103, 0.31);
+    border: 2px solid rgba(195, 112, 140, 0.248);
+    border: 0px;
+}
+
+.togglewritebtn.false:hover {
+    background-color: rgba(194, 57, 103, 0.472);
+    border-color: rgba(195, 112, 140, 0.336);
     border: 0px;
 }
 
@@ -24,11 +36,6 @@
     display: flex;
     flex-direction: column;
     gap: 0.5em;
-
-
-    margin-top: 1em;
-    margin-left: 1em;
-    margin-right: 1em;
 
     padding: 1em;
     border-radius: 25px;
@@ -57,17 +64,12 @@
     border: 2px solid rgb(55, 76, 107);
     border-radius: 25px;
 
-    min-height: 15em;
+    height: 7.5em;
+    min-height: 7.5em;
     resize: vertical;
 
     box-sizing: border-box;
     padding: 1em;
-}
-
-#write_btns {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
 }
 
 #post_btn {
@@ -86,22 +88,4 @@
 #post_btn:hover {
     background-color: rgba(39, 151, 125, 0.408);
     border-color: rgba(110, 203, 189, 0.521);
-}
-
-#cancel_btn {
-    font-size: medium;
-
-    width: fit-content;
-    max-width: 100%;
-    white-space: nowrap;
-    
-    color: white;
-    background-color: rgba(194, 57, 103, 0.151);
-    border: 2px solid rgba(195, 112, 140, 0.248);
-    border:0px;
-}
-
-#cancel_btn:hover {
-    background-color: rgba(194, 57, 103, 0.33);
-    border-color: rgba(195, 112, 140, 0.336);
 }

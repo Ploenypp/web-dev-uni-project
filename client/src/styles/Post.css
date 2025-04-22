@@ -124,6 +124,7 @@
     color: rgb(238, 222, 226);
     background-color: rgba(207, 26, 26, 0.203);
     border: 2px solid rgba(195, 112, 112, 0.248);
+    border: 0px;
 }
 
 .thread {

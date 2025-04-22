@@ -38,7 +38,7 @@ function NewPost() {
                 content
             }, { withCredentials: true });
 
-            alert(response.data.message);
+            //alert(response.data.message);
             setShowWrite(false)
             setWriteBtnText("ouvrir une nouvelle discussion");
 
@@ -50,17 +50,12 @@ function NewPost() {
     };
 
     return(<div className="NewPost">
-        {!showWrite && (
-            <button id="togglewritebtn" type="button" onClick = {toggleShowWrite}>{writeBtnText}</button>
-        )}
+        <button className={`togglewritebtn ${!showWrite}`}type="button" onClick = {toggleShowWrite}>{writeBtnText}</button>
 
         {showWrite && (<div id="write-post">
             <input id="write-title" type="text" onChange={getTitle} placeholder="titre..."/>
             <textarea id="write-content-post" type="text" onChange={getContent} placeholder="écrivez..."></textarea>
-            <div id="write_btns">
-                <button id="post_btn" type="button" onClick={handlePublish}>publier</button>
-                <button id="cancel_btn" type="button" onClick={toggleShowWrite}>annuler</button>
-            </div>
+            <button id="post_btn" type="button" onClick={handlePublish}>publier</button>
 
         </div>)}
     </div>)

@@ -75,11 +75,8 @@ function Comment(props) {
     }
 
     return(<div className="Comment">
-        <div>
-            <div id="comment_info">
-              <button id="author_btn" type="button" onClick={handleToUser}><img id="comment_pfp" src={pfp(props.author)} alt="msg_pfp"/>{props.author}</button>
-            </div>
-        </div>
+        <button id="comment_author_btn" type="button" onClick={handleToUser}><img id="comment_pfp" src={pfp(props.author)} alt="msg_pfp"/>{props.author}</button>
+
         <div id="comment_content">
             <div id="comment_time">{readableDate}</div>
             {formatText(props.content)}

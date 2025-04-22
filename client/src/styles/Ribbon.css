@@ -70,7 +70,7 @@
     flex-direction: row;
 
     height: 3em;
-    background-color: #102232bd;
+    background-color: #1c3d5bbd;
     border: 2px solid rgb(35, 65, 85);
     border: 0px;
 
@@ -80,7 +80,7 @@
 }
 
 #chats:hover {
-    background-color: rgba(31, 68, 101, 0.743);
+    background-color: rgba(42, 99, 149, 0.743);
     border-color: rgb(45, 85, 112);
 }
 

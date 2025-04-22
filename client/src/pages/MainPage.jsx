@@ -23,8 +23,8 @@ function MainPage () {
     return(<div className="MainPage">
         <Ribbon />
         <Searchbar />
-        <NewPost />
         <div className="posts">
+          <NewPost />
           {postsContent.map((post, index) => (
             <Post
                 key={index}

@@ -49,7 +49,6 @@ function Post(props) {
     };
 
     const [comments, setComments] = useState([]);
-
     useEffect(() => {
         if (postID) {
         fetch(`http://localhost:8000/api/posts/comments?parentPostID=${postID.toString()}`, { credentials: 'include' })
@@ -60,7 +59,7 @@ function Post(props) {
             })
             .catch(err => console.error("Error fetching comments", err)
         ); }
-    }, []);
+    }, [comments]);
 
     useEffect(() => {
         if (comments.length > 0) { console.log(comments); }
@@ -125,7 +124,9 @@ function Post(props) {
             { formatText(props.content) }
         </div>
         <div id="post-btns">
-        { comments.length > 0 ? (<button id="show_thread" type="button" onClick={toggleThread}>{threadBtnText}</button>) : <button id="no_comment" type="button">pas de commentaire</button> }
+            <NewReply parentPostID={postID}/>
+            { comments.length > 0 ? (<button id="show_thread" type="button" onClick={toggleThread}>{threadBtnText}</button>) : <button id="no_comment" type="button">pas de commentaire</button> }
+        </div>
         { showThread && (
             <div className="thread">
                 { comments.map((comment,index) => (
@@ -138,8 +139,6 @@ function Post(props) {
                 )) }
             </div>
         ) }
-        <NewReply parentPostID={postID}/>
-        </div>
     </div>)
 }
 

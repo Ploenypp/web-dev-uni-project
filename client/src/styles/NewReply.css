@@ -1,8 +1,15 @@
+.NewReply {
+    display: flex;
+    flex-direction: column;
+    
+    gap: 0.5em;
+}
+
 #newreply-draft { 
     display: flex;
     flex-direction: column;
     gap: 0.5em;
-    padding: 1em;
+    padding: 0.5em;
     border-radius: 25px;
 
     background-color:rgb(20, 29, 43);
@@ -18,7 +25,8 @@
     border: 2px solid rgb(55, 76, 107);
     border-radius: 25px;
 
-    min-height: 5em;
+    height: 4em;
+    min-height: 4em;
     resize: vertical;
 
     box-sizing: border-box;
@@ -32,16 +40,17 @@
 }
 
 #reply_btn {
-    font-size: medium;
+    font-size: small;
     font-family: serif;
 
     width: fit-content;
-    max-width: 100%;
+    height: 2em;
     white-space: nowrap;
     
     color: rgb(238, 222, 226);
     background-color: rgba(39, 151, 125, 0.269);
     border: 2px solid rgba(110, 203, 189, 0.318);
+    border: 0px;
 }
 
 #reply_btn:hover {
@@ -60,6 +69,7 @@
     color: rgb(238, 222, 226);
     background-color: rgba(194, 57, 103, 0.151);
     border: 2px solid rgba(195, 112, 140, 0.248);
+    border: 0px;
 }
 
 #cancel-reply-btn:hover {
