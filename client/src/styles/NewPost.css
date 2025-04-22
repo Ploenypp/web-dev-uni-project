@@ -6,6 +6,7 @@
     font-size: medium;
     background-color: rgba(62, 142, 199, 0.177);
     border: 2px solid rgba(110, 158, 203, 0.183);
+    border: 0px;
 
     margin-top: 1em;
     margin-left: 1em;
@@ -15,6 +16,7 @@
 #togglewritebtn:hover {
     background-color: rgba(62, 142, 199, 0.381);
     border: 2px solid rgba(110, 158, 203, 0.438);
+    border: 0px;
 }
 
 #write-post {
@@ -78,6 +80,7 @@
     color: white;
     background-color: rgba(39, 151, 125, 0.269);
     border: 2px solid rgba(110, 203, 189, 0.318);
+    border: 0px;
 }
 
 #post_btn:hover {
@@ -95,6 +98,7 @@
     color: white;
     background-color: rgba(194, 57, 103, 0.151);
     border: 2px solid rgba(195, 112, 140, 0.248);
+    border:0px;
 }
 
 #cancel_btn:hover {

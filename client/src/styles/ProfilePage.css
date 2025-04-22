@@ -173,3 +173,10 @@ body {
     height: fit-content;
     padding:0.5em;
 }
+
+#no_posts {
+    color: rgb(126, 124, 106);
+    font-size:medium;
+    font-family: sans-serif;
+    align-content: top;
+}

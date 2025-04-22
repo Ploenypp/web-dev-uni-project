@@ -29,6 +29,20 @@
     border-bottom-right-radius: 25px;
 }
 
+#chat_icon {
+    width: 2em;
+    height: 3em;
+}
+
+#chat_head {
+    display: flex;
+    flex-direction: row;
+    
+    gap: 1em;
+    align-items: center;
+    justify-content: center;
+}
+
 #chat_lst {
     display: flex;
     flex-direction: column;
@@ -141,11 +155,12 @@
 #send_msg_btn {
     background-color:rgba(133, 34, 67, 0.353);
     border: 2px solid rgba(195, 112, 140, 0.416);
+    border: 0px;
+    border-radius:15px;
     font-size: medium;
 
     width: max-content;
     height: 2.5em;
-    border-radius:15px;
 }
 
 #send_msg_btn:hover {

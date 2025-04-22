@@ -4,6 +4,7 @@ import axios from 'axios';
 import Ribbon from "../objects/Ribbon.jsx";
 import Message from "../objects/Message.jsx";
 
+import icon from '../assets/heart.png';
 // profile pictures 
 import tmp_pfp from "../assets/tmp_pfp.png";
 import xemnas from "../assets/profile_pics/xemnas.png";
@@ -116,7 +117,9 @@ function ChatPage() {
         <Ribbon />
         <div id="chatpage_subcontainer">
             <div id="chat_sidebar">
-                Messages 
+              <div id="chat_head">
+                <img src={icon} id="chat_icon" alt="icon"/> Ami(e)s
+              </div>
                 <div id="chat_lst">
                     {friends.map((chat,index) => <button key={index} className={`chat_btn ${(chat.friend1ID.toString() != userID ? chat.friend1_name : chat.friend2_name) === friendName}`} type="button" onClick={() => selectChat(chat._id, (chat.friend1ID.toString() != userID ? chat.friend1_name : chat.friend2_name ))}>
                       <img id="chat_pfp" src={pfp(chat.friend1ID.toString() != userID ? chat.friend1_name : chat.friend2_name)} alt="chat_pfp"/>

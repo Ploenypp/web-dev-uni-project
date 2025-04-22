@@ -90,6 +90,7 @@ body {
 
     background-color: rgba(62, 64, 199, 0.237);
     border: 2px solid rgba(110, 112, 203, 0.204);
+    border: 0px;
 }
 
 #login_btn:hover {
@@ -108,6 +109,7 @@ body {
 
     background-color: rgba(194, 57, 103, 0.353);
     border: 2px solid rgba(195, 112, 140, 0.298);
+    border: 0px;
 }
 
 #register_btn:hover {

@@ -107,7 +107,7 @@ function OtherUserPage() {
               <Searchbar />
               <div id="profile_posts">
               <div className="posts">
-              {posts.map((post, index) => (
+              {posts && posts.length > 0 ? (posts.map((post, index) => (
                 <Post
                   key={index}
                   postID={post._id}
@@ -115,8 +115,7 @@ function OtherUserPage() {
                   author={post.author}
                   timestamp={post.timestamp}
                   content={post.content}
-                />
-              ))}
+                />))) : <div id="no_posts">Cet utilisateur n'a pas encore de publications.</div> }
               </div>
             </div>
             </div>

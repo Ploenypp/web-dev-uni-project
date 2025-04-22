@@ -1,4 +1,6 @@
 import {useState, useEffect, useRef} from 'react';
+
+import search from '../assets/search.png';
 import "../styles/Searchbar.css";
 
 function Searchbar() {
@@ -20,7 +22,7 @@ function Searchbar() {
             <label htmlFor="text-search">recherche</label>
             <input id="text-search" type="text" className="text-input" onChange={getSearchText}placeholder="chercher des mots clés, des utilisateurs..."/>
             <input id="date-search" type="date" min="1900-01-01" max="2007-12-31" onChange={getSearchDate}/>
-            <button id="submit-search" type="button">chercher</button>
+            <button id="submit-search" type="button"><img src={search} id="search_icon" alt="icon"/></button>
         </div></form>
     </div>)
 }
