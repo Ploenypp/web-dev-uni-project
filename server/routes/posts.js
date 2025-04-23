@@ -183,7 +183,7 @@ router.post('/flag-post', async(req,res) => {
             }
 
         } else {
-            await posts.insertOne({ _id: new ObjectId(postID), reports: 1 , users: [new ObjectId(userID)] });
+            await posts.insertOne({ _id: new ObjectId(postID), reports: 1, users: [new ObjectId(userID)] });
             return res.status(201).json({ message: "report success" });
         }
     } catch(err) {

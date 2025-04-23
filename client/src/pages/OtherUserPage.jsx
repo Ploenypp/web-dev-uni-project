@@ -91,7 +91,7 @@ function OtherUserPage() {
     const currentUserID = currentUser._id;
 
     return(<div className="ProfilePage">
-        <Ribbon />
+        <Ribbon pageType={false}/>
         <div id="pf_container">
             <div id="profile_sidebar"> 
               <ProfileInfo fstname={userInfo.fstname} surname={userInfo.surname} dob={userInfo.dob} status={userInfo.status} team={userInfo.team}/> 

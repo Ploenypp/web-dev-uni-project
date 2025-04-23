@@ -84,6 +84,29 @@
     border-color: rgb(45, 85, 112);
 }
 
+#forum_icon {
+    width: 2.25em;
+    height: 2.75em;
+}
+
+#forum_btn {
+    display: flex;
+    flex-direction: row;
+    height: 3em;
+    width: fit-content;
+
+    background-color: rgba(116, 48, 150, 0.783);
+    border: 0px;
+    
+    white-space: nowrap;
+    align-items: center;
+    gap: 0.5em;
+}
+
+#forum_btn:hover {
+    background-color: rgba(158, 57, 208, 0.923);
+}
+
 #logout_icon {
     width: 1.25em;
     height: 2em;

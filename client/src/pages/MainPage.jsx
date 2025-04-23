@@ -30,7 +30,7 @@ function MainPage () {
     }, [postsContent]);
 
     return(<div className="MainPage">
-        <Ribbon />
+        <Ribbon pageType={false}/>
         <Searchbar />
         <div className="posts">
           <NewPost />

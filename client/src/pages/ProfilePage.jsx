@@ -51,7 +51,7 @@ function ProfilePage() {
     }, [reqslst]);
 
     return(<div className="ProfilePage">
-        <Ribbon fstname={userInfo.fstname} surname={userInfo.surname}/>
+        <Ribbon fstname={userInfo.fstname} surname={userInfo.surname} pageType={false}/>
         <div id="pf_container">
             <div id="profile_sidebar"> 
               <ProfileInfo fstname={userInfo.fstname} surname={userInfo.surname} dob={userInfo.dob} status={userInfo.status} team={userInfo.team}/> 

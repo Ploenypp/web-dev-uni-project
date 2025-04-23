@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import logo from '../assets/org13_ribbon.png';
 import gummiphone from '../assets/gummiphone.png';
+import computer from '../assets/computer.png';
 import logout from '../assets/keyblade_icon.png';
 import "../styles/Ribbon.css";
 
@@ -25,12 +26,18 @@ import larxene from "../assets/profile_pics/larxene.png";
 import roxas from "../assets/profile_pics/roxas.png";
 import xion from "../assets/profile_pics/xion.png";
 
-function Ribbon() {
+function Ribbon(props) {
     const [name, setName] = useState("");
+    const [status, setStatus] = useState("");
+    const adminPage = props.pageType;
+
     useEffect(() => {
         fetch('http://localhost:8000/api/user/profile', { credentials: 'include' })
             .then(res => res.json())
-            .then(data => setName(data.fstname + " " + data.surname))
+            .then(data => {
+                setName(data.fstname + " " + data.surname);
+                setStatus(data.status);
+            })
             .catch(err => console.error("Error fetching user data:", err))
     }, []);
 
@@ -53,15 +60,10 @@ function Ribbon() {
     };
 
     const navigate = useNavigate();
-    const toDashboard = () => {
-        navigate("/dashboard");
-    };
-    const toProfile = () => {
-        navigate("/profile");
-    };
-    const toChats = () => {
-        navigate("/chats");
-    };
+    const toDashboard = () => { navigate("/dashboard"); };
+    const toProfile = () => { navigate("/profile"); };
+    const toChats = () => { navigate("/chats"); };
+    const toAdmin = () => { navigate("/admin"); };
 
     const handleLogout = async () => {
         try {
@@ -83,6 +85,19 @@ function Ribbon() {
             {name}
         </button>
         <button id="chats" type="button" onClick={toChats}><img src={gummiphone} id="ribbon_msg_icon" alt="icon"/>Messages</button>
+        
+        {status === "admin" && (adminPage ?
+            (<button id="forum_btn" type="button" onClick={toDashboard}>
+                <img src={computer} id="forum_icon" alt="icon" /> 
+                General
+            </button>)
+            :
+            (<button id="forum_btn" type="button" onClick={toAdmin}>
+                <img src={computer} id="forum_icon" alt="icon" /> 
+                Admin
+            </button>))
+        }
+        
         <button id="logout" type="button" onClick={handleLogout}><img src={logout} id="logout_icon" alt="icon"/>Deconnexion</button>
     </div>)
 }

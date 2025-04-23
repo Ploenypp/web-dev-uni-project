@@ -114,7 +114,7 @@ function ChatPage() {
     }
 
     return(<div className="ChatPage">
-        <Ribbon />
+        <Ribbon pageType={false}/>
         <div id="chatpage_subcontainer">
             <div id="chat_sidebar">
               <div id="chat_head">
