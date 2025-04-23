@@ -58,8 +58,8 @@ function Post(props) {
                 if (Array.isArray(data)) { setComments(data); }
                 else { setComments([]); }
             })
-            .catch(err => console.error("Error fetching comments", err)
-        ); }
+            .catch(err => console.error("Error fetching comments", err)); 
+        }
     }, [comments]);
 
     const [showThread, setShowThread] = useState(false);
@@ -73,10 +73,9 @@ function Post(props) {
             setThreadBtnText("masquer la discussion");
         }
         console.log(showThread);
-    }
+    };
 
     const navigate = useNavigate();
-
     const handleToUser = async () => {
         if (userID === currentUserID) { 
             navigate('/profile');
@@ -91,7 +90,7 @@ function Post(props) {
             console.error("visit failed", err.response?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");
         }
-    }
+    };
 
     const pfp = (name) => {
         if (name === "Xemnas Xehanort") { return xemnas; }
@@ -109,20 +108,20 @@ function Post(props) {
         if (name === "Roxas Sora") { return roxas; }
         if (name === "Xion Noi") { return xion; }
         return msg_pfp;
-    }
+    };
 
     const [showExtra, setShowExtra] = useState(false);
     const toggleExtra = () => {
         setShowExtra(!showExtra);
         if (showConfirmDel) { setShowConfirmDel(false); }
-    }
+    };
 
     const allowModif = currentUserID === userID;
 
     const [showConfirmDel, setShowConfirmDel] = useState(false);
     const toggleConfirmDel = () => {
         setShowConfirmDel(!showConfirmDel);
-    }
+    };
     const handleDelete = async () => {
         try {
             const response = await axios.post('http://localhost:8000/api/posts/delete-post', { postID }, { withCredentials: true });
@@ -131,7 +130,39 @@ function Post(props) {
             console.error("visit failed", err.response?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");
         }
-    }
+    };
+
+    const [alreadyFlagged, setAlreadyFlagged] = useState(false);
+    const updateFlaggedState = async () => {
+        try {
+            const response = await fetch(`http://localhost:8000/api/posts/get-flagged?userID=${currentUserID.toString()}&postID=${postID.toString()}`, { credentials: 'include' });
+            const data = await response.json();
+            setAlreadyFlagged(data);
+        } catch(err) {
+            console.error("Error updating flag info", err);
+        }
+    };
+
+    const handleFlag = async () => {
+        if (alreadyFlagged) {
+            try {
+                const response = await axios.post('http://localhost:8000/api/posts/unflag-post', { postID }, { withCredentials: true });
+                //alert(response.data.message);
+            } catch(err) {
+                console.error("unfailed failed", err.response?.data?.message || err.message);
+                alert(err.response?.data?.message || "Something went wrong");
+            }
+        } else {
+            try {
+                const response = await axios.post('http://localhost:8000/api/posts/flag-post', { postID }, { withCredentials: true });
+                //alert(response.data.message);
+            } catch(err) {
+                console.error("flagging failed", err.response?.data?.message || err.message);
+                alert(err.response?.data?.message || "Something went wrong");
+            }
+        }
+        updateFlaggedState();
+    };
 
     return(<div className="Post">
         <div id="post_head">
@@ -148,7 +179,8 @@ function Post(props) {
                             
                             <button id="edit_post" type="button">✎</button>
                         </div>)}
-                        {!allowModif && (<button id="flag_post_btn" type="button">⚐</button>)}
+
+                        {!allowModif && (<button className={`flag_post_btn ${alreadyFlagged}`} type="button" onClick={handleFlag}>{!alreadyFlagged ? ("⚐") : ("⚑")}</button>)}
                     </div>)}
     
                     <button className={`extra_post_btn ${showExtra}`}type="button" onClick={toggleExtra}>⋯</button>

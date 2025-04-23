@@ -160,7 +160,7 @@
     background-color: rgba(20, 48, 125, 0.582);
 }
 
-#flag_post_btn {
+.flag_post_btn {
     display: flex;
     background-color:rgba(45, 56, 86, 0.222);
     border: 0px;
@@ -173,7 +173,13 @@
     padding: 0.25em;
 }
 
-#flag_post_btn:hover {
+.flag_post_btn.true {
+    background-color:rgba(45, 56, 86, 0.222);
+    border: 2px solid rgba(194, 57, 103, 0.18);
+    color: rgba(194, 57, 103, 0.532);
+}
+
+.flag_post_btn.false:hover {
     background-color: rgba(194, 57, 103, 0.33);
 }
 
@@ -219,11 +225,7 @@
     font-size: medium;
 }
 
-#post-btns {
-    font-family: serif;
-    display: flex;
-
-    gap: 0.5em;
+#post_btns {
     padding-top: 0.5em;
     border-top: 1px solid rgb(43, 57, 96);
 }

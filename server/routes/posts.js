@@ -145,10 +145,111 @@ router.post('/delete-post', async(req,res) => {
         await posts.deleteOne({ _id: new ObjectId(postID) });
         await comments.deleteMany({ parentPostID: new ObjectId(postID) });
 
-        res.status(201).json({ message: "suppression réussie" });
+        res.status(200).json({ message: "suppression réussie" });
     } catch(err) {
         console.error("deletion error:",err);
-        res.status(500).json({ message: "Internal server error"});
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+router.post('/flag-post', async(req,res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ message: "pas connecté" });
+    }
+    
+    const userID = req.session.userId;
+    const { postID } = req.body;
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const posts = db.collection("flagged_posts");
+
+        const alreadyFlagged = await posts.findOne({ _id: new ObjectId(postID) });
+        if (alreadyFlagged) { 
+            const byUser = alreadyFlagged.users.some((id) => id.toString() === userID.toString());
+
+            if (!byUser) { 
+                await posts.updateOne(
+                    { _id: new ObjectId(postID) }, 
+                    {
+                        $inc: { reports: 1 },
+                        $push: {users: new ObjectId(userID) } 
+                    }
+                ); 
+                return res.status(201).json({ message: "report success" });
+            } else {
+                return res.status(201).json({ message: "user already reported" });
+            }
+
+        } else {
+            await posts.insertOne({ _id: new ObjectId(postID), reports: 1 , users: [new ObjectId(userID)] });
+            return res.status(201).json({ message: "report success" });
+        }
+    } catch(err) {
+        console.error("report error", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+router.get('/get-flagged', async(req,res) => {
+    const {userID, postID } = req.query;
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const post = await db.collection("flagged_posts").findOne({ _id: new ObjectId(postID) });
+
+        if (post) {
+            const byUser = Array.isArray(post.users) && post.users.some((id) => id.toString() === userID.toString());
+
+             return res.status(200).json(byUser);
+        } else {
+            return res.status(200).json(false);
+        }
+    } catch(err) {
+        console.error("get report info error", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+router.post('/unflag-post', async(req,res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ message: "pas connecté" });
+    }
+
+    const userID = req.session.userId;
+    const { postID } = req.body;
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const posts = db.collection("flagged_posts");
+        const post = await posts.findOne({ _id: new ObjectId(postID) });
+
+        if (post) {
+            const user = post.users.some((id) => id.toString() === userID.toString());
+            
+            if (user) {
+                await posts.updateOne( 
+                    { _id: new ObjectId(postID) },
+                    {
+                        $inc: { reports: -1 },
+                        $pull: {users: new ObjectId(userID) }
+                    }
+                );
+                
+                if (post.reports <= 1) { await posts.deleteOne({ _id: new ObjectId(postID) }); }
+
+                return res.status(200).json({ message: "unflag success" });
+            }
+
+            return res.status(200).json({ message: "user didn't report" });
+        } 
+        return res.status(200).json({ message: "post wasn't flagged" });
+    } catch(err) {
+        console.error("unflag error",err);
+        res.status(500).error({ message: "Internal server error" });
     }
 });
 
