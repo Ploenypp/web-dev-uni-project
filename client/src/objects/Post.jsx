@@ -62,10 +62,6 @@ function Post(props) {
         ); }
     }, [comments]);
 
-    useEffect(() => {
-        if (comments.length > 0) { console.log(comments); }
-    },[comments])
-
     const [showThread, setShowThread] = useState(false);
     const [threadBtnText, setThreadBtnText] = useState("afficher la discussion")
     const toggleThread = () => {
@@ -82,8 +78,11 @@ function Post(props) {
     const navigate = useNavigate();
 
     const handleToUser = async () => {
-        console.log(userID);
-        if (userID.toString() === currentUserID.toString()) { navigate('/profile'); }
+        if (userID === currentUserID) { 
+            navigate('/profile');
+            return ;
+        }
+
         try {
             const response = await axios.post('http://localhost:8000/api/user/visit', { userID }, { withCredentials: true });
             //alert(response.data.message);
@@ -118,7 +117,7 @@ function Post(props) {
         if (showConfirmDel) { setShowConfirmDel(false); }
     }
 
-    const allowModif = currentUserID.toString() === userID.toString();
+    const allowModif = currentUserID === userID;
 
     const [showConfirmDel, setShowConfirmDel] = useState(false);
     const toggleConfirmDel = () => {
@@ -173,6 +172,7 @@ function Post(props) {
                 { comments.map((comment,index) => (
                     <Comment 
                     key={index}
+                    currentUserID={currentUserID}
                     userID={comment.userID}
                     author={comment.author}
                     timestamp={comment.timestamp}

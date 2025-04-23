@@ -24,6 +24,7 @@ import xion from "../assets/profile_pics/xion.png";
 import msg_pfp from "../assets/msg_pfp.png";
 
 function Comment(props) {
+    const currentUserID = props.currentUserID;
     const userID = props.userID;
     const date = new Date(props.timestamp);
     const readableDate = date.toLocaleString('fr-FR', {
@@ -63,7 +64,10 @@ function Comment(props) {
 
     const navigate = useNavigate();
     const handleToUser = async () => {
-      console.log(userID);
+        if (userID === currentUserID) { 
+            navigate('/profile');
+            return ;
+        }
       try {
           const response = await axios.post('http://localhost:8000/api/user/visit', { userID }, { withCredentials: true });
           //alert(response.data.message);

@@ -12,12 +12,7 @@ import ProfileInfo from "../objects/ProfileInfo";
 import RequestLst from "../objects/RequestLst.jsx";
 
 function ProfilePage() {
-    const navigate = useNavigate();
-    const toChats = () => {
-      navigate("/chats");
-    }
-
-    const [userInfo, setUserInfo] = useState("");
+	const [userInfo, setUserInfo] = useState("");
     useEffect(() => {
         fetch('http://localhost:8000/api/user/profile', { credentials: 'include' })
             .then(res => res.json())
@@ -25,6 +20,11 @@ function ProfilePage() {
             .catch(err => console.error("Error fetching user data:", err));
     }, []);
 	const currentUserID = userInfo._id;
+
+    const navigate = useNavigate();
+    const toChats = () => {
+      navigate("/chats");
+    }
 
     const [posts, setPosts] = useState([]);
     useEffect(() => {
@@ -37,7 +37,7 @@ function ProfilePage() {
         })
 
         .catch(err=> console.error("Error fetching user posts", err));
-    }, []);
+    }, [posts]);
 
     const [reqslst, setReqLst] = useState([]);
     useEffect(() => {
@@ -66,6 +66,7 @@ function ProfilePage() {
                 <Post
                   key={index}
                   postID={post._id}
+				  userID={post.userID}
                   title={post.title}
                   author={post.author}
                   timestamp={post.timestamp}
