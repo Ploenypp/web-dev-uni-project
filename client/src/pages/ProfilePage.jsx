@@ -24,6 +24,7 @@ function ProfilePage() {
             .then(data => setUserInfo(data))
             .catch(err => console.error("Error fetching user data:", err));
     }, []);
+	const currentUserID = userInfo._id;
 
     const [posts, setPosts] = useState([]);
     useEffect(() => {
@@ -69,6 +70,7 @@ function ProfilePage() {
                   author={post.author}
                   timestamp={post.timestamp}
                   content={post.content}
+				  currentUserID={currentUserID}
                 />))) : <div id="no_posts">Vous n'avez pas encore de publications.</div> }
               </div>
             </div>

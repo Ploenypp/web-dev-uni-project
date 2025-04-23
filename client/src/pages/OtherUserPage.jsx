@@ -88,6 +88,7 @@ function OtherUserPage() {
             .then(data => setCurrentUser(data))
             .catch(err => console.error("Error fetching user data:", err));
     }, []);
+    const currentUserID = currentUser._id;
 
     return(<div className="ProfilePage">
         <Ribbon />
@@ -115,6 +116,7 @@ function OtherUserPage() {
                   author={post.author}
                   timestamp={post.timestamp}
                   content={post.content}
+                  currentUserID={currentUserID}
                 />))) : <div id="no_posts">Cet utilisateur n'a pas encore de publications.</div> }
               </div>
             </div>

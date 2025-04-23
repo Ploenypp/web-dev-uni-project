@@ -22,8 +22,159 @@
     border-bottom: 1px solid rgb(43, 57, 96);
 }
 
+#post_top {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+
+    justify-content: space-between;
+}
+
 #post_title {
     font-family: serif;
+}
+
+.extra_post_btn {
+    display: flex;
+    background-color:rgba(45, 56, 86, 0.222);
+    border: 0px;
+    border-radius: 25px;
+
+    width: 2em;
+    height: 2em;
+    justify-content: center;
+    align-items: center;
+    padding: 0.25em;
+}
+
+.extra_post_btn.false:hover {
+    background-color:rgba(45, 56, 86, 0.396);
+}
+
+.extra_post_btn.true {
+    background-color:rgba(45, 56, 86, 0.396);
+}
+
+.extra_post_btn.true:hover {
+    background-color:rgba(45, 56, 86, 0.222);
+}
+
+#post_extra {
+    display: flex;
+    flex-direction: row;
+
+    align-self:flex-start;
+    align-items: center;
+    gap: 0.5em;
+
+    background-color:rgba(45, 56, 86, 0.218);
+    border-radius:50px;
+}
+
+#user_extra_btns {
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+    gap: 0.25em;
+}
+
+#del_post {
+    font-size: medium;
+    
+    width: 2em;
+    height: 2em;
+
+    justify-content: center;
+    align-items: center;
+    
+    padding-left: 0.45em;
+
+    color: rgb(238, 222, 226);
+    background-color: rgba(34, 54, 114, 0.283);
+    border: 0px;
+}
+
+#del_post:hover {
+    background-color: rgba(194, 57, 103, 0.33);
+}
+
+#confirm_del_post {
+    font-size: medium;
+    
+    width: 2em;
+    height: 2em;
+
+    justify-content: center;
+    align-items: center;
+    
+    padding-left: 0.45em;
+
+    color: rgb(238, 222, 226);
+    background-color: rgba(194, 57, 103, 0.33);
+    border: 0px;
+}
+
+#confirm_del_post:hover {
+    background-color: rgba(212, 17, 82, 0.629);
+}
+
+#rev_del_post {
+    font-size: medium;
+    
+    width: 2em;
+    height: 2em;
+
+    justify-content: center;
+    align-items: center;
+    
+    padding-top: 0.25em;
+    padding-left: 0.45em;
+
+    color: rgb(238, 222, 226);
+    background-color: rgba(30, 58, 140, 0.482);
+    border: 0px;
+}
+
+#rev_del_post:hover {
+    background-color: rgba(17, 52, 148, 0.662);
+}
+
+#edit_post {
+    font-size: medium;
+    
+    width: 2em;
+    height: 2em;
+
+    justify-content: center;
+    align-items: center;
+
+    padding-left: 0.6em;
+        
+    color: rgb(238, 222, 226);
+    background-color: rgba(34, 54, 114, 0.283);
+    border: 0px;
+}
+
+#edit_post:hover {
+    background-color: rgba(20, 48, 125, 0.582);
+}
+
+#flag_post_btn {
+    display: flex;
+    background-color:rgba(45, 56, 86, 0.222);
+    border: 0px;
+    border-radius: 25px;
+
+    width: 2em;
+    height: 2em;
+    justify-content: center;
+    align-items: center;
+    padding: 0.25em;
+}
+
+#flag_post_btn:hover {
+    background-color: rgba(194, 57, 103, 0.33);
 }
 
 #author_btn {
@@ -71,7 +222,6 @@
 #post-btns {
     font-family: serif;
     display: flex;
-    flex-direction: column;
 
     gap: 0.5em;
     padding-top: 0.5em;
@@ -86,14 +236,12 @@
     white-space: nowrap;
     
     color: rgb(238, 222, 226);
-    background-color: rgba(194, 57, 103, 0.151);
-    border: 2px solid rgba(195, 112, 140, 0.248);
+    background-color: rgba(59, 121, 236, 0.266);
     border: 0px;
 }
 
 #reply_post:hover {
-    background-color: rgba(194, 57, 103, 0.33);
-    border-color: rgba(195, 112, 140, 0.336);
+    background-color:rgba(59, 121, 236, 0.523);
 }
 
 #show_thread {
@@ -104,14 +252,12 @@
     white-space: nowrap;
     
     color: rgb(238, 222, 226);
-    background-color: rgba(194, 57, 103, 0.151);
-    border: 2px solid rgba(195, 112, 140, 0.248);
+    background-color: rgba(59, 121, 236, 0.266);
     border: 0px;
 }
 
 #show_thread:hover {
-    background-color: rgba(194, 57, 103, 0.33);
-    border-color: rgba(195, 112, 140, 0.336);
+    background-color: rgba(59, 121, 236, 0.523);
 }
 
 #no_comment {

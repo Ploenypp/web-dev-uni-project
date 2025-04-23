@@ -129,4 +129,27 @@ router.get('/visit-user-posts', async(req,res) => {
     }
 });
 
+router.post('/delete-post', async(req,res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ message: "pas connecté" });
+    }
+
+    const { postID } = req.body;
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const posts = db.collection("posts");
+        const comments = db.collection("comments");
+
+        await posts.deleteOne({ _id: new ObjectId(postID) });
+        await comments.deleteMany({ parentPostID: new ObjectId(postID) });
+
+        res.status(201).json({ message: "suppression réussie" });
+    } catch(err) {
+        console.error("deletion error:",err);
+        res.status(500).json({ message: "Internal server error"});
+    }
+});
+
 module.exports = router;

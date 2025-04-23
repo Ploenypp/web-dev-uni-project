@@ -26,6 +26,7 @@ import xion from "../assets/profile_pics/xion.png";
 import msg_pfp from "../assets/msg_pfp.png";
 
 function Post(props) {
+    const currentUserID = props.currentUserID;
     const postID = props.postID;
     const userID = props.userID;
     const date = new Date(props.timestamp);
@@ -66,9 +67,7 @@ function Post(props) {
     },[comments])
 
     const [showThread, setShowThread] = useState(false);
-
     const [threadBtnText, setThreadBtnText] = useState("afficher la discussion")
-
     const toggleThread = () => {
         if (showThread) {
             setShowThread(false);
@@ -84,6 +83,7 @@ function Post(props) {
 
     const handleToUser = async () => {
         console.log(userID);
+        if (userID.toString() === currentUserID.toString()) { navigate('/profile'); }
         try {
             const response = await axios.post('http://localhost:8000/api/user/visit', { userID }, { withCredentials: true });
             //alert(response.data.message);
@@ -112,9 +112,49 @@ function Post(props) {
         return msg_pfp;
     }
 
+    const [showExtra, setShowExtra] = useState(false);
+    const toggleExtra = () => {
+        setShowExtra(!showExtra);
+        if (showConfirmDel) { setShowConfirmDel(false); }
+    }
+
+    const allowModif = currentUserID.toString() === userID.toString();
+
+    const [showConfirmDel, setShowConfirmDel] = useState(false);
+    const toggleConfirmDel = () => {
+        setShowConfirmDel(!showConfirmDel);
+    }
+    const handleDelete = async () => {
+        try {
+            const response = await axios.post('http://localhost:8000/api/posts/delete-post', { postID }, { withCredentials: true });
+            //alert(response.data.message);
+        } catch(err) {
+            console.error("visit failed", err.response?.data?.message || err.message);
+            alert(err.response?.data?.message || "Something went wrong");
+        }
+    }
+
     return(<div className="Post">
         <div id="post_head">
-            <div id="post_title">{props.title}</div>
+            <div id="post_top">
+                <div id="post_title">{props.title}</div>
+                <div id="post_extra">
+                    {showExtra && (<div>
+                        {allowModif && (<div id="user_extra_btns">
+                            {!showConfirmDel && (<button id="del_post" type="button" onClick={toggleConfirmDel}>⌦</button>)}
+                            
+                            {showConfirmDel &&(<button id="confirm_del_post" type="button" onClick={handleDelete}>⌦</button>)}
+                            
+                            {showConfirmDel && (<button id="rev_del_post" type="button" onClick={toggleConfirmDel}>↩︎</button>)}
+                            
+                            <button id="edit_post" type="button">✎</button>
+                        </div>)}
+                        {!allowModif && (<button id="flag_post_btn" type="button">⚐</button>)}
+                    </div>)}
+    
+                    <button className={`extra_post_btn ${showExtra}`}type="button" onClick={toggleExtra}>⋯</button>
+                </div>
+            </div>
             <div id="post_info">
                 <button id="author_btn" type="button" onClick={handleToUser}><img id="post_pfp" src={pfp(props.author)} alt="msg_pfp"/> {props.author}</button> 
                 {readableDate}
@@ -123,8 +163,9 @@ function Post(props) {
         <div id="post_content">
             { formatText(props.content) }
         </div>
-        <div id="post-btns">
-            <NewReply parentPostID={postID}/>
+        <div id="post_btns">
+            <NewReply parentPostID={postID} />
+            
             { comments.length > 0 ? (<button id="show_thread" type="button" onClick={toggleThread}>{threadBtnText}</button>) : <button id="no_comment" type="button">pas de commentaire</button> }
         </div>
         { showThread && (
@@ -138,7 +179,7 @@ function Post(props) {
                     content={comment.content} />
                 )) }
             </div>
-        ) }
+        )}
     </div>)
 }
 
