@@ -183,6 +183,11 @@
     background-color: rgba(194, 57, 103, 0.33);
 }
 
+.flag_post_btn.true:hover {
+    border: 2px solid rgba(7, 237, 7, 0.132);
+    color: rgba(7, 237, 7, 0.463);
+}
+
 #author_btn {
     display: flex;
     flex-direction: row;
