@@ -24,31 +24,21 @@
     border-bottom: 5px double rgba(97, 15, 128, 0.813);
 }
 
-#reg_req_btn {
+.admin_selection_btn {
     background-color:rgb(67, 9, 88);
     border: 0px;
 }
 
-#reg_req_btn:hover {
+.admin_selection_btn:hover {
     background-color:rgb(85, 9, 113);
 }
 
-#flagged_btn {
-    background-color:rgb(67, 9, 88);
-    border: 0px;
+.admin_selection_btn.true {
+    background-color:rgb(115, 11, 152);
 }
 
-#flagged_btn:hover {
-    background-color:rgb(67, 9, 88);
-}
-
-#members_btn {
-    background-color:rgb(67, 9, 88);
-    border: 0px;
-}
-
-#members_btn {
-    background-color:rgb(67, 9, 88);
+.admin_selection_btn.true:hover {
+    background-color:rgb(85, 9, 113);
 }
 
 #flagged_posts {

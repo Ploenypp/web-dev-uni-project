@@ -8,7 +8,6 @@ import '../styles/Admin.css';
 
 function AdminPage() {
     const [showDuty, setShowDuty] = useState("none");
-
     const toggleRegistrations = () => {
         if (showDuty === "registrations") { setShowDuty("none"); }
         else { setShowDuty("registrations"); }
@@ -34,11 +33,11 @@ function AdminPage() {
         <Ribbon pageType={true} />
         <div id="admin_container">
             <div id="admin_selectionbar">
-                <button id="reg_req_btn" type="button" onClick={toggleRegistrations}>Inscriptions</button>
+                <button className={`admin_selection_btn ${showDuty === "registrations"}`} type="button" onClick={toggleRegistrations}>Inscriptions</button>
                 
-                <button id="flagged_btn" type="button" onClick={toggleFlagged}>Publications signalées</button>
+                <button className={`admin_selection_btn ${showDuty === "flagged"}`} type="button" onClick={toggleFlagged}>Publications signalées</button>
                 
-                <button id="members_btn" type="button" onClick={toggleUsers}>Membres</button>
+                <button className={`admin_selection_btn ${showDuty === "users"}`} type="button" onClick={toggleUsers}>Membres</button>
             </div>
             <div id="admin_workspace">
                 {showDuty === "flagged" && (<div id="admin_subcontainer">
