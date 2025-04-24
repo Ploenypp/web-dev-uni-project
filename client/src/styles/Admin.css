@@ -199,3 +199,142 @@
 #del_alert_flagged_btn:hover {
     background-color: rgba(178, 21, 21, 0.524);
 }
+
+#users_lst {
+    display: flex;
+    flex-direction: column;
+
+    padding: 0.5em;
+    gap: 0.5em;
+}
+
+.UserAdminCard {
+    display: flex;
+    flex-direction: row;
+
+    font-size: medium;
+    background-color: rgb(19, 3, 30);
+
+    gap: 1em;
+    padding: 1em;
+    border-radius: 25px;
+}
+
+#user_facts {
+    display: flex;
+    flex-direction: column;
+
+    background-color: rgba(53, 13, 86, 0.668);
+    font-family: sans-serif;
+    color:rgb(206, 145, 228);
+
+    width: fit-content;
+    padding: 1em;
+    border-radius: 25px;
+    gap: 0.5em;
+}
+
+#user_name {
+    font-family: serif;
+    font-size: 1.5em;
+    color: white;
+}
+
+#user_modif {
+    display: flex;
+    flex-direction: row;
+
+    height: auto;
+
+    gap: 2em;
+}
+
+#user_modif_btns {
+    display: flex;
+    flex-direction: column;
+    
+    height: 100%;
+    width: fit-content;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#update_status_btn {
+    background-color: rgba(54, 12, 89, 0.724);
+    border: 0px;
+
+    width: 100%;
+    padding-bottom: 0.25em;
+}
+
+#update_status_btn:hover {
+    background-color: rgba(83, 11, 142, 0.724);
+}
+
+#assign_team_btn {
+    background-color: rgba(54, 12, 89, 0.724);
+    border: 0px;
+}
+
+#assign_team_btn:hover {
+    background-color: rgba(83, 11, 142, 0.724);
+}
+
+#rem_user_btn {
+    background-color: rgba(178, 21, 21, 0.357);
+    border: 0px;
+}
+
+#rem_user_btn:hover {
+    background-color: rgba(178, 21, 21, 0.524);
+}
+
+#admin_card_pfp {
+    width: 9em;
+    height: 9em;
+    border-radius: 75px;
+}
+
+#ops_user {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    gap: 0.5em;
+    justify-content: center;
+}
+
+#assign_team_form {
+    display: flex;
+    flex-direction: row;
+
+    width: 100%;
+    height: fit-content;
+    gap: 1em;
+
+    align-items: center;
+}
+
+#assigned_team {
+    box-sizing: border-box;
+    height: 2.5em;
+    width: 100%;
+
+    padding-inline: 1em;
+    border-radius: 25px;
+    border: 3px solid rgba(52, 11, 86, 0.724);
+
+    color:rgba(255, 255, 255, 0.708);
+    font-family: sans-serif;
+    background-color: rgba(37, 8, 63, 0.724);
+}
+
+#confirm_team_btn {
+    background-color: rgba(54, 12, 89, 0.724);
+    border: 0px;
+    height: 2em;
+}
+
+#confirm_team_btn:hover {
+    background-color: rgba(0, 128, 0, 0.749);
+}

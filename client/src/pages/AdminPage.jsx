@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import Ribbon from '../objects/Ribbon';
 import FlaggedChk from '../objects/admin_aux/FlaggedChk';
+import UserAdminCard from '../objects/admin_aux/UserAdminCard';
 
 import '../styles/Admin.css';
 
@@ -29,6 +30,14 @@ function AdminPage() {
             .catch(err => console.error("error fetching flagged posts", err));
     },[]);
 
+    const [allUsers, setAllUsers] = useState([]);
+    useEffect(() => {
+        fetch('http://localhost:8000/api/admin/all-users', { credentials: 'include' })
+            .then(res => res.json())
+            .then(data => setAllUsers(data))
+            .catch(err => console.error("error fetching all users", err));
+    },[]);
+
     return(<div className="AdminPage">
         <Ribbon pageType={true} />
         <div id="admin_container">
@@ -53,6 +62,14 @@ function AdminPage() {
                                 reports={post.reports}
                             />
                         ))}
+                    </div>
+                </div>)}
+
+                {showDuty === "users" && (<div id="users_subcontainer">
+                    <div id="users_lst">
+                    {Array.isArray(allUsers) && allUsers.map((user,index) => (
+                        <UserAdminCard key={index} userID={user._id} fstname={user.fstname} surname={user.surname} dob={user.dob} status={user.status} team={user.team} />
+                    ))}
                     </div>
                 </div>)}
             </div>

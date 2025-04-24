@@ -50,8 +50,8 @@ function ProfileInfo(props) {
                     <strong>{props.fstname} {props.surname}</strong>
                     <div id="p_profile">
                         <div>Né(e) : <strong>{readableDate}</strong></div>
-                        <div>Status : <strong>{props.status}</strong></div>
-                        <div>Équipe(s) : <strong>{props.team}</strong></div>
+                        <div>Statut : <strong>{props.status}</strong></div>
+                        <div>Équipe : <strong>{props.team}</strong></div>
                     </div>
                 </div>
     </div>)
