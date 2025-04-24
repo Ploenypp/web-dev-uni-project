@@ -78,20 +78,25 @@ function UserAdminCard(props) {
         </div>
         <div id="user_modif">
             <div id="user_modif_btns">
-                <button id="update_status_btn" type="button" onClick={toggleStatus}>
-                    {status === "member" ? (<div>↑</div>) : (<div>↓</div>)}
+                <button className={`update_status_btn ${btnSelected === "status"}`} type="button" onClick={toggleStatus}>
+                    {btnSelected === "status" ? 
+                        (status === "member" ? (<div>↑ promouvoyez</div>) : (<div>↓ rétrogradez</div>)) : 
+                        
+                        (status === "member" ? (<div>↑</div>) : (<div>↓</div>)) }
                 </button>
 
-                <button id="assign_team_btn" type="button" onClick={toggleTeam}>⇄</button>
+                <button className={`assign_team_btn ${btnSelected === "team"}`} type="button" onClick={toggleTeam}>
+                    {btnSelected === "team" ? (<div>⇄ attribuez une équipe</div>) : (<div>⇄</div>)}
+                </button>
+                {btnSelected === "team" && (<input id="assigned_team" type="text"></input>)}
 
-                <button id="rem_user_btn" type="button" onClick={toggleRemove}>⌫</button>
+                <button className={`rem_user_btn ${btnSelected === "remove"}`} type="button" onClick={toggleRemove}>
+                    {btnSelected === "remove" ? (<div>⌫ enlevez</div>) : (<div>⌫</div>)}
+                </button>
             </div>
-            {btnSelected === "team" && (<div id="ops_user">
-                    <div>attribuez {props.fstname} {props.surname} à une équipe</div>
-                    <div id="assign_team_form">
-                        <input id="assigned_team" type="text"></input>
-                        <button id="confirm_team_btn" type="button">✍︎</button>
-                    </div>
+
+            {btnSelected != "none" && (<div id="confirm_ops">
+                <button className={`confirm_ops_btn ${btnSelected}`} type="button">confirmer</button>
             </div>)}
         </div>
     </div>)

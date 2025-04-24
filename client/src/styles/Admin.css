@@ -204,8 +204,10 @@
     display: flex;
     flex-direction: column;
 
-    padding: 0.5em;
+    padding: 1em;
     gap: 0.5em;
+
+    align-items: center;
 }
 
 .UserAdminCard {
@@ -215,7 +217,8 @@
     font-size: medium;
     background-color: rgb(19, 3, 30);
 
-    gap: 1em;
+    width: fit-content;
+    gap: 2em;
     padding: 1em;
     border-radius: 25px;
 }
@@ -245,6 +248,7 @@
     flex-direction: row;
 
     height: auto;
+    width: auto;
 
     gap: 2em;
 }
@@ -254,39 +258,58 @@
     flex-direction: column;
     
     height: 100%;
-    width: fit-content;
+    width: max-content;
     justify-content: space-between;
     align-items: center;
 }
 
-#update_status_btn {
+.update_status_btn {
     background-color: rgba(54, 12, 89, 0.724);
     border: 0px;
 
-    width: 100%;
+    width: 13em;
+    white-space: nowrap;
     padding-bottom: 0.25em;
 }
 
-#update_status_btn:hover {
+.update_status_btn.true {
+    background-color: rgba(103, 13, 177, 0.822);
+}
+
+.update_status_btn:hover {
     background-color: rgba(83, 11, 142, 0.724);
 }
 
-#assign_team_btn {
+.assign_team_btn {
     background-color: rgba(54, 12, 89, 0.724);
     border: 0px;
+
+    width: 13em;
+    white-space: nowrap;
 }
 
-#assign_team_btn:hover {
+.assign_team_btn.true {
+    background-color: rgba(103, 13, 177, 0.822);
+}
+
+.assign_team_btn:hover {
     background-color: rgba(83, 11, 142, 0.724);
 }
 
-#rem_user_btn {
-    background-color: rgba(178, 21, 21, 0.357);
+.rem_user_btn {
+    background-color: rgba(54, 12, 89, 0.724);
     border: 0px;
+
+    width: 13em;
+    white-space: nowrap;
 }
 
-#rem_user_btn:hover {
-    background-color: rgba(178, 21, 21, 0.524);
+.rem_user_btn.true {
+    background-color: rgba(103, 13, 177, 0.822);
+}
+
+.rem_user_btn:hover {
+    background-color: rgba(83, 11, 142, 0.724);
 }
 
 #admin_card_pfp {
@@ -298,27 +321,16 @@
 #ops_user {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: auto;
 
     gap: 0.5em;
     justify-content: center;
 }
 
-#assign_team_form {
-    display: flex;
-    flex-direction: row;
-
-    width: 100%;
-    height: fit-content;
-    gap: 1em;
-
-    align-items: center;
-}
-
 #assigned_team {
     box-sizing: border-box;
     height: 2.5em;
-    width: 100%;
+    width: 17.5em;
 
     padding-inline: 1em;
     border-radius: 25px;
@@ -327,14 +339,23 @@
     color:rgba(255, 255, 255, 0.708);
     font-family: sans-serif;
     background-color: rgba(37, 8, 63, 0.724);
+
+    align-self: center;
 }
 
-#confirm_team_btn {
+.confirm_ops_btn {
     background-color: rgba(54, 12, 89, 0.724);
     border: 0px;
-    height: 2em;
+    width: fit-content;
+    height: 8em;
+
+    justify-self: center;
 }
 
-#confirm_team_btn:hover {
+.confirm_ops_btn:hover {
     background-color: rgba(0, 128, 0, 0.749);
+}
+
+.confirm_ops_btn.remove:hover {
+    background-color: rgba(186, 15, 15, 0.713);
 }
