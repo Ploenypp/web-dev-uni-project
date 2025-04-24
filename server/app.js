@@ -7,6 +7,7 @@ const authRoutes = require('./routes/auth.js');
 const postRoutes = require('./routes/posts.js');
 const userRoutes = require('./routes/user.js');
 const messagesRoutes = require('./routes/messages.js');
+const adminRoutes = require('./routes/admin.js');
 
 require('dotenv').config();
 
@@ -38,6 +39,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/messages', messagesRoutes);
+app.use('/api/admin', adminRoutes);
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {

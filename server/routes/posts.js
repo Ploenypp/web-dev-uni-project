@@ -163,14 +163,20 @@ router.post('/flag-post', async(req,res) => {
     try {
         await client.connect();
         const db = client.db("IN017");
-        const posts = db.collection("flagged_posts");
+        const flagged_posts = db.collection("flagged_posts");
 
-        const alreadyFlagged = await posts.findOne({ _id: new ObjectId(postID) });
+        const post = await db.collection("posts").findOne({ _id: new ObjectId(postID) });
+        const authorID = post.userID;
+        const author = post.author;
+        const title = post.title;
+        const content= post.content;
+
+        const alreadyFlagged = await flagged_posts.findOne({ _id: new ObjectId(postID) });
         if (alreadyFlagged) { 
             const byUser = alreadyFlagged.users.some((id) => id.toString() === userID.toString());
 
             if (!byUser) { 
-                await posts.updateOne(
+                await flagged_posts.updateOne(
                     { _id: new ObjectId(postID) }, 
                     {
                         $inc: { reports: 1 },
@@ -183,7 +189,15 @@ router.post('/flag-post', async(req,res) => {
             }
 
         } else {
-            await posts.insertOne({ _id: new ObjectId(postID), reports: 1, users: [new ObjectId(userID)] });
+            await flagged_posts.insertOne({ 
+                _id: new ObjectId(postID),
+                reports: 1,
+                users: [new ObjectId(userID)],
+                authorID: authorID,
+                author: author,
+                title: title,
+                content: content
+            });
             return res.status(201).json({ message: "report success" });
         }
     } catch(err) {
