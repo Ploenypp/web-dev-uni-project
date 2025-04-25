@@ -32,5 +32,18 @@ router.get('/all-users', async(req,res) => {
     }
 });
 
+router.get('/registrations', async(req,res) => {
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const regs = db.collection("registrations").find().sort({ '_id': 1 });
+        const registrations = await regs.toArray();
+        res.json(registrations);
+    } catch(err) {
+        console.error("users not found",err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 
 module.exports = router;

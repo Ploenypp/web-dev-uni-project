@@ -17,7 +17,7 @@
     gap: 0.5em;
     height: fit-content;
     width: auto;
-    justify-content: space-between;
+    justify-content: space-around;
     padding: 0.5em;
 
     background-color: rgba(37, 7, 48, 0.813);
@@ -358,4 +358,170 @@
 
 .confirm_ops_btn.remove:hover {
     background-color: rgba(186, 15, 15, 0.713);
+}
+
+#registrations_lst {
+    display: flex;
+    flex-direction: column;
+
+    padding: 1em;
+    gap: 0.5em;
+
+    align-items: center;
+}
+
+.Registration {
+    display: flex;
+    flex-direction: row;
+
+    background-color: rgb(19, 3, 30);
+
+    width: fit-content;
+    gap: 1em;
+    padding: 1em;
+    border-radius: 25px;
+
+    align-items: center;
+}
+
+#reg_info {
+    display: flex;
+    flex-direction: column;
+
+    font-size: 0.75em;
+    font-family: sans-serif;
+    color: rgb(206, 145, 228);
+
+    background-color: rgba(53, 13, 86, 0.668);
+    border-radius: 25px;
+    padding: 1em;
+
+    white-space: nowrap;
+    width: fit-content;
+    gap: 0.5em;
+}
+
+#reg_name {
+    font-size: 2em;
+    font-family: serif;
+    color: white;
+}
+
+#reg_btns {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.5em;
+}
+
+.accept_reg_btn {
+    display: flex;
+
+    background-color: rgba(0, 128, 0, 0.529);
+    border: 0px;
+
+    width: 4em;
+    height: 3em;
+    justify-content: center;
+    align-items: center;
+}
+
+.accept_reg_btn.true {
+    background-color: rgba(7, 168, 7, 0.706);
+}
+
+.accept_reg_btn.false:hover {
+    background-color: rgba(0, 128, 0, 0.749);
+}
+
+.reject_reg_btn {
+    display: flex;
+
+    background-color: rgba(186, 15, 15, 0.466);
+    border: 0px;
+
+    width: 4em;
+    height: 3em;
+    justify-content: center;
+    align-items: center;
+}
+
+.reject_reg_btn.true {
+    background-color: rgba(220, 14, 14, 0.783);
+}
+
+.reject_reg_btn.false:hover {
+    background-color: rgba(186, 15, 15, 0.713);
+}
+
+#accept_ops {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+#assign_form {
+    display: flex;
+    flex-direction: row;
+
+    font-family: sans-serif;
+    font-size: medium;
+    gap: 2em;
+    white-space: nowrap;
+}
+
+#assign_field {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+    align-items: center;
+}
+
+#assign_status {
+    box-sizing: border-box;
+    height: 2.5em;
+    width: 17.5em;
+
+    padding-inline: 1em;
+    border-radius: 25px;
+    border: 3px solid rgba(52, 11, 86, 0.724);
+
+    color:rgba(255, 255, 255, 0.708);
+    font-family: sans-serif;
+    background-color: rgba(37, 8, 63, 0.724);
+
+    align-self: center;
+}
+
+#assign_team {
+    box-sizing: border-box;
+    height: 2.5em;
+    width: 17.5em;
+
+    padding-inline: 1em;
+    border-radius: 25px;
+    border: 3px solid rgba(52, 11, 86, 0.724);
+
+    color:rgba(255, 255, 255, 0.708);
+    font-family: sans-serif;
+    background-color: rgba(37, 8, 63, 0.724);
+
+    align-self: center;
+}
+
+#confirm_reg {
+    display: flex;
+
+    background-color: rgba(0, 128, 0, 0.529);
+    border: 0px;
+
+    width: fit-content;
+    height: 6.5em;
+
+    align-items: center;
+    justify-items: center;
+}
+
+#confirm_reg:hover {
+    background-color: rgba(0, 128, 0, 0.749);
 }

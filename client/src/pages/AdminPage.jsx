@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
 import Ribbon from '../objects/Ribbon';
+import Registration from '../objects/admin_aux/Registration';
 import FlaggedChk from '../objects/admin_aux/FlaggedChk';
 import UserAdminCard from '../objects/admin_aux/UserAdminCard';
 
@@ -21,6 +22,14 @@ function AdminPage() {
         if (showDuty === "users") { setShowDuty("none"); }
         else { setShowDuty("users"); }
     }
+
+    const [registrations, setRegistrations] = useState([]);
+    useEffect(() => {
+        fetch('http://localhost:8000/api/admin/registrations', { credentials: 'include' })
+            .then(res => res.json())
+            .then(data => setRegistrations(data))
+            .catch(err => console.error("error fetching registrations", err));
+    },[]);
 
     const [flaggedPosts, setFlaggedPosts] = useState([]);
     useEffect(() => {
@@ -49,6 +58,22 @@ function AdminPage() {
                 <button className={`admin_selection_btn ${showDuty === "users"}`} type="button" onClick={toggleUsers}>Membres</button>
             </div>
             <div id="admin_workspace">
+                {showDuty === "registrations" && (<div id="registrations_subcontainer">
+                    <div id="registrations_lst">
+                        {Array.isArray(registrations) &&  registrations.map((reg,index) => (
+                            <Registration 
+                                key={index} 
+                                regID={reg._id}
+                                username={reg.username} 
+                                password={reg.password} 
+                                fstname={reg.fstname} 
+                                surname={reg.surname} 
+                                dob={reg.dob} 
+                            />
+                        ))}
+                    </div>
+                </div>)}
+
                 {showDuty === "flagged" && (<div id="admin_subcontainer">
                     <div id="flagged_posts">
                     {Array.isArray(flaggedPosts) && flaggedPosts.map((post,index) => (
@@ -68,7 +93,15 @@ function AdminPage() {
                 {showDuty === "users" && (<div id="users_subcontainer">
                     <div id="users_lst">
                     {Array.isArray(allUsers) && allUsers.map((user,index) => (
-                        <UserAdminCard key={index} userID={user._id} fstname={user.fstname} surname={user.surname} dob={user.dob} status={user.status} team={user.team} />
+                        <UserAdminCard 
+                            key={index} 
+                            userID={user._id} 
+                            fstname={user.fstname} 
+                            surname={user.surname} 
+                            dob={user.dob} 
+                            status={user.status} 
+                            team={user.team} 
+                        />
                     ))}
                     </div>
                 </div>)}

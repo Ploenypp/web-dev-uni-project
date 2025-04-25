@@ -21,21 +21,26 @@ router.post('/register', async (req,res) => {
     try {
         await client.connect();
         const db = client.db("IN017");
-        const users = db.collection("users");
+        const users = db.collection("users")
+        const registrations = db.collection("registrations");
 
-        const existingUser = await users.findOne({ username });
-        if (existingUser) { return res.status(400).json({ message: "nom d'utilisateur déjà pris" })}
+        const existingUsername = await users.findOne({ username });
+        if (existingUsername) { return res.status(400).json({ message: "nom d'utilisateur déjà pris" })}
 
-        await users.insertOne({ 
+        const alreadyUser = await users.findOne({ fstname, surname });
+        if (alreadyUser) { return res.status(400).json({ message: "déjà un membre" }); }
+
+        const alreadyRegistered = await registrations.findOne({ fstname, surname });
+        if (alreadyRegistered) { return res.status(400).json({ message: "inscription déjà envoyé" }); }
+
+        await registrations.insertOne({ 
             "fstname": fstname,
             "surname": surname,
             "dob": dob, 
             "username": username, 
             "password": password,
-            "status": "member",
-            "team": "General Operations"
         });
-        res.status(200).json({ message: "registration réussie" });
+        res.status(200).json({ message: "registration sent" });
 
     } catch (err) {
         console.error("Registration error:", err);
