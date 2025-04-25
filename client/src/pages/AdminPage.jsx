@@ -45,7 +45,7 @@ function AdminPage() {
             .then(res => res.json())
             .then(data => setAllUsers(data))
             .catch(err => console.error("error fetching all users", err));
-    },[]);
+    },[allUsers]);
 
     return(<div className="AdminPage">
         <Ribbon pageType={true} />

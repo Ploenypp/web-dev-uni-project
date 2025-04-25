@@ -101,4 +101,24 @@ router.post('/change-status', async(req,res) => {
     }
 });
 
+router.post('/assign-team', async(req,res) => {
+    const { userID, assignedTeam } = req.body;
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const users= db.collection("users");
+
+        users.updateOne(
+            { _id: new ObjectId(userID) },
+            { $set: { team: assignedTeam } }
+        );
+
+        res.status(200).json({ message: "team assignment success" });
+    } catch(err) {
+        console.error("team assignment failed", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 module.exports = router;

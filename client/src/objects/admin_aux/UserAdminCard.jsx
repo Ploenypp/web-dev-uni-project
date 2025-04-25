@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-
 import xemnas from "../../assets/profile_pics/xemnas.png";
 import xigbar from "../../assets/profile_pics/xigbar.png";
 import xaldin from "../../assets/profile_pics/xaldin.png";
@@ -27,8 +26,6 @@ function UserAdminCard(props) {
         day: 'numeric'
     });
     const status = props.status;
-
-
     const pfp = () => {
         const name = props.fstname;
         if (name === "Xemnas") { return xemnas; }
@@ -52,15 +49,46 @@ function UserAdminCard(props) {
     const toggleStatus = () => {
         if (btnSelected === "status") { setBtnSelected("none"); }
         else { setBtnSelected("status"); }
-    }
+    };
     const toggleTeam = () => {
         if (btnSelected === "team") { setBtnSelected("none"); }
         else { setBtnSelected("team"); }
-    }
+    };
     const toggleRemove = () => {
         if (btnSelected === "remove") { setBtnSelected("none"); }
         else { setBtnSelected("remove"); }
-    }
+    };
+
+    const [assignedTeam, setAssignedTeam] = useState("");
+    const getAssignedTeam = (evt) => { setAssignedTeam(evt.target.value); }
+
+    const changeStatus = async () => {
+        const newStatus = (status == "member" ? "admin" : "member");
+        try {
+            const response = await axios.post('http://localhost:8000/api/admin/change-status', { userID, newStatus }, { withCredentials: true });
+            //alert(response.data.message);
+        } catch(err) {
+            console.error("status change failed", err.response?.data?.message || err.message);
+            alert(err.response?.data?.message || "Something went wrong");
+        }
+        toggleStatus();
+    };
+
+    const assignTeam = async () => {
+        try {
+            const response = await axios.post('http://localhost:8000/api/admin/assign-team', { userID, assignedTeam }, { withCredentials: true });
+            //alert(response.data.message);
+        } catch(err) {
+            console.error("team assignment failed", err.response?.data?.message || err.message);
+            alert(err.response?.data?.message || "Something went wrong");
+        }
+        toggleTeam();
+    };
+
+    const handleUserOps = () => {
+        if (btnSelected === "status") { changeStatus(); }
+        if (btnSelected === "team") { assignTeam(); }
+    };
 
     return(<div className="UserAdminCard">
         <img id="admin_card_pfp" src={pfp()} alt="pfp" />
@@ -88,7 +116,7 @@ function UserAdminCard(props) {
                 <button className={`assign_team_btn ${btnSelected === "team"}`} type="button" onClick={toggleTeam}>
                     {btnSelected === "team" ? (<div>⇄ attribuez une équipe</div>) : (<div>⇄</div>)}
                 </button>
-                {btnSelected === "team" && (<input id="assigned_team" type="text"></input>)}
+                {btnSelected === "team" && (<input id="assigned_team" type="text" onChange={getAssignedTeam}></input>)}
 
                 <button className={`rem_user_btn ${btnSelected === "remove"}`} type="button" onClick={toggleRemove}>
                     {btnSelected === "remove" ? (<div>⌫ enlevez</div>) : (<div>⌫</div>)}
@@ -96,7 +124,7 @@ function UserAdminCard(props) {
             </div>
 
             {btnSelected != "none" && (<div id="confirm_ops">
-                <button className={`confirm_ops_btn ${btnSelected}`} type="button">confirmer</button>
+                <button className={`confirm_ops_btn ${btnSelected}`} type="button" onClick={handleUserOps}>confirmer</button>
             </div>)}
         </div>
     </div>)
