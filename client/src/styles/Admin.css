@@ -229,21 +229,36 @@
 
 #user_facts {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 
     background-color: rgba(53, 13, 86, 0.668);
     font-family: sans-serif;
-    color:rgb(206, 145, 228);
 
     width: fit-content;
     padding: 1em;
     border-radius: 25px;
-    gap: 0.5em;
+    gap: 1em;
+
+    align-items: center;
 }
 
 #user_name {
     font-family: serif;
     font-size: 1.5em;
+    color: white;
+}
+
+#user_field {
+    display: flex;
+    flex-direction: column;
+    
+    color: rgb(210, 150, 232);
+    border-left: 1px solid rgb(204, 109, 239);
+    padding-left: 1em; 
+}
+
+#user_admin_info {
+    font-family: serif;
     color: white;
 }
 
@@ -338,11 +353,11 @@
 
     padding-inline: 1em;
     border-radius: 25px;
-    border: 3px solid rgba(52, 11, 86, 0.724);
+    border: 2px solid rgba(204, 109, 239, 0.474);
 
     color:rgba(255, 255, 255, 0.708);
     font-family: sans-serif;
-    background-color: rgba(37, 8, 63, 0.724);
+    background-color: rgba(106, 30, 133, 0.203);
 
     align-self: center;
 }

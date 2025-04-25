@@ -96,12 +96,23 @@ function UserAdminCard(props) {
             <div id="user_name">
                 {props.fstname} {props.surname}
             </div>
-            <div id="user_current">
-                né(e): <strong>{readableDate}</strong>
-                <br></br>
-                statut : <strong>{status}</strong>
-                <br></br>
-                équipe : <strong>{props.team}</strong>
+            <div id="user_field">
+                date de naissance
+                <div id="user_admin_info">
+                    {readableDate}
+                </div>
+            </div>
+            <div id="user_field">
+                statut
+                <div id="user_admin_info">
+                    {readableDate}
+                </div>
+            </div>
+            <div id="user_field">
+                équipe
+                <div id="user_admin_info">
+                    {props.team}
+                </div>
             </div>
         </div>
         <div id="user_modif">
