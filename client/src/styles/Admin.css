@@ -41,6 +41,10 @@
     background-color:rgb(85, 9, 113);
 }
 
+#admin_workspace {
+    justify-items: center;
+}
+
 #flagged_posts {
     display: flex;
     flex-direction: column;

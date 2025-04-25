@@ -8,6 +8,7 @@ const postRoutes = require('./routes/posts.js');
 const userRoutes = require('./routes/user.js');
 const messagesRoutes = require('./routes/messages.js');
 const adminRoutes = require('./routes/admin.js');
+const searchRoutes = require('./routes/search.js');
 
 require('dotenv').config();
 
@@ -40,6 +41,7 @@ app.use('/api/posts', postRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/messages', messagesRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/search', searchRoutes);
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {

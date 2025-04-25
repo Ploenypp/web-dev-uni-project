@@ -12,6 +12,7 @@ body {
     flex-direction: column;
     column-gap: 10%;
     width: 100vw;
+    height: 56.5vw;
     overflow: hidden;
 }
 
@@ -87,7 +88,7 @@ body {
 
 #profile_posts {
     padding-right: 1em;
-    max-height: 105vh;
+    max-height: 47vw;
     overflow-y: scroll;
 }
 

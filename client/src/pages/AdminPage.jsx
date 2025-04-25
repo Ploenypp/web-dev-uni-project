@@ -58,9 +58,11 @@ function AdminPage() {
                 <button className={`admin_selection_btn ${showDuty === "users"}`} type="button" onClick={toggleUsers}>Membres</button>
             </div>
             <div id="admin_workspace">
+                {showDuty === "none" && (<p>selectionner une responsabilité</p>)}
+
                 {showDuty === "registrations" && (<div id="registrations_subcontainer">
                     <div id="registrations_lst">
-                        {registrations == 0 && (<div> pas d'inscription en attente</div>)}
+                        {registrations == 0 && ("pas d'inscription en attente")}
                         {registrations.map((reg,index) => (
                             <Registration 
                                 key={index} 

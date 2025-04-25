@@ -31,7 +31,7 @@ function MainPage () {
 
     return(<div className="MainPage">
         <Ribbon pageType={false}/>
-        <Searchbar />
+        <Searchbar currentUserID={currentUserID}/>
         <div className="posts">
           <NewPost />
           {postsContent.map((post, index) => (
@@ -43,7 +43,7 @@ function MainPage () {
                 author={post.author}
                 timestamp={post.timestamp}
                 content={post.content}
-				currentUserID={currentUserID}
+				        currentUserID={currentUserID}
             />))}
         </div>
     </div>)
