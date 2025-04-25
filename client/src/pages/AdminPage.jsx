@@ -29,7 +29,7 @@ function AdminPage() {
             .then(res => res.json())
             .then(data => setRegistrations(data))
             .catch(err => console.error("error fetching registrations", err));
-    },[]);
+    },[registrations]);
 
     const [flaggedPosts, setFlaggedPosts] = useState([]);
     useEffect(() => {
@@ -60,7 +60,8 @@ function AdminPage() {
             <div id="admin_workspace">
                 {showDuty === "registrations" && (<div id="registrations_subcontainer">
                     <div id="registrations_lst">
-                        {Array.isArray(registrations) &&  registrations.map((reg,index) => (
+                        {registrations == 0 && (<div> pas d'inscription en attente</div>)}
+                        {registrations.map((reg,index) => (
                             <Registration 
                                 key={index} 
                                 regID={reg._id}

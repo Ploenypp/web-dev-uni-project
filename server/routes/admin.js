@@ -45,5 +45,60 @@ router.get('/registrations', async(req,res) => {
     }
 });
 
+router.post('/accept-registration', async(req,res) => {
+    const { regID, fstname, surname, dob, username, password, status, team } = req.body;
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const users = db.collection("users");
+        const registrations = db.collection("registrations");
+
+        await users.insertOne( { fstname, surname, dob, username, password, status, team });
+        await registrations.deleteOne( {_id : new ObjectId(regID) });
+
+        res.status(201).json({ message: "registration acceptance success" });
+    } catch(err) {
+        console.error("registration acceptance failed", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+router.post('/reject-registration', async(req,res) => {
+    const { regID } = req.body;
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const registrations = db.collection("registrations");
+
+        await registrations.deleteOne({ _id: new ObjectId(regID) });
+
+        res.status(200).json({ message: "registration rejection success" });
+    } catch(err) {
+        console.error("registration rejection failed", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+router.post('/change-status', async(req,res) => {
+    const { userID, newStatus } = req.body;
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const users = db.collection("users");
+
+        users.updateOne(
+            { _id: new ObjectId(userID) },
+            { $set: { status: newStatus } }
+        );
+
+        res.status(200).json({ message: "status change success" });
+    } catch(err) {
+        console.error("status change failed", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
 
 module.exports = router;

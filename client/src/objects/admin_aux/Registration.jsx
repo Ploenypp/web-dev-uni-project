@@ -3,9 +3,12 @@ import axios from 'axios';
 
 function Registration(props) {
     const regID = props.regID;
+    const fstname = props.fstname;
+    const surname = props.surname;
     const username = props.username;
     const password = props.password;
-    const date = new Date(props.dob);
+    const dob = props.dob;
+    const date = new Date(dob);
     const readableDate = date.toLocaleString('fr-FR', {
         year: 'numeric',
         month: 'long',
@@ -32,9 +35,36 @@ function Registration(props) {
         setTeam(evt.target.value);
     }
 
+    const handleRegOpsConfirm = () => {
+        if (btnSelected === "accept") { acceptRegistration(); }
+        if (btnSelected === "reject") { rejectRegistration(); }
+    };
+
+    const acceptRegistration = async () => {
+        try {
+            const response = await axios.post('http://localhost:8000/api/admin/accept-registration', { regID, fstname, surname, dob, username, password, status, team }, { withCredentials: true });
+
+            //alert(response.data.message);
+        } catch(err) {
+            console.error("registration acceptance failed", err.response?.data?.message || err.message);
+            alert(err.response?.data?.message || "Something went wrong");
+        }
+    };
+
+    const rejectRegistration = async () => {
+        try {
+            const response = await axios.post('http://localhost:8000/api/admin/reject-registration', { regID }, { withCredentials: true });
+            
+            //alert(response.data.message);
+        } catch(err) {
+            console.error("registration rejection failed", err.reponse?.data?.message || err.message);
+            alert(err.response?.data?.message || "Something went wrong");
+        }
+    }
+
     return(<div className="Registration">
         <div id="reg_info">
-            <div id="reg_name">{props.fstname} {props.surname}</div>
+            <div id="reg_name">{fstname} {surname}</div>
             {readableDate}
         </div>
 
@@ -60,7 +90,7 @@ function Registration(props) {
 
         {btnSelected === "reject" && (<div>rejeter cette demande d'inscription</div>)}
 
-        {btnSelected != "none" && (<button className={`confirm_reg ${btnSelected === "accept"}`} type="button">confirmer</button>)}
+        {btnSelected != "none" && (<button className={`confirm_reg ${btnSelected === "accept"}`} type="button" onClick={handleRegOpsConfirm}>confirmer</button>)}
     </div>)
 }
 
