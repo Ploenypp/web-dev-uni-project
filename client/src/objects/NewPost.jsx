@@ -5,11 +5,11 @@ import axios from 'axios';
 
 function NewPost() {
     const [showWrite, setShowWrite] = useState(false);
-    const [writeBtnText, setWriteBtnText] = useState("ouvrir une nouvelle discussion");
+    const [writeBtnText, setWriteBtnText] = useState("✍︎ ouvrir une nouvelle discussion");
     const toggleShowWrite = () => {
         if (showWrite) {
             setShowWrite(false)
-            setWriteBtnText("ouvrir une nouvelle discussion");
+            setWriteBtnText("✍︎ ouvrir une nouvelle discussion");
             
         } else {
             setShowWrite(true)

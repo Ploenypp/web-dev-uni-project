@@ -142,6 +142,9 @@ function Post(props) {
             console.error("Error updating flag info", err);
         }
     };
+    useEffect(() => {
+        updateFlaggedState();
+    },[alreadyFlagged]);
 
     const handleFlag = async () => {
         if (alreadyFlagged) {

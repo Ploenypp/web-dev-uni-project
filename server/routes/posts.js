@@ -207,7 +207,7 @@ router.post('/flag-post', async(req,res) => {
 });
 
 router.get('/get-flagged', async(req,res) => {
-    const {userID, postID } = req.query;
+    const { userID, postID } = req.query;
 
     try {
         await client.connect();

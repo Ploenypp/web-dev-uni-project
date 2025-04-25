@@ -22,6 +22,15 @@ function Registration(props) {
         else { setBtnSelected("reject"); }
 
     }
+    const [status, setStatus] = useState("");
+    const getStatus = (evt) => {
+        setStatus(evt.target.value);
+    }
+
+    const [team, setTeam] = useState("");
+    const getTeam = (evt) => {
+        setTeam(evt.target.value);
+    }
 
     return(<div className="Registration">
         <div id="reg_info">
@@ -40,18 +49,18 @@ function Registration(props) {
             <div id="assign_form">
                 <div id="assign_field">
                     <label htmlFor="assign_status">statut : </label>
-                    <input id="assign_status" type="text" />
+                    <input id="assign_status" type="text" placeholder="member / admin" onChange={getStatus} />
                 </div>
                 <div id="assign_field">
                     <label htmlFor="assign_team">équipe : </label>
-                    <input id="assign_team" type="text" />
+                    <input id="assign_team" type="text" placeholder="General Operations / ..." onChange={getTeam}/>
                 </div>
             </div>
         </div>)}
 
         {btnSelected === "reject" && (<div>rejeter cette demande d'inscription</div>)}
 
-        {btnSelected != "none" && (<button id="confirm_reg" type="button">confirmer</button>)}
+        {btnSelected != "none" && (<button className={`confirm_reg ${btnSelected === "accept"}`} type="button">confirmer</button>)}
     </div>)
 }
 

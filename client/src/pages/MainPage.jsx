@@ -15,7 +15,7 @@ function MainPage () {
             .then(data => setUserInfo(data))
             .catch(err => console.error("Error fetching user data:", err));
     }, []);
-	const currentUserID = userInfo._id;
+	  const currentUserID = userInfo._id;
 
     const [postsContent, setPostContents] = useState([]);
     useEffect(() => {

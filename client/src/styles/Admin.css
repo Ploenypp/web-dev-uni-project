@@ -1,6 +1,6 @@
 .AdminPage {
     width: 100vw;
-    height: 100vw;
+    height: fit-content;
 }
 
 #admin_container {
@@ -509,10 +509,10 @@
     align-self: center;
 }
 
-#confirm_reg {
+.confirm_reg {
     display: flex;
 
-    background-color: rgba(0, 128, 0, 0.529);
+    background-color: rgba(54, 12, 89, 0.724);
     border: 0px;
 
     width: fit-content;
@@ -522,6 +522,10 @@
     justify-items: center;
 }
 
-#confirm_reg:hover {
+.confirm_reg.true:hover {
     background-color: rgba(0, 128, 0, 0.749);
+}
+
+.confirm_reg.false:hover {
+    background-color: rgba(128, 0, 0, 0.749);
 }

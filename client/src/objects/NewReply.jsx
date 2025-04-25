@@ -9,12 +9,6 @@ function NewReply(props) {
     const [content, setContent] = useState("");
     const getContent = (evt) => { setContent(evt.target.value); }
 
-
-    useEffect(() => {
-        console.log(content);
-        console.log(parentPostID);
-    }, [content, parentPostID]);
-
     const handleComment = async () => {
         if (!content.trim()) {
             alert("Pas possible de publier un commentaire vide");
