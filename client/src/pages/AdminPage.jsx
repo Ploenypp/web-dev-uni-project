@@ -5,11 +5,26 @@ import Ribbon from '../objects/Ribbon';
 import Registration from '../objects/admin_aux/Registration';
 import FlaggedChk from '../objects/admin_aux/FlaggedChk';
 import UserAdminCard from '../objects/admin_aux/UserAdminCard';
+import NewAdminPost from '../objects/admin_aux/NewAdminPost';
+import AdminPost from '../objects/admin_aux/AdminPost';
 
 import '../styles/Admin.css';
 
 function AdminPage() {
+    const [userInfo, setUserInfo] = useState("");
+    useEffect(() => {
+        fetch('http://localhost:8000/api/user/profile', { credentials: 'include' })
+            .then(res => res.json())
+            .then(data => setUserInfo(data))
+            .catch(err => console.error("Error fetching user data:", err));
+    }, []);
+	const currentUserID = userInfo._id;
+    
     const [showDuty, setShowDuty] = useState("none");
+    const toggleForum = () => {
+        if (showDuty === "forum") { setShowDuty("none"); }
+        else { setShowDuty("forum"); }
+    }
     const toggleRegistrations = () => {
         if (showDuty === "registrations") { setShowDuty("none"); }
         else { setShowDuty("registrations"); }
@@ -22,6 +37,14 @@ function AdminPage() {
         if (showDuty === "users") { setShowDuty("none"); }
         else { setShowDuty("users"); }
     }
+
+    const [posts, setPosts] = useState([]);
+    useEffect(() => {
+        fetch('http://localhost:8000/api/admin/posts', { credentials: 'include' })
+            .then(res => res.json())
+            .then(data => setPosts(data))
+            .catch(err => console.error("error fetching admin posts"));
+    }, [posts])
 
     const [registrations, setRegistrations] = useState([]);
     useEffect(() => {
@@ -51,6 +74,8 @@ function AdminPage() {
         <Ribbon pageType={true} />
         <div id="admin_container">
             <div id="admin_selectionbar">
+                <button className={`admin_selection_btn ${showDuty === "forum"}` }type="button" onClick={toggleForum}>Forum</button>
+
                 <button className={`admin_selection_btn ${showDuty === "registrations"}`} type="button" onClick={toggleRegistrations}>Inscriptions</button>
                 
                 <button className={`admin_selection_btn ${showDuty === "flagged"}`} type="button" onClick={toggleFlagged}>Publications signalées</button>
@@ -59,6 +84,23 @@ function AdminPage() {
             </div>
             <div id="admin_workspace">
                 {showDuty === "none" && (<p>selectionner une responsabilité</p>)}
+
+                {showDuty === "forum" && (<div id="forum_subcontainer">
+                    <NewAdminPost />
+                    <div id="admin_post_lst">
+                    {posts.map((post, index) => (
+                        <AdminPost
+                        key={index}
+                        postID={post._id}
+                        userID={post.userID}
+                        title={post.title}
+                        author={post.author}
+                        timestamp={post.timestamp}
+                        content={post.content}
+				        currentUserID={currentUserID}
+                     />))}
+                     </div>
+                </div>)}
 
                 {showDuty === "registrations" && (<div id="registrations_subcontainer">
                     <div id="registrations_lst">
