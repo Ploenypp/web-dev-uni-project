@@ -119,7 +119,7 @@ function AdminPage() {
                     </div>
                 </div>)}
 
-                {showDuty === "flagged" && (<div id="admin_subcontainer">
+                {showDuty === "flagged" && (<div id="flagged_subcontainer">
                     <div id="flagged_posts">
                     {Array.isArray(flaggedPosts) && flaggedPosts.map((post,index) => (
                             <FlaggedChk 

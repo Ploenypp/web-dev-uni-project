@@ -59,7 +59,6 @@ function ProfilePage() {
               <button id="redirChat_btn" type="button" onClick={toChats}><img src={gummiphone} id="profile_msg_icon" alt="icon"/>Messages</button>
             </div>
             <div id="pf_subcontainer">
-              <Searchbar />
               <div id="profile_posts">
               <div className="posts">
               {posts && posts.length > 0 ? (posts.map((post, index) => (

@@ -19,6 +19,7 @@
     margin-top: -10em;
     margin-bottom: -10em;
     height:fit-content;
+    flex-shrink: 1;
 }
 
 #org13_ribbon {
@@ -29,6 +30,7 @@
 
 #nothing {
     flex-grow: 1;
+    flex-shrink: 1;
 }
 
 #profile {
@@ -39,9 +41,8 @@
     height: 3em;
 
     gap: 0.5em;
-    padding: 0.5em;
+    padding: 1em;
     align-items: center;
-    white-space: nowrap;
 
     background-color: rgba(62, 64, 199, 0.462);
     border: 2px solid rgba(110, 112, 203, 0.481);
@@ -74,7 +75,6 @@
     border: 2px solid rgb(35, 65, 85);
     border: 0px;
 
-    white-space: nowrap;
     gap: 0.5em;
     align-items: center;
 }

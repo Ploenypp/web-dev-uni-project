@@ -324,15 +324,18 @@
     align-items: center;
 
     font-size: small;
-    color: rgb(191, 121, 242);
+    color: rgb(178, 112, 226);
 }
 
 #flagged_posts {
     display: flex;
     flex-direction: column;
 
+    width: 95vw;
     padding: 0.5em;
     gap: 0.5em;
+
+    align-items: center;
 }
 
 .FlaggedChk {
@@ -340,8 +343,9 @@
     flex-direction: column;
 
     font-size: medium;
-    background-color: rgb(19, 3, 30);
+    background-color: rgb(27, 3, 43);
 
+    width: 100%;
     gap: 1em;
     padding: 1em;
     border-radius: 25px;
