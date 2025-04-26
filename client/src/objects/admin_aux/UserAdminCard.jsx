@@ -105,7 +105,7 @@ function UserAdminCard(props) {
             <div id="user_field">
                 statut
                 <div id="user_admin_info">
-                    {readableDate}
+                    {status}
                 </div>
             </div>
             <div id="user_field">
