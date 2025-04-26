@@ -121,4 +121,76 @@ router.post('/assign-team', async(req,res) => {
     }
 });
 
+router.post('/newpost', async(req,res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ message: "pas connecté" });
+    }
+
+    const { title, content } = req.body;
+    const userID = req.session.userId;
+    const timestamp = new Date(Date.now());
+    console.log(userID);
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const posts = db.collection("admin_posts");
+
+        const existingPost = await posts.findOne({ title });
+        if (existingPost) { return res.status(400).json({ message: "titre déjà pris" })}
+
+        const users = db.collection("users");
+        const user = await users.findOne({ _id: new ObjectId(userID) });
+        if (!user) { return res.status(404).json( {message: "user not found", userID }); }
+        const author = user.fstname.concat(" ",user.surname);
+
+        await posts.insertOne({ title, author, "userID": new ObjectId(userID), timestamp, content });
+        res.status(201).json({ message: "publication réussie" });
+
+    } catch(err) {
+        console.error("publication error:",err);
+        res.status(500).json({ message: "Internal server error"});
+    }
+});
+
+router.get('/posts', async(req,res) => {
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const coll = db.collection("admin_posts").find().sort({'_id': -1});
+        const posts = await coll.toArray();
+    
+        res.json(posts);
+
+    } catch(err) {
+        console.error("posts not found?",err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+})
+
+router.post('/delete-post', async(req,res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ message: "pas connecté" });
+    }
+
+    const { postID } = req.body;
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const posts = db.collection("admin_posts");
+        {/*const comments = db.collection("comments");
+        const flagged = db.collection("flagged_posts");*/}
+
+        await posts.deleteOne({ _id: new ObjectId(postID) });
+        {/*await comments.deleteMany({ parentPostID: new ObjectId(postID) });
+        await flagged.deleteOne({ _id: new ObjectId(postID) });*/}
+
+        res.status(200).json({ message: "suppression réussie" });
+    } catch(err) {
+        console.error("deletion error:",err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 module.exports = router;
