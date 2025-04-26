@@ -128,7 +128,7 @@ function Searchbar(props) {
             </div>
 
             <div id="post_results">
-                {postResults.length === 0 && (<p>aucune publiation correspond </p>)}
+                {postResults.length === 0 && (<p>aucune publication correspond </p>)}
                 {postResults.map((post, index) => (
                 <Post
                     key={index}

@@ -49,4 +49,48 @@ router.get('/all-posts', async(req,res) => {
     }
 });
 
+router.get('/admin-users', async(req,res) => {
+    const prompt = req.query.prompt;
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        await db.collection("users").createIndex({
+            fstname: "text",
+            surname: "text",
+            status: "text",
+            team: "text"
+        });
+        const users = db.collection("users");
+        const results = await users.find({
+            $text: { $search: prompt },
+            status: "admin",
+        }).sort({ score: { $meta: "textScore" } }).toArray();
+        res.json(results);
+    } catch(err) {
+        console.error("searching users failed", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+router.get('/admin-posts', async(req,res) => {
+    const prompt = req.query.prompt;
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        await db.collection("admin_posts").createIndex({
+            title: "text",
+            content: "text",
+            author: "text"
+        });
+        const posts = db.collection("admin_posts");
+        const results = await posts.find({
+            $text: { $search: prompt }
+        }).sort({ score: { $meta: "textScore" } }).toArray();
+        res.json(results);
+    } catch(err) {
+        console.error("searching posts failed", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 module.exports = router;

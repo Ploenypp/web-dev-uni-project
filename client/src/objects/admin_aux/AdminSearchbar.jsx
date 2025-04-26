@@ -37,7 +37,7 @@ function AdminSearchbar(props) {
     const searchUsers = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.get(`http://localhost:8000/api/search/all-users?prompt=${searchText}`);
+            const response = await axios.get(`http://localhost:8000/api/search/admin-users?prompt=${searchText}`);
             setUserResults(response.data);
         } catch(err) {
             console.error("user search failed", err);
@@ -66,7 +66,7 @@ function AdminSearchbar(props) {
         e.preventDefault();
 
         try {
-            const response = await axios.get(`http://localhost:8000/api/search/all-posts?prompt=${searchText}`);
+            const response = await axios.get(`http://localhost:8000/api/search/admin-posts?prompt=${searchText}`);
             setPostResults(response.data);
         } catch(err) {
             console.error("post search failed", err);
@@ -90,17 +90,17 @@ function AdminSearchbar(props) {
             </div></form>
         </div>
 
-        {showResults && (<div id="results">
+        {showResults && (<div id="admin_results">
             <p>résultats pour "{searchText}"</p>
-            <div id="user_results">
+            <div id="user_adminresults">
                 {userResults.length === 0 && (<p>aucun utilisateur correspond</p>)}
                 {userResults.map((user, index) => (
-                    <div id="user_result_card">
+                    <div id="user_adminresult_card">
                         <img id="res_pic" src={pfp(user.fstname)} alt="pfp" />
                         <div id="res_name">
                             {user.fstname} {user.surname}
                         </div>
-                        <div id="res_field">
+                        <div id="adminres_field">
                             date de naissance
                             <div id="res_info">
                             {new Date(user.dob).toLocaleString('fr-FR', {
@@ -110,13 +110,13 @@ function AdminSearchbar(props) {
                             })}
                             </div>
                         </div>
-                        <div id="res_field">
+                        <div id="adminres_field">
                             status
                             <div id="res_info">
                             {user.status}
                             </div>
                         </div>
-                        <div id="res_field">
+                        <div id="adminres_field">
                             team
                             <div id="res_info">
                             {user.team}
@@ -128,9 +128,9 @@ function AdminSearchbar(props) {
             </div>
 
             <div id="post_results">
-                {postResults.length === 0 && (<p>aucune publiation correspond </p>)}
+                {postResults.length === 0 && (<p>aucune publication correspond </p>)}
                 {postResults.map((post, index) => (
-                <Post
+                <AdminPost
                     key={index}
                     postID={post._id}
                     userID={post.userID}
