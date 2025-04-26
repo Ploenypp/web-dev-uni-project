@@ -87,9 +87,10 @@ body {
 }
 
 #profile_posts {
-    padding-left: 0.5em;
+    padding-left:0.5em;
     padding-right: 0.5em;
     max-height: 100vh;
+    overflow-x:visible;
     overflow-y: scroll;
 }
 
