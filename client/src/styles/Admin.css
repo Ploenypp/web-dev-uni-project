@@ -45,6 +45,22 @@
     justify-items: center;
 }
 
+#forum_subcontainer {
+    display: flex;
+    flex-direction: column;
+
+    width: 97.5%;
+    margin: 0em;
+    gap: 0.5em;
+    padding-top: 0.5em;
+}
+
+#admin_post_lst {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
 #flagged_posts {
     display: flex;
     flex-direction: column;
