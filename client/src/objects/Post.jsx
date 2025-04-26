@@ -130,6 +130,7 @@ function Post(props) {
             console.error("visit failed", err.response?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");
         }
+        setShowExtra(false);
     };
 
     const [alreadyFlagged, setAlreadyFlagged] = useState(false);
