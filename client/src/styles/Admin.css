@@ -49,16 +49,61 @@
     display: flex;
     flex-direction: column;
 
-    width: 97.5%;
     margin: 0em;
     gap: 0.5em;
-    padding-top: 0.5em;
+}
+
+#admin-searchbar {
+    color:white;
+    font-family:serif;
+
+    padding-inline: 1em;
+    box-sizing: border-box;
+
+    font-size: medium;
+    border-bottom: 5px double rgba(97, 15, 128, 0.813);
+}
+
+#text-search-admin {
+    flex: 1;
+    width: 100%;
+    background-color: black;
+    border-color: rgba(128, 0, 128, 0.385);
+}
+
+#date-search-admin {
+    box-sizing: border-box;
+    width: fit-content;
+    height: 2.5em;
+
+    padding-inline: 1em;
+    border: 2px solid rgba(128, 0, 128, 0.385);
+    border-radius: 25px;
+
+    background-color: rgb(0, 0, 0);
+    color:gray;
+    font-family:sans-serif;
+}
+
+#submit-search-admin {
+    display: flex;
+    align-items: center;
+
+    font-size: medium;
+    background-color: rgba(128, 0, 128, 0.385);
+    border: 0px;
+}
+
+#submit-search-admin:hover {
+    background-color: rgba(128, 0, 128, 0.634);
 }
 
 #admin_post_lst {
     display: flex;
     flex-direction: column;
     gap: 0.5em;
+    padding: 1em;
+    padding-top: 0.5em;
 }
 
 .NewAdminPost {

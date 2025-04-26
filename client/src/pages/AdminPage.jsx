@@ -7,6 +7,7 @@ import FlaggedChk from '../objects/admin_aux/FlaggedChk';
 import UserAdminCard from '../objects/admin_aux/UserAdminCard';
 import NewAdminPost from '../objects/admin_aux/NewAdminPost';
 import AdminPost from '../objects/admin_aux/AdminPost';
+import AdminSearchbar from '../objects/admin_aux/AdminSearchbar';
 
 import '../styles/Admin.css';
 
@@ -20,7 +21,7 @@ function AdminPage() {
     }, []);
 	const currentUserID = userInfo._id;
     
-    const [showDuty, setShowDuty] = useState("none");
+    const [showDuty, setShowDuty] = useState("forum");
     const toggleForum = () => {
         if (showDuty === "forum") { setShowDuty("none"); }
         else { setShowDuty("forum"); }
@@ -86,19 +87,20 @@ function AdminPage() {
                 {showDuty === "none" && (<p>selectionner une responsabilité</p>)}
 
                 {showDuty === "forum" && (<div id="forum_subcontainer">
-                    <NewAdminPost />
+                    <AdminSearchbar currenUserID={currentUserID} />
                     <div id="admin_post_lst">
-                    {posts.map((post, index) => (
-                        <AdminPost
-                        key={index}
-                        postID={post._id}
-                        userID={post.userID}
-                        title={post.title}
-                        author={post.author}
-                        timestamp={post.timestamp}
-                        content={post.content}
-				        currentUserID={currentUserID}
-                     />))}
+                        <NewAdminPost />
+                        {posts.map((post, index) => (
+                            <AdminPost
+                            key={index}
+                            postID={post._id}
+                            userID={post.userID}
+                            title={post.title}
+                            author={post.author}
+                            timestamp={post.timestamp}
+                            content={post.content}
+                            currentUserID={currentUserID}
+                        />))}
                      </div>
                 </div>)}
 

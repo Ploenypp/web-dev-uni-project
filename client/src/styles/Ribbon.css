@@ -11,8 +11,10 @@
     border-bottom: 2px solid white;
     align-items: center;
 
+    padding-right: 0.5em;
+
     overflow-x: scroll;
-    scrollbar-color: black;
+    scrollbar-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
 }
 
 #logo_ribbon {
@@ -122,7 +124,6 @@
 
     gap: 0.5em;
     align-items: center;
-    margin-right: 1em;
     white-space: nowrap;
 
     background-color: rgba(194, 57, 103, 0.353);
