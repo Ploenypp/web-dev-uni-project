@@ -61,6 +61,272 @@
     gap: 0.5em;
 }
 
+.NewAdminPost {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.toggle-writeadmin-btn {
+    background-color: rgba(97, 27, 111, 0.657);
+    border: 0px;
+    font-size: medium;
+}
+
+.toggle-writeadmin-btn.true:hover {
+    background-color: rgba(137, 34, 157, 0.713);
+}
+
+.toggle-writeadmin-btn.false {
+    background-color: rgba(137, 34, 157, 0.713);
+}
+
+.toggle-writeadmin-btn.false {
+    background-color: rgba(194, 57, 103, 0.31);
+}
+
+.toggle-writeadmin-btn.false:hover {
+    background-color: rgba(194, 57, 103, 0.472);
+}
+
+#write-admin-post {
+    font-size: medium;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+
+    padding: 1em;
+    border-radius: 25px;
+
+    background-color:rgb(40, 20, 43);
+}
+
+#write-admin-title {
+    color: white;
+    font-family: sans-serif;
+    font-size: medium;
+    background-color:rgb(55, 28, 55);
+
+    height: 2.5em;
+    border: 2px solid rgb(83, 55, 107);
+    border-radius: 25px;
+    padding-inline: 1em;
+}
+
+#write-admin-content-post {
+    color: rgb(255, 255, 255);
+    font-size: medium;
+    font-family: sans-serif;
+    background-color:rgb(55, 28, 55);
+
+    border: 2px solid rgb(83, 55, 107);
+    border-radius: 25px;
+
+    height: 7.5em;
+    min-height: 7.5em;
+    resize: vertical;
+
+    box-sizing: border-box;
+    padding: 1em;
+}
+
+#adminpost_btn {
+    font-size: medium;
+
+    width: fit-content;
+    max-width: 100%;
+    white-space: nowrap;
+    
+    color: white;
+    background-color: rgba(143, 39, 151, 0.516);
+    border: 0px;
+}
+
+#adminpost_btn:hover {
+    background-color: rgba(179, 24, 190, 0.655);
+}
+
+.AdminPost {
+    font-family: sans-serif;
+
+    width: auto;
+    padding: 1em;
+    
+    border-radius: 25px;
+    background-color:
+    rgb(23, 16, 31);
+
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+#adminpost_head {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.5em;
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid rgba(141, 55, 194, 0.572);
+}
+
+.extra_adminpost_btn {
+    display: flex;
+    background-color:rgba(65, 45, 86, 0.222);
+    border: 0px;
+    border-radius: 25px;
+
+    width: 2em;
+    height: 2em;
+    justify-content: center;
+    align-items: center;
+    padding: 0.25em;
+}
+
+.extra_adminpost_btn.false:hover {
+    background-color:rgba(79, 54, 106, 0.383);
+}
+
+.extra_adminpost_btn.true {
+    background-color:rgba(79, 54, 106, 0.383);
+}
+
+.extra_adminpost_btn.true:hover {
+    background-color:rgba(65, 45, 86, 0.222);
+}
+
+#post_extra {
+    display: flex;
+    flex-direction: row;
+
+    align-self:flex-start;
+    align-items: center;
+    gap: 0.5em;
+
+    background-color:rgba(63, 45, 86, 0.218);
+    border-radius:50px;
+}
+
+#del_adminpost {
+    font-size: medium;
+    
+    width: 2em;
+    height: 2em;
+
+    justify-content: center;
+    align-items: center;
+    
+    padding-left: 0.45em;
+
+    color: rgb(238, 222, 226);
+    background-color: rgba(82, 34, 114, 0.283);
+    border: 0px;
+}
+
+#del_adminpost:hover {
+    background-color: rgba(194, 57, 103, 0.33);
+}
+
+#rev_del_adminpost {
+    font-size: medium;
+    
+    width: 2em;
+    height: 2em;
+
+    justify-content: center;
+    align-items: center;
+    
+    padding-top: 0.25em;
+    padding-left: 0.45em;
+
+    color: rgb(238, 222, 226);
+    background-color: rgba(82, 34, 114, 0.283);
+    border: 0px;
+}
+
+#rev_del_adminpost:hover {
+    background-color: rgba(110, 39, 158, 0.515);
+}
+
+#edit_adminpost {
+    font-size: medium;
+    
+    width: 2em;
+    height: 2em;
+
+    justify-content: center;
+    align-items: center;
+
+    padding-left: 0.6em;
+        
+    color: rgb(238, 222, 226);
+    background-color: rgba(82, 34, 114, 0.283);
+    border: 0px;
+}
+
+#edit_adminpost:hover {
+    background-color: rgba(110, 39, 158, 0.515);
+}
+
+.flag_adminpost_btn {
+    display: flex;
+    background-color:rgba(82, 34, 114, 0.283);
+    border: 0px;
+    border-radius: 25px;
+
+    width: 2em;
+    height: 2em;
+    justify-content: center;
+    align-items: center;
+    padding: 0.25em;
+}
+
+.flag_adminpost_btn.true {
+    background-color:rgba(95, 33, 136, 0.283);
+    border: 2px solid rgba(194, 57, 103, 0.18);
+    color: rgba(194, 57, 103, 0.532);
+}
+
+.flag_adminpost_btn.false:hover {
+    background-color: rgba(194, 57, 103, 0.33);
+}
+
+.flag_adminpost_btn.true:hover {
+    border: 2px solid rgba(7, 237, 7, 0.132);
+    color: rgba(7, 237, 7, 0.463);
+}
+
+#admin_author_btn {
+    display: flex;
+    flex-direction: row;
+    font-size: medium;
+
+    width: fit-content;
+    height: fit-content;
+    align-items: center;
+    gap: 1em;
+    padding: 0.5em;
+    
+    background-color: rgb(23, 16, 31);
+    border-radius: 50px;
+    border: 0px;
+}
+
+#admin_author_btn:hover {
+    background-color: rgb(63, 39, 91);
+}
+
+#admin_post_info {
+    display: flex;
+    flex-direction: row;
+
+    gap: 1em;
+    align-items: center;
+
+    font-size: small;
+    color: rgb(191, 121, 242);
+}
+
 #flagged_posts {
     display: flex;
     flex-direction: column;

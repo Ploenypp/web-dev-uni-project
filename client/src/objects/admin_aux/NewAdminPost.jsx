@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import "../../styles/NewPost.css";
+import "../../styles/Admin.css";
 
 import axios from 'axios';
 
@@ -41,12 +41,12 @@ function NewAdminPost() {
     };
 
     return(<div className="NewAdminPost">
-        <button className={`togglewritebtn ${!showWrite}`}type="button" onClick = {toggleShowWrite}>{writeBtnText}</button>
+        <button className={`toggle-writeadmin-btn ${!showWrite}`}type="button" onClick = {toggleShowWrite}>{writeBtnText}</button>
 
-        {showWrite && (<div id="write-post">
-            <input id="write-title" type="text" onChange={getTitle} placeholder="titre..."/>
-            <textarea id="write-content-post" type="text" onChange={getContent} placeholder="écrivez..."></textarea>
-            <button id="post_btn" type="button" onClick={handlePublish}>publier</button>
+        {showWrite && (<div id="write-admin-post">
+            <input id="write-admin-title" type="text" onChange={getTitle} placeholder="titre..."/>
+            <textarea id="write-admin-content-post" type="text" onChange={getContent} placeholder="écrivez..."></textarea>
+            <button id="adminpost_btn" type="button" onClick={handlePublish}>publier</button>
         </div>)}
     </div>)
     

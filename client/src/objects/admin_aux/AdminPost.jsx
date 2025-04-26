@@ -6,6 +6,7 @@ import axios from 'axios';
 //import Comment from "./Comment.jsx";
 //import NewReply from './NewReply.jsx';
 import "../../styles/Post.css";
+import "../../styles/Admin.css";
 
 // profile pictures 
 import tmp_pfp from "../../assets/tmp_pfp.png";
@@ -25,7 +26,7 @@ import roxas from "../../assets/profile_pics/roxas.png";
 import xion from "../../assets/profile_pics/xion.png";
 import msg_pfp from "../../assets/msg_pfp.png";
 
-function Post(props) {
+function AdminPost(props) {
     const currentUserID = props.currentUserID;
     const postID = props.postID;
     const userID = props.userID;
@@ -167,30 +168,30 @@ function Post(props) {
         updateFlaggedState();
     };
 
-    return(<div className="Post">
-        <div id="post_head">
+    return(<div className="AdminPost">
+        <div id="adminpost_head">
             <div id="post_top">
                 <div id="post_title">{props.title}</div>
                 <div id="post_extra">
                     {showExtra && (<div>
                         {allowModif && (<div id="user_extra_btns">
-                            {!showConfirmDel && (<button id="del_post" type="button" onClick={toggleConfirmDel}>⌦</button>)}
+                            {!showConfirmDel && (<button id="del_adminpost" type="button" onClick={toggleConfirmDel}>⌦</button>)}
                             
                             {showConfirmDel &&(<button id="confirm_del_post" type="button" onClick={handleDelete}>⌦</button>)}
                             
-                            {showConfirmDel && (<button id="rev_del_post" type="button" onClick={toggleConfirmDel}>↩︎</button>)}
+                            {showConfirmDel && (<button id="rev_del_adminpost" type="button" onClick={toggleConfirmDel}>↩︎</button>)}
                             
-                            <button id="edit_post" type="button">✎</button>
+                            <button id="edit_adminpost" type="button">✎</button>
                         </div>)}
 
-                        {!allowModif && (<button className={`flag_post_btn ${alreadyFlagged}`} type="button" onClick={handleFlag}>{!alreadyFlagged ? ("⚐") : ("⚑")}</button>)}
+                        {!allowModif && (<button className={`flag_adminpost_btn ${alreadyFlagged}`} type="button" onClick={handleFlag}>{!alreadyFlagged ? ("⚐") : ("⚑")}</button>)}
                     </div>)}
     
-                    <button className={`extra_post_btn ${showExtra}`}type="button" onClick={toggleExtra}>⋯</button>
+                    <button className={`extra_adminpost_btn ${showExtra}`}type="button" onClick={toggleExtra}>⋯</button>
                 </div>
             </div>
-            <div id="post_info">
-                <button id="author_btn" type="button" onClick={handleToUser}><img id="post_pfp" src={pfp(props.author)} alt="msg_pfp"/> {props.author}</button> 
+            <div id="admin_post_info">
+                <button id="admin_author_btn" type="button" onClick={handleToUser}><img id="post_pfp" src={pfp(props.author)} alt="msg_pfp"/> {props.author}</button> 
                 {readableDate}
             </div>
         </div>
@@ -218,4 +219,4 @@ function Post(props) {
     </div>)
 }
 
-export default Post;
+export default AdminPost;

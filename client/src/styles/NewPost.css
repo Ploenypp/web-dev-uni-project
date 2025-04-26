@@ -8,11 +8,11 @@
 
 .togglewritebtn {
     font-size: medium;
+    border: 0px;
 }
 
 .togglewritebtn.true {
     background-color: rgba(62, 115, 199, 0.336);
-    border: 0px;
 }
 
 .togglewritebtn.true:hover {
@@ -21,14 +21,10 @@
 
 .togglewritebtn.false {
     background-color: rgba(194, 57, 103, 0.31);
-    border: 2px solid rgba(195, 112, 140, 0.248);
-    border: 0px;
 }
 
 .togglewritebtn.false:hover {
     background-color: rgba(194, 57, 103, 0.472);
-    border-color: rgba(195, 112, 140, 0.336);
-    border: 0px;
 }
 
 #write-post {
