@@ -5,11 +5,11 @@ import axios from 'axios';
 
 function NewPost() {
     const [showWrite, setShowWrite] = useState(false);
-    const [writeBtnText, setWriteBtnText] = useState("✍︎ ouvrir une nouvelle discussion");
+    const [writeBtnText, setWriteBtnText] = useState("ouvrir une nouvelle discussion");
     const toggleShowWrite = () => {
         if (showWrite) {
             setShowWrite(false)
-            setWriteBtnText("✍︎ ouvrir une nouvelle discussion");
+            setWriteBtnText("ouvrir une nouvelle discussion");
             
         } else {
             setShowWrite(true)
@@ -24,13 +24,6 @@ function NewPost() {
     const getTitle = (evt) => { setTitle(evt.target.value); }
     const getContent = (evt) => { setContent(evt.target.value); }
 
-    useEffect(() => {
-        console.log(`
-        title: ${title}
-        content: ${content}
-        `)
-    },[title,content]);
-
     const handlePublish = async () => {
         try {
             const response = await axios.post('http://localhost:8000/api/posts/newpost', {
@@ -39,9 +32,8 @@ function NewPost() {
             }, { withCredentials: true });
 
             //alert(response.data.message);
-            setShowWrite(false)
+            setShowWrite(false);
             setWriteBtnText("ouvrir une nouvelle discussion");
-
 
         } catch(error) {
             console.error("Publication failed:", error.response?.data?.message || error.message);
@@ -56,7 +48,6 @@ function NewPost() {
             <input id="write-title" type="text" onChange={getTitle} placeholder="titre..."/>
             <textarea id="write-content-post" type="text" onChange={getContent} placeholder="écrivez..."></textarea>
             <button id="post_btn" type="button" onClick={handlePublish}>publier</button>
-
         </div>)}
     </div>)
     
