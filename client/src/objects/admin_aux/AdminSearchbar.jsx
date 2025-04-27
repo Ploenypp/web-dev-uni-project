@@ -33,6 +33,12 @@ function AdminSearchbar(props) {
     const getSearchText = (evt) => { setSearchText(evt.target.value); }
     const [searchDate, setSearchDate] = useState("");
     const getSearchDate = (evt) => { setSearchDate(evt.target.value); }
+    const date = new Date(searchDate);
+    const readableDate = date.toLocaleString('fr-FR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
 
     const [userResults, setUserResults] = useState([]);
     const searchUsers = async (e) => {
@@ -63,22 +69,52 @@ function AdminSearchbar(props) {
     };
 
     const [postResults, setPostResults] = useState([]);
-    const searchPosts = async (e) => {
+    const searchByText = async (e) => {
         e.preventDefault();
 
         try {
-            const response = await axios.get(`http://localhost:8000/api/search/admin-posts?prompt=${searchText}`);
+            const response = await axios.get(`http://localhost:8000/api/search/admin-posts/text?prompt=${searchText}`);
             setPostResults(response.data);
         } catch(err) {
             console.error("post search failed", err);
         }
     };
 
+    const searchByDate = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await axios.get(`http://localhost:8000/api/search/admin-posts/date?date=${searchDate}`);
+            setPostResults(response.data);
+        } catch(err) {
+            console.error("search by date failed",err);
+        }
+    };
+
+    const searchByTextDate = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await axios.get(`http://localhost:8000/api/search/admin-posts/text-date?prompt=${searchText}&date=${searchDate}`);
+            setPostResults(response.data);
+        } catch(err) {
+            console.error("search by text and search",err);
+        }
+    };
+
     const handleSearch = (e) => {
         setShowResults(false);
         searchUsers(e);
-        searchPosts(e);
-        setShowResults(true);
+        if (searchText != "") {
+            if (searchDate != "") { searchByTextDate(e); }
+            else { searchByText(e); }
+            setShowResults(true);
+        } else {
+            if (searchDate != "") { 
+                searchByDate(e); 
+                setShowResults(true);
+            } else { setShowResults(false); }
+        }
     };
 
     const navigate = useNavigate();
@@ -109,7 +145,7 @@ function AdminSearchbar(props) {
         </div>
 
         {showResults && (<div id="admin_results">
-            <p>résultats pour "{searchText}"</p>
+            <p>résultats pour {searchText != "" && (searchText)}{(searchText != "" && searchDate != "") && (", ")} {searchDate != "" && (readableDate)}</p>
             <div id="user_adminresults">
                 {userResults.length === 0 && (<p>aucun utilisateur correspond</p>)}
                 {userResults.map((user, index) => (

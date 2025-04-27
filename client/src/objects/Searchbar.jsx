@@ -145,7 +145,7 @@ function Searchbar(props) {
         </div>
 
         {showResults && (<div id="results">
-            <p>résultats pour "{searchText != "" && (searchText)}"{(searchText != "" && searchDate != "") && (", ")} {searchDate != "" && (readableDate)}</p>
+            <p>résultats pour {searchText != "" && (searchText)}{(searchText != "" && searchDate != "") && (", ")} {searchDate != "" && (readableDate)}</p>
             <div id="user_results">
                 {userResults.length === 0 && (<p>aucun utilisateur correspond</p>)}
                 {userResults.map((user, index) => (
