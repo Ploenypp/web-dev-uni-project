@@ -179,8 +179,8 @@ router.post('/delete-post', async(req,res) => {
         await client.connect();
         const db = client.db("IN017");
         const posts = db.collection("admin_posts");
-        {/*const comments = db.collection("comments");
-        const flagged = db.collection("flagged_posts");*/}
+        const comments = db.collection("comments");
+        {/*const flagged = db.collection("flagged_posts");*/}
 
         await posts.deleteOne({ _id: new ObjectId(postID) });
         {/*await comments.deleteMany({ parentPostID: new ObjectId(postID) });

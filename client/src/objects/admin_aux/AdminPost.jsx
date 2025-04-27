@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 
-//import Comment from "./Comment.jsx";
-//import NewReply from './NewReply.jsx';
+import Comment from "../Comment.jsx";
+import NewReply from '../NewReply.jsx';
 import "../../styles/Post.css";
 import "../../styles/Admin.css";
 
@@ -50,7 +50,7 @@ function AdminPost(props) {
         ));
     };
 
-    {/*const [comments, setComments] = useState([]);
+    const [comments, setComments] = useState([]);
     useEffect(() => {
         if (postID) {
         fetch(`http://localhost:8000/api/posts/comments?parentPostID=${postID.toString()}`, { credentials: 'include' })
@@ -74,7 +74,7 @@ function AdminPost(props) {
             setThreadBtnText("masquer la discussion");
         }
         console.log(showThread);
-    };*/}
+    };
 
     const navigate = useNavigate();
     const handleToUser = async () => {
@@ -198,7 +198,7 @@ function AdminPost(props) {
         <div id="post_content">
             { formatText(props.content) }
         </div>
-        {/*<div id="post_btns">
+        <div id="post_btns">
             <NewReply parentPostID={postID} />
             
             { comments.length > 0 ? (<button id="show_thread" type="button" onClick={toggleThread}>{threadBtnText}</button>) : <button id="no_comment" type="button">pas de commentaire</button> }
@@ -215,7 +215,7 @@ function AdminPost(props) {
                     content={comment.content} />
                 )) }
             </div>
-        )}*/}
+        )}
     </div>)
 }
 

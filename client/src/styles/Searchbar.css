@@ -99,11 +99,17 @@
     font-size: large;
 
     width: fit-content;
+    height: fit-content;
     align-items: center;
     gap: 1em;
 
     padding: 1em;
     border-radius: 25px;
+    border: 0px;
+}
+
+#user_result_card:hover {
+    background-color: rgba(20, 68, 102, 0.876);
 }
 
 #res_pic {

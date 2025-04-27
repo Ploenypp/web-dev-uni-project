@@ -129,16 +129,22 @@
     display: flex;
     flex-direction: row;
 
-    background-color: rgba(102, 19, 132, 0.535);
+    background-color: rgba(76, 30, 93, 0.535);
     font-family: sans-serif;
     font-size: large;
 
     width: fit-content;
+    height: fit-content;
     align-items: center;
     gap: 1em;
 
     padding: 1em;
     border-radius: 25px;
+    border:0px;
+}
+
+#user_adminresult_card:hover {
+    background-color: rgba(97, 39, 118, 0.944);
 }
 
 #adminres_field {
@@ -148,8 +154,8 @@
 
     white-space: nowrap;
 
-    color: rgb(207, 96, 255);
-    border-left: 1px solid rgb(207, 96, 255);
+    color: rgb(175, 107, 239);
+    border-left: 1px solid rgb(181, 96, 255);
     padding-left: 1em;
 }
 

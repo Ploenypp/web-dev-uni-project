@@ -1,4 +1,5 @@
 import {useState, useEffect, useRef} from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import Post from './Post';
@@ -80,6 +81,23 @@ function Searchbar(props) {
         setShowResults(true);
     };
 
+    const navigate = useNavigate();
+    const handleToUser = async (userID) => {
+        if (userID === currentUserID) { 
+            navigate('/profile');
+            return ;
+        }
+
+        try {
+            const response = await axios.post('http://localhost:8000/api/user/visit', { userID }, { withCredentials: true });
+            //alert(response.data.message);
+            navigate('/user');
+        } catch(err) {
+            console.error("visit failed", err.response?.data?.message || err.message);
+            alert(err.response?.data?.message || "Something went wrong");
+        }
+    };
+
     return(<div className="Searchbar">
         <div id="searchbar">
             <form><div id="searchbar_form">
@@ -95,7 +113,7 @@ function Searchbar(props) {
             <div id="user_results">
                 {userResults.length === 0 && (<p>aucun utilisateur correspond</p>)}
                 {userResults.map((user, index) => (
-                    <div id="user_result_card">
+                    <button id="user_result_card" type="button" onClick={() => handleToUser(user._id)} key={index}>
                         <img id="res_pic" src={pfp(user.fstname)} alt="pfp" />
                         <div id="res_name">
                             {user.fstname} {user.surname}
@@ -122,7 +140,7 @@ function Searchbar(props) {
                             {user.team}
                             </div>
                         </div>
-                    </div>
+                    </button>
                 ))}
 
             </div>
