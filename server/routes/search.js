@@ -28,7 +28,7 @@ router.get('/all-users', async(req,res) => {
     }
 });
 
-router.get('/all-posts', async(req,res) => {
+router.get('/all-posts/text', async(req,res) => {
     const prompt = req.query.prompt;
     try {
         await client.connect();
@@ -89,6 +89,55 @@ router.get('/admin-posts', async(req,res) => {
         res.json(results);
     } catch(err) {
         console.error("searching posts failed", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+router.get('/all-posts/date', async(req,res) => {
+    const { date } = req.query;
+    const searchDate = new Date(date);
+    const start = new Date(searchDate.setHours(0,0,0,0));
+    const end = new Date(searchDate.setHours(23,59,59,999));
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const posts = db.collection("posts");
+
+        const results = await posts.find({
+            timestamp: { $gte: start, $lte: end }
+        }).toArray();
+
+        res.status(200).json(results);
+    } catch(err) {
+        console.error("searching dates failed", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+router.get('/all-posts/text-date', async(req,res) => {
+    const { prompt, date } = req.query;
+    const searchDate = new Date(date);
+    const start = new Date(searchDate.setHours(0,0,0,0));
+    const end = new Date(searchDate.setHours(23,59,59,999));
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        await db.collection("posts").createIndex({
+            title: "text",
+            content: "text",
+            author: "text"
+        });
+        const posts = db.collection("posts");
+        const results = await posts.find({
+            $text: { $search: prompt },
+            timestamp: { $gte: start, $lte: end }
+
+        }).sort({ score: { $meta: "textScore" } }).toArray();
+        res.json(results);
+    } catch(err) {
+        console.error("searching posts and dates failed", err);
         res.status(500).json({ message: "Internal server error" });
     }
 });
