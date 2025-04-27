@@ -27,6 +27,7 @@
 
     height: 4em;
     min-height: 4em;
+    max-height: fit-content;
     resize: vertical;
 
     box-sizing: border-box;

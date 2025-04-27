@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 
-import Comment from "../Comment.jsx";
-import NewReply from '../NewReply.jsx';
+import AdminComment from "./AdminComment.jsx";
+import NewAdminComment from "./NewAdminComment.jsx";
 import "../../styles/Post.css";
 import "../../styles/Admin.css";
 
@@ -198,15 +198,15 @@ function AdminPost(props) {
         <div id="post_content">
             { formatText(props.content) }
         </div>
-        <div id="post_btns">
-            <NewReply parentPostID={postID} />
+        <div id="adminpost_btns">
+            <NewAdminComment parentPostID={postID} />
             
-            { comments.length > 0 ? (<button id="show_thread" type="button" onClick={toggleThread}>{threadBtnText}</button>) : <button id="no_comment" type="button">pas de commentaire</button> }
+            { comments.length > 0 ? (<button id="show_adminthread" type="button" onClick={toggleThread}>{threadBtnText}</button>) : <button id="no_comment" type="button">pas de commentaire</button> }
         </div>
         { showThread && (
-            <div className="thread">
+            <div className="adminthread">
                 { comments.map((comment,index) => (
-                    <Comment 
+                    <AdminComment 
                     key={index}
                     currentUserID={currentUserID}
                     userID={comment.userID}
