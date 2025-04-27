@@ -1,3 +1,5 @@
+# Project du développement web pour l'UE LU3IN017 Technologies du web de la licence d'informatique, 3e année à Sorbonne Université
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
