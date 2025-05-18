@@ -33,7 +33,7 @@ function OtherUserPage() {
         })
 
         .catch(err=> console.error("Error fetching user posts", err));
-    }, []);
+    }, [visitID]);
 
     const [showBtn, setShowBtn] = useState("Envoyer Friend Request");
 
