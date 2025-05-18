@@ -1,42 +1,9 @@
 import {useState, useEffect, useRef} from 'react';
+import axios from 'axios';
+
 import "../styles/ProfilePage.css";
 
-// profile pictures
-import tmp_pfp from "../assets/tmp_pfp.png";
-import xemnas from "../assets/profile_pics/xemnas.png";
-import xigbar from "../assets/profile_pics/xigbar.png";
-import xaldin from "../assets/profile_pics/xaldin.png";
-import vexen from "../assets/profile_pics/vexen.png";
-import lexaeus from "../assets/profile_pics/lexaeus.png";
-import zexion from "../assets/profile_pics/zexion.png";
-import saix from "../assets/profile_pics/saix.png";
-import axel from "../assets/profile_pics/axel.png";
-import demyx from "../assets/profile_pics/demyx.png";
-import luxord from "../assets/profile_pics/luxord.png";
-import marluxia from "../assets/profile_pics/marluxia.png";
-import larxene from "../assets/profile_pics/larxene.png";
-import roxas from "../assets/profile_pics/roxas.png";
-import xion from "../assets/profile_pics/xion.png";
-
 function ProfileInfo(props) {
-    const pfp = (name) => {
-        if (name === "Xemnas") { return xemnas; }
-        if (name === "Xigbar") { return xigbar; }
-        if (name === "Xaldin") { return xaldin; }
-        if (name === "Vexen") { return vexen; }
-        if (name === "Lexaeus") { return lexaeus; }
-        if (name === "Zexion") { return zexion; }
-        if (name === "Saix") { return saix; }
-        if (name === "Axel") { return axel; }
-        if (name === "Demyx") { return demyx; }
-        if (name === "Luxord") { return luxord; }
-        if (name === "Marluxia") { return marluxia; }
-        if (name === "Larxene") { return larxene; }
-        if (name === "Roxas") { return roxas; }
-        if (name === "Xion") { return xion; }
-        return tmp_pfp;
-    }
-
     const date = new Date(props.dob);
     const readableDate = date.toLocaleString('fr-FR', {
         year: 'numeric',
@@ -44,16 +11,53 @@ function ProfileInfo(props) {
         day: 'numeric'
     });
 
+    const [file, setFile] = useState(null);
+    const handleFileUpload = (evt) => {
+        const file = evt.target.files[0];
+        if (file) { setFile(file); }
+        else { setFile(null); }
+    };
+
+    const handleFileSubmit = async () => {
+        if (!file) { return; }
+
+        const formData = new FormData();
+        formData.append('image', file); // or wherever your file comes from
+
+        axios.post('http://localhost:8000/api/images/upload_pfp', formData, {
+        withCredentials: true, // include if your server uses sessions/cookies
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },})
+        .then(res => { console.log('Upload successful:', res.data); })
+        .catch(err => { console.error('Upload failed:', err); });
+    };
+
     return(<div className="ProfileInfo">
-        <img src={pfp(props.fstname)} id="profile_pic" alt="profile picture"/>
-                <div id="profile_text">
-                    <strong>{props.fstname} {props.surname}</strong>
-                    <div id="p_profile">
-                        <div>Né(e) : <strong>{readableDate}</strong></div>
-                        <div>Statut : <strong>{props.status}</strong></div>
-                        <div>Équipe : <strong>{props.team}</strong></div>
-                    </div>
+        {props.userID && (
+        <img src={`http://localhost:8000/api/images/load_pfp/${props.userID}?t={Date.now()}`} 
+        id="profile_pic" 
+        alt="profile picture" 
+        />
+        )}
+            <div id="profile_text">
+                <strong>{props.fstname} {props.surname}</strong>
+                <div id="p_profile">
+                    <div>Né(e) : <strong>{readableDate}</strong></div>
+                    <div>Statut : <strong>{props.status}</strong></div>
+                    <div>Équipe : <strong>{props.team}</strong></div>
                 </div>
+            </div>
+            <div className="upload_container">
+                <label htmlFor="pfp_input">modifier le photo de profil</label>
+                <input id="pfp_input" type="file" accept="image/*/" onChange={handleFileUpload}/>
+                {file && (
+                    <div id="pfp_input_confirm">
+                    {file.name}
+                    <button id="confirm_pfp_btn" type="button" onClick={handleFileSubmit}>confirmer</button>
+                    </div>
+                )}
+            </div>
     </div>)
 }
 
