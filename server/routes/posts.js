@@ -208,8 +208,8 @@ router.post('/flag-post', async(req,res) => {
     }
 });
 
-router.get('/get-flagged', async(req,res) => {
-    const { userID, postID } = req.query;
+router.get('/get-flagged/:userID/:postID', async(req,res) => {
+    const { userID, postID } = req.params;
 
     try {
         await client.connect();
@@ -219,7 +219,7 @@ router.get('/get-flagged', async(req,res) => {
         if (post) {
             const byUser = Array.isArray(post.users) && post.users.some((id) => id.toString() === userID.toString());
 
-             return res.status(200).json(byUser);
+            return res.status(200).json(byUser);
         } else {
             return res.status(200).json(false);
         }

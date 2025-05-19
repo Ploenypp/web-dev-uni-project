@@ -136,7 +136,7 @@ function Post(props) {
     const [alreadyFlagged, setAlreadyFlagged] = useState(false);
     const updateFlaggedState = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api/posts/get-flagged?userID=${currentUserID.toString()}&postID=${postID.toString()}`, { credentials: 'include' });
+            const response = await fetch(`http://localhost:8000/api/posts/get-flagged/${currentUserID}/${postID}`, { credentials: 'include' });
             const data = await response.json();
             setAlreadyFlagged(data);
         } catch(err) {
