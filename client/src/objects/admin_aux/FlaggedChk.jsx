@@ -28,7 +28,7 @@ function FlaggedChk(props) {
 
     const handleDelete = async() => {
         try {
-            const response = await axios.delete(`http://localhost:8000/api/admin/delete-post/${postID}/${authorID}`, { 
+            const response = await axios.delete(`http://localhost:8000/api/admin/delete-flagged-post/${postID}/${authorID}`, { 
                 params: { postTitle, warning },
                 withCredentials: true 
             });

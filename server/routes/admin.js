@@ -168,7 +168,7 @@ router.get('/posts', async(req,res) => {
     }
 });
 
-router.delete('/delete-post/:postID/:authorID', async(req,res) => {
+router.delete('/delete-flagged-post/:postID/:authorID', async(req,res) => {
     if (!req.session.userId) {
         return res.status(401).json({ message: "pas connecté" });
     }
