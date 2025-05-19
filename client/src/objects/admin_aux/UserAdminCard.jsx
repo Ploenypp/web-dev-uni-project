@@ -85,9 +85,21 @@ function UserAdminCard(props) {
         toggleTeam();
     };
 
+    const deleteUser = async () => {
+        try {
+            const response = await axios.delete(`http://localhost:8000/api/admin/delete-user/${userID}`, { withCredentials: true });
+            alert(response.data.message);
+        } catch(err) {
+            console.error("user deletion failed", err.resopnse?.data?.message || err.message);
+            alert(err.response?.data?.message || "Something went wrong");
+        }
+        toggleRemove();
+    };
+
     const handleUserOps = () => {
         if (btnSelected === "status") { changeStatus(); }
         if (btnSelected === "team") { assignTeam(); }
+        if (btnSelected == "remove") { deleteUser(); }
     };
 
     return(<div className="UserAdminCard">

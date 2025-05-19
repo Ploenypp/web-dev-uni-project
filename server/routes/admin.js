@@ -193,4 +193,84 @@ router.post('/delete-post', async(req,res) => {
     }
 });
 
+router.delete('/delete-user/:id', async(req,res) => {
+    const userID = req.params.id;
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+
+        await db.collection("posts").updateMany(
+            { userID: new ObjectId(userID) },
+            { $set: {
+                userID: null, 
+                author: "utilisateur supprimé" 
+            }}
+        );
+        console.log("post modif success");
+
+        await db.collection("admin_posts").updateMany(
+            { userID: new ObjectId(userID) },
+            { $set: {
+                userID: null, 
+                author: "utilisateur supprimé" 
+            }}
+        );
+        console.log("admin post modif success");
+
+        await db.collection("flagged_posts").updateMany(
+            { userID: new ObjectId(userID) },
+            { $set: {
+                userID: null, 
+                author: "utilisateur supprimé" 
+            }}
+        );
+        console.log("flagged post modif success");
+
+        await db.collection("comments").updateMany(
+            { userID: new ObjectId(userID) },
+            { $set: {
+                userID: null, 
+                author: "utilisateur supprimé" 
+            }}
+        );
+        console.log("comments modif success");
+
+        await db.collection("friends").updateMany(
+            { friend1ID: new ObjectId(userID) },
+            { $set: {
+                friend1ID: null,
+                friend1_name: "utilisateur supprimé"
+            }}
+        );
+        console.log("friends1 modif success");
+        await db.collection("friends").updateMany(
+            { friend2ID: new ObjectId(userID) },
+            { $set: {
+                friend2ID: null,
+                friend2_name: "utilisateur supprimé"
+            }}
+        );
+        console.log("friends2 modif success");
+
+        
+        await db.collection("friend_requests").deleteMany({ $or: [ 
+            { recipientID: new ObjectId(userID) },
+            { senderID: new ObjectId(userID) }
+        ]});
+        console.log("friend reqs delete success");
+
+        await db.collection("profile_pictures").deleteOne({ user: new ObjectId(userID) });
+        console.log("pfp delete success");
+
+        await db.collection("users").deleteOne({ _id: new ObjectId(userID) });
+        console.log("user delete success");
+
+        res.status(200).json({ message: "suppression réussie" });
+    } catch(err) {
+        console.error("deletion error:",err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 module.exports = router;

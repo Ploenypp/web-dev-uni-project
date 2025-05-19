@@ -52,8 +52,8 @@ router.post('/upload_pfp', upload.single('image'), async (req,res) => {
 router.get('/load_pfp/:id', async(req,res) => {
     const pfp_userID = req.params.id;
 
-    console.log("Looking for user:", pfp_userID, typeof pfp_userID);
-    console.log("Converted to ObjectId:", new ObjectId(pfp_userID));
+    {/*console.log("Looking for user:", pfp_userID, typeof pfp_userID);
+    console.log("Converted to ObjectId:", new ObjectId(pfp_userID));*/}
 
     try {
         await client.connect();
@@ -76,8 +76,8 @@ router.get('/load_pfp/:id', async(req,res) => {
             pfp = await db.collection('placeholders').findOne({ name: fstInit + ".webp" });
         }
 
-        console.log("user:",pfp_userID);
-        console.log("pfp",pfp);
+        {/*console.log("user:",pfp_userID);
+        console.log("pfp",pfp);*/}
 
         {/*console.log('Placeholder image document:', pfp);
         console.log("type", typeof pfp.image);
