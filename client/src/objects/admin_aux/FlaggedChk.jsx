@@ -4,6 +4,7 @@ import axios from 'axios';
 function FlaggedChk(props) {
     const postID = props.postID;
     const authorID = props.authorID;
+    const postTitle = props.title;
 
     const formatText = (text) => {
         return text.split('\n').map((line, index) => (
@@ -25,13 +26,29 @@ function FlaggedChk(props) {
     const [warning, setWarning] = useState("");
     const getContent = (evt) => { setWarning(evt.target.value); }
 
+    const handleDelete = async() => {
+        try {
+            const response = await axios.delete(`http://localhost:8000/api/admin/delete-post/${postID}/${authorID}`, { 
+                params: { postTitle, warning },
+                withCredentials: true 
+            });
+            alert(response.data.message);
+        } catch(err) {
+            console.error("flagged post deletion failed", err.resopnse?.data?.message || err.message);
+            alert(err.response?.data?.message || "Something went wrong");
+        }
+        setWriteWarning(false);
+        setWarning("");
+        toggleShow();
+    }
+
     return(<div className="FlaggedChk">
         <div id="flagged_post_container">
             <button id="flagged_head" type="button" onClick={toggleShow}>
                 <div id="flagged_count">
                     {props.reports}</div>
                 <div id="flagged_info">
-                    <div>{props.title}</div>
+                    <div>{postTitle}</div>
                     <div><i>{props.author}</i></div>
                 </div>
             </button>
@@ -46,7 +63,7 @@ function FlaggedChk(props) {
         {writeWarning && (<div id="flagged_warning">
             <textarea id="write-warning" type="text" onChange={getContent} placeholder="écrivez un avertissement..."></textarea>
 
-            <button id="del_alert_flagged_btn" type="button">supprimer la publication + envoyer l'avertissement à {props.author}</button>
+            <button id="del_alert_flagged_btn" type="button" onClick={handleDelete}>supprimer la publication + envoyer l'avertissement à {props.author}</button>
         </div>)}
         
     </div>)

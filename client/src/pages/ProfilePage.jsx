@@ -6,20 +6,20 @@ import "../styles/ProfilePage.css";
 import "../styles/Chat.css";
 
 import Ribbon from "../objects/Ribbon.jsx";
-import Searchbar from "../objects/Searchbar.jsx"
 import Post from "../objects/Post.jsx"
 import ProfileInfo from "../objects/ProfileInfo";
 import RequestLst from "../objects/RequestLst.jsx";
+import NotiLst from "../objects/NotiLst.jsx";
 
 function ProfilePage() {
-	const [userInfo, setUserInfo] = useState("");
-	useEffect(() => {
-		fetch('http://localhost:8000/api/user/profile', { credentials: 'include' })
-			.then(res => res.json())
-			.then(data => setUserInfo(data))
-			.catch(err => console.error("Error fetching user data:", err));
-	}, []);
-	const currentUserID = userInfo._id;
+    const [userInfo, setUserInfo] = useState("");
+    useEffect(() => {
+      	fetch('http://localhost:8000/api/user/profile', { credentials: 'include' })
+        .then(res => res.json())
+        .then(data => setUserInfo(data))
+        .catch(err => console.error("Error fetching user data:", err));
+    }, []);
+    const currentUserID = userInfo._id;
 
     const navigate = useNavigate();
     const toChats = () => {
@@ -57,6 +57,8 @@ function ProfilePage() {
               	<ProfileInfo userID={currentUserID} fstname={userInfo.fstname} surname={userInfo.surname} dob={userInfo.dob} status={userInfo.status} team={userInfo.team}/> 
               	
 				<RequestLst reqslst={reqslst}/> 
+
+        		<NotiLst />
               	
 				<button id="redirChat_btn" type="button" onClick={toChats}><img src={gummiphone} id="profile_msg_icon" alt="icon"/>Messages</button>
             </div>

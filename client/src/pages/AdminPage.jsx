@@ -61,7 +61,7 @@ function AdminPage() {
             .then(res => res.json())
             .then(data => setFlaggedPosts(data))
             .catch(err => console.error("error fetching flagged posts", err));
-    },[]);
+    },[flaggedPosts]);
 
     const [allUsers, setAllUsers] = useState([]);
     useEffect(() => {

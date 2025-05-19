@@ -1,0 +1,107 @@
+#noti_btn {
+    background-color: rgba(112, 34, 133, 0.353);
+
+    border-top: 5px double rgba(174, 112, 195, 0.416);
+    border-right: 5px double rgba(174, 112, 195, 0.416);
+    border-bottom: 5px double rgba(174, 112, 195, 0.416);
+    border-left: 0px solid black;
+
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+
+    width: 100%;
+    height: fit-content;
+    padding:0.5em;
+}
+
+#noti_btn:hover {
+    background-color: rgba(112, 34, 133, 0.555);
+    border-color: rgba(174, 112, 195, 0.656);
+}
+
+.NotiLst {
+    background-color: rgba(62, 19, 74, 0.353);
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+
+#noti_lst {
+    display: flex;
+    flex-direction: column;
+    border-bottom-right-radius: 25px;
+
+    padding: 0.5em;
+    max-height: 10em;
+    overflow: scroll;
+    scrollbar-color: rgba(162, 112, 195, 0.416) rgba(95, 34, 133, 0.123);
+}
+
+.Notification {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(49, 8, 60, 0.375);
+    border-radius: 25px;
+}
+
+#notif_head {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.5em;
+    gap: 0.5em;
+
+    font-size: large;
+    background-color:rgba(62, 19, 74, 0.353);
+    border-radius: 25px;
+}
+
+.notif_subject {
+    width: fit-content;
+    height: fit-content;
+
+    text-align: left;
+
+    background-color:rgba(62, 19, 74, 0.353);
+    border: 0px;
+    padding: 1em;
+}
+
+.notif_subject.true {
+    background-color:rgba(0, 0, 0, 0);
+    padding: 0.5em;
+}
+
+.notif_subject:hover {
+    background-color:rgba(62, 19, 74, 0.526);
+}
+
+#del_notif_btn {
+    display: flex;
+    justify-content: center;
+
+    width: 2em;
+    height: 1.7em;
+    padding: 0em;
+    padding-top: 0.2em;
+
+    background-color: rgba(128, 0, 128, 0.217);
+    border: 0px;
+}
+
+#del_notif_btn:hover {
+    background-color: rgba(128, 0, 128, 0.461);
+}
+
+#notif_body {
+    font-family: sans-serif;
+    font-size: medium;
+    padding: 0.5em;
+}
+
+#no_notifs {
+    font-family: sans-serif;
+    font-size: medium;
+    text-align: center;
+}

@@ -88,7 +88,7 @@ function UserAdminCard(props) {
     const deleteUser = async () => {
         try {
             const response = await axios.delete(`http://localhost:8000/api/admin/delete-user/${userID}`, { withCredentials: true });
-            alert(response.data.message);
+            //alert(response.data.message);
         } catch(err) {
             console.error("user deletion failed", err.resopnse?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");

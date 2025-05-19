@@ -724,8 +724,9 @@
 
 #write-warning {
     width: auto;
-    height: 3em;
     min-height: 3em;
+    max-height: 10em;
+    resize: vertical;
 
     color: white;
     font-family: sans-serif;
@@ -735,7 +736,6 @@
     border-radius: 25px;
 
     padding: 1em;
-    resize: vertical;
 }
 
 #del_alert_flagged_btn {

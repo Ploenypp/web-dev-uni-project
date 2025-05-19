@@ -35,7 +35,7 @@ body {
 #profile_sidebar {
     display: flex;
     flex-direction: column;
-    width: 25%;
+    width: 40%;
     min-width: 10em;
     height: max-content;
     gap: 0.5em;
@@ -46,6 +46,8 @@ body {
     flex-direction: column;
     padding: 1em;
     gap: 1em;
+
+    align-items: center;
 
     border-top: 5px double rgb(42, 45, 132);
     border-right: 5px double rgb(42, 45, 132);

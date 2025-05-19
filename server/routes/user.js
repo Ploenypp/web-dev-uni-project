@@ -132,7 +132,6 @@ router.get('/get-friend-requests', async(req,res) => {
     if (!req.session.userId) {
         return res.status(401).json({ message: "pas connecté" });
     }
-
     const userID = req.session.userId;
 
     try {
@@ -216,6 +215,39 @@ router.post('/reject-friend-request', async(req,res) => {
         res.status(201).json({ message: "friendship rejected" });
     } catch(err) {
         console.error("rejection error",err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+router.get('/get-notifications/', async(req,res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ message: "pas connecté" });
+    }
+    const userID = req.session.userId;
+
+    try { 
+        await client.connect();
+        const db = client.db("IN017");
+        const notifs = await db.collection("notifications").find({ recipientID: new ObjectId(userID) }).toArray();
+
+        res.json(notifs || []);
+    } catch(err) {
+        console.error("notification retrieval error",err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+router.delete('/delete-notification/:notifID', async(req,res) => {
+    const notifID = req.params.notifID;
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        await db.collection("notifications").deleteOne({ _id: new ObjectId(notifID) });
+
+        res.status(200).json({ message: "delete notification success" });
+    } catch(err) {
+        console.error("notification deletion error",err);
         res.status(500).json({ message: "Internal server error" });
     }
 });
