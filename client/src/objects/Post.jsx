@@ -113,6 +113,7 @@ function Post(props) {
     const toggleExtra = () => {
         setShowExtra(!showExtra);
         if (showConfirmDel) { setShowConfirmDel(false); }
+        if(showEdit) { setShowEdit(false); }
     };
 
     const allowModif = currentUserID === userID;
@@ -128,7 +129,7 @@ function Post(props) {
             console.error("edit failed", err.response?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");
         }
-        toggleEdit();
+        toggleExtra();
     }
 
     const [showConfirmDel, setShowConfirmDel] = useState(false);
@@ -143,7 +144,7 @@ function Post(props) {
             console.error("visit failed", err.response?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");
         }
-        setShowExtra(false);
+        toggleExtra();
     };
 
     const [alreadyFlagged, setAlreadyFlagged] = useState(false);
@@ -179,6 +180,7 @@ function Post(props) {
             }
         }
         updateFlaggedState();
+        toggleExtra();
     };
 
     return(<div className="Post">

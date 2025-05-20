@@ -432,6 +432,54 @@
     color: rgb(178, 112, 226);
 }
 
+#write-admin-edit {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+
+    border-top: 1px solid rgba(141, 55, 194, 0.572);
+    padding: 1em;
+    background-color: rgba(35, 19, 57, 0.609);
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+
+    font-family: serif;
+    font-size: medium;
+}
+
+#write-admin-edit-content {
+    color: rgb(255, 255, 255);
+    font-size: medium;
+    font-family: sans-serif;
+    background-color:rgba(52, 27, 72, 0.729);
+
+    border: 2px solid rgb(73, 43, 96);
+    border-radius: 25px;
+
+    height: 7.5em;
+    min-height: 7.5em;
+    resize: vertical;
+
+    box-sizing: border-box;
+    padding: 1em;
+}
+
+#confirm-admin-edit-btn {
+    font-size: medium;
+
+    width: fit-content;
+    max-width: 100%;
+    white-space: nowrap;
+    
+    color: white;
+    background-color: rgba(103, 56, 150, 0.304);
+    border: 0px;
+}
+
+#confirm-admin-edit-btn:hover {
+    background-color: rgba(112, 56, 150, 0.482);
+}
+
 #adminpost_btns {
     padding-top: 0.5em;
     border-top: 1px solid rgba(141, 55, 194, 0.572);

@@ -200,12 +200,14 @@ router.post('/flag-post', async(req,res) => {
                 title: title,
                 content: content
             });
-
-            await db.collection("notifications").insertOne({
+            
+            if (authorID){
+                await db.collection("notifications").insertOne({
                 recipientID: new ObjectId(authorID),
                 subject : `Votre publication "${title}" a été signalée.`,
                 body : "Un administrateur examinera votre publication et décidera s'elle doit être restaurée ou supprimée. Vous serez informé de la décision."
-            })
+                })
+            }
             return res.status(201).json({ message: "report success" });
         }
     } catch(err) {

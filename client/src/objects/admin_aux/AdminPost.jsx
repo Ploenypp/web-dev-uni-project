@@ -30,9 +30,7 @@ function AdminPost(props) {
     const currentUserID = props.currentUserID;
     const postID = props.postID;
     const userID = props.userID;
-    const date = new Date(props.timestamp);
-    const readableDate = date.toLocaleString('fr-FR', {
-        weekday: 'long',
+    const OGdate = new Date(props.timestamp).toLocaleString('fr-FR', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
@@ -118,6 +116,21 @@ function AdminPost(props) {
     };
 
     const allowModif = currentUserID === userID;
+    const [showEdit, setShowEdit] = useState(false);
+    const toggleEdit = () => { setShowEdit(!showEdit); }
+    const [edit, getEdit] = useState(props.content);
+    const handleConfirmEdit = async() => {
+        try {
+            const response = await axios.patch(`http://localhost:8000/api/admin/edit-post/${postID}`, { edit }, { withCredentials: true });
+            //alert(response.data.message);
+            toggleEdit();
+        } catch(err) {
+            console.error("edit failed", err.response?.data?.message || err.message);
+            alert(err.response?.data?.message || "Something went wrong");
+        }
+        toggleEdit();
+        toggleExtra();
+    }
 
     const [showConfirmDel, setShowConfirmDel] = useState(false);
     const toggleConfirmDel = () => {
@@ -125,12 +138,13 @@ function AdminPost(props) {
     };
     const handleDelete = async () => {
         try {
-            const response = await axios.post('http://localhost:8000/api/admin/delete-post', { postID }, { withCredentials: true });
+            const response = await axios.delete(`http://localhost:8000/api/admin/delete-post/${postID}`, { withCredentials: true });
             //alert(response.data.message);
         } catch(err) {
             console.error("delete failed", err.response?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");
         }
+        toggleExtra();
     };
 
     const [alreadyFlagged, setAlreadyFlagged] = useState(false);
@@ -166,6 +180,7 @@ function AdminPost(props) {
             }
         }
         updateFlaggedState();
+        toggleExtra();
     };
 
     return(<div className="AdminPost">
@@ -181,7 +196,7 @@ function AdminPost(props) {
                             
                             {showConfirmDel && (<button id="rev_del_adminpost" type="button" onClick={toggleConfirmDel}>↩︎</button>)}
                             
-                            <button id="edit_adminpost" type="button">✎</button>
+                            <button id="edit_adminpost" type="button" onClick={toggleEdit}>✎</button>
                         </div>)}
 
                         {!allowModif && (<button className={`flag_adminpost_btn ${alreadyFlagged}`} type="button" onClick={handleFlag}>{!alreadyFlagged ? ("⚐") : ("⚑")}</button>)}
@@ -192,12 +207,19 @@ function AdminPost(props) {
             </div>
             <div id="admin_post_info">
                 <button id="admin_author_btn" type="button" onClick={handleToUser}><img id="post_pfp" src={pfp(props.author)} alt="msg_pfp"/> {props.author}</button> 
-                {readableDate}
+                {!props.edited ? (`${OGdate}`) : (<div>
+                    modifié : {new Date(props.editDate).toLocaleString('fr-FR', {year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric',minute: 'numeric', hour12: false})} |
+                    publié : {new Date(props.timestamp).toLocaleString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric',
+                    })}
+                </div>)}
             </div>
         </div>
-        <div id="post_content">
-            { formatText(props.content) }
-        </div>
+        <div id="post_content">{ formatText(props.content) }</div>
+        { showEdit && (<div id="write-admin-edit">
+            modifier votre publication
+            <textarea id="write-admin-edit-content" type="text" onChange={(evt) => getEdit(evt.target.value)} value={edit}></textarea>
+            <button id="confirm-admin-edit-btn" type="button" onClick={handleConfirmEdit}>confirmer la modification</button>
+        </div>)}
         <div id="adminpost_btns">
             <NewAdminComment parentPostID={postID} />
             

@@ -153,6 +153,61 @@ router.post('/newpost', async(req,res) => {
     }
 });
 
+router.patch('/edit-post/:postID', async(req,res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ message: "pas connecté" });
+    }
+    
+    const postID = req.params.postID;
+    const { edit } = req.body;
+    const timestamp = new Date(Date.now());
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+
+        await db.collection("admin_posts").updateOne(
+            {_id: new ObjectId(postID)},
+            { $set: {
+                content: edit,
+                editDate: timestamp,
+                edited: true
+            }}
+        );
+
+        res.status(200).json({ message: "edit successful"});
+
+    } catch(err) {
+        console.error("edit error",err);
+        res.status(500).err({ message: "Internal server error" });
+    }
+});
+
+router.delete('/delete-post/:postID', async(req,res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ message: "pas connecté" });
+    }
+
+    const postID = req.params.postID;
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const posts = db.collection("admin_posts");
+        const comments = db.collection("comments");
+        const flagged = db.collection("flagged_posts");
+
+        await posts.deleteOne({ _id: new ObjectId(postID) });
+        await comments.deleteMany({ parentPostID: new ObjectId(postID) });
+        await flagged.deleteOne({ _id: new ObjectId(postID) });
+
+        res.status(200).json({ message: "suppression réussie" });
+    } catch(err) {
+        console.error("deletion error:",err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 router.get('/posts', async(req,res) => {
     try {
         await client.connect();
@@ -246,11 +301,13 @@ router.delete('/delete-flagged-post/:postID/:authorID', async(req,res) => {
         await db.collection("flagged_posts").deleteOne({ _id: new ObjectId(postID) });
         console.log("delete report success");
 
-        await db.collection("notifications").insertOne({ 
-            recipientID: new ObjectId(authorID),
-            subject: `Votre publication "${postTitle}" a été signalée et supprimée.`,
-            body: warning
-        });
+        if (authorID){
+            await db.collection("notifications").insertOne({ 
+                recipientID: new ObjectId(authorID),
+                subject: `Votre publication "${postTitle}" a été signalée et supprimée.`,
+                body: warning
+            });
+        }
         console.log("notification sent success");
 
         res.status(200).json({ message: "suppression réussie" });
