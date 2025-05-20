@@ -8,7 +8,7 @@ function Notification(props) {
     const handleBtn = async() => {
         try {
             const response = await axios.delete(`http://localhost:8000/api/user/delete-notification/${notifID}`, { withCredentials: true });
-            alert(response.data.message);
+            //alert(response.data.message);
         } catch(err) {
             console.error("delete notification failed", err.response?.data?.message || err.message);
             (err.response?.data?.message || "Something went wrong");
@@ -33,7 +33,7 @@ function Notification(props) {
 
             { showBody && (<button id="del_notif_btn" type="button" onClick={handleBtn}>✕</button>)}
         </div>
-        { showBody && (<div id="notif_body">{ formatText(props.body) }</div>) }
+        { (showBody && props.body ) && (<div id="notif_body">{ formatText(props.body) }</div>) }
     </div>)
 }
 

@@ -168,6 +168,60 @@ router.get('/posts', async(req,res) => {
     }
 });
 
+router.post('/flag-post', async(req,res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ message: "pas connecté" });
+    }
+    
+    const userID = req.session.userId;
+    const { postID } = req.body;
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const flagged_posts = db.collection("flagged_posts");
+
+        const post = await db.collection("admin_posts").findOne({ _id: new ObjectId(postID) });
+        const authorID = post.userID;
+        const author = post.author;
+        const title = post.title;
+        const content= post.content;
+
+        const alreadyFlagged = await flagged_posts.findOne({ _id: new ObjectId(postID) });
+        if (alreadyFlagged) { 
+            const byUser = alreadyFlagged.users.some((id) => id.toString() === userID.toString());
+
+            if (!byUser) { 
+                await flagged_posts.updateOne(
+                    { _id: new ObjectId(postID) }, 
+                    {
+                        $inc: { reports: 1 },
+                        $push: {users: new ObjectId(userID) } 
+                    }
+                ); 
+                return res.status(201).json({ message: "report success" });
+            } else {
+                return res.status(201).json({ message: "user already reported" });
+            }
+
+        } else {
+            await flagged_posts.insertOne({ 
+                _id: new ObjectId(postID),
+                reports: 1,
+                users: [new ObjectId(userID)],
+                authorID: authorID,
+                author: author,
+                title: title,
+                content: content
+            });
+            return res.status(201).json({ message: "report success" });
+        }
+    } catch(err) {
+        console.error("report error", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 router.delete('/delete-flagged-post/:postID/:authorID', async(req,res) => {
     if (!req.session.userId) {
         return res.status(401).json({ message: "pas connecté" });
@@ -202,6 +256,33 @@ router.delete('/delete-flagged-post/:postID/:authorID', async(req,res) => {
         res.status(200).json({ message: "suppression réussie" });
     } catch(err) {
         console.error("deletion error:",err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+router.post('/restore-flagged-post/:postID/:authorID', async(req,res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ message: "pas connecté" });
+    }
+    console.log(req.session.userId);
+
+    const { postID, authorID } = req.params;
+    const { postTitle } = req.body;
+
+    try { 
+        await client.connect();
+        const db = client.db("IN017");
+
+        await db.collection("flagged_posts").deleteOne({ _id: new ObjectId(postID) });
+        await db.collection("notifications").insertOne({
+            recipientID: new ObjectId(authorID),
+            subject: "Votre publication " + `'${postTitle}'` + " n'est plus signalée.",
+            body: null
+        });
+
+        res.status(201).json({ message: "flagged post restored, notification sent" });
+    } catch(err) {
+        console.error("flagged post restoration error:",err);
         res.status(500).json({ message: "Internal server error" });
     }
 });

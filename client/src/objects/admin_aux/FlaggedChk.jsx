@@ -32,7 +32,7 @@ function FlaggedChk(props) {
                 params: { postTitle, warning },
                 withCredentials: true 
             });
-            alert(response.data.message);
+            //alert(response.data.message);
         } catch(err) {
             console.error("flagged post deletion failed", err.resopnse?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");
@@ -40,7 +40,18 @@ function FlaggedChk(props) {
         setWriteWarning(false);
         setWarning("");
         toggleShow();
-    }
+    };
+
+    const handleRestore = async() => {
+        try {
+            const response = await axios.post(`http://localhost:8000/api/admin/restore-flagged-post/${postID}/${authorID}`, { postTitle }, { withCredentials: true });
+            //alert(response.data.message)
+
+        } catch(err) {
+            console.error("flagged post deletion failed", err.resopnse?.data?.message || err.message);
+            alert(err.response?.data?.message || "Something went wrong");
+        }
+    };
 
     return(<div className="FlaggedChk">
         <div id="flagged_post_container">
@@ -56,7 +67,7 @@ function FlaggedChk(props) {
         </div>
 
         {show && (<div id="flagged_btns">
-            <button id="restore_flagged_btn" type="button">↩</button>
+            <button id="restore_flagged_btn" type="button" onClick={handleRestore}>↩</button>
             <button className={`del_flagged_btn ${writeWarning}`} type="button" onClick={toggleWriteWarning}>{!writeWarning ? (<div>⌦</div>) : (<div>↪</div>)}</button>
         </div>)}
 
