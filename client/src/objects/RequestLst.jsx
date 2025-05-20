@@ -35,7 +35,7 @@ function RequestLst(props) {
                     senderID={request.senderID}
                     fst_name={request.sender_fstname}
                     surname={request.sender_surname} />)
-                ) : (<div id="no_friendreqs"> pas de requêtes</div>)
+                ) : (<div id="no_friendreqs">pas de requêtes</div>)
             }
         
         </div>}
