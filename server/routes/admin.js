@@ -248,7 +248,7 @@ router.delete('/delete-flagged-post/:postID/:authorID', async(req,res) => {
 
         await db.collection("notifications").insertOne({ 
             recipientID: new ObjectId(authorID),
-            subject: `Votre publication '${postTitle}' a été signalée et supprimée.`,
+            subject: `Votre publication "${postTitle}" a été signalée et supprimée.`,
             body: warning
         });
         console.log("notification sent success");
@@ -276,7 +276,7 @@ router.post('/restore-flagged-post/:postID/:authorID', async(req,res) => {
         await db.collection("flagged_posts").deleteOne({ _id: new ObjectId(postID) });
         await db.collection("notifications").insertOne({
             recipientID: new ObjectId(authorID),
-            subject: `Votre publication '${postTitle}' n'est plus signalée.`,
+            subject: `Votre publication "${postTitle}" n'est plus signalée.`,
             body: null
         });
 

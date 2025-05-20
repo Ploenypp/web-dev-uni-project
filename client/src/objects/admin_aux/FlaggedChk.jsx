@@ -51,6 +51,7 @@ function FlaggedChk(props) {
             console.error("flagged post deletion failed", err.resopnse?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");
         }
+        toggleShow();
     };
 
     return(<div className="FlaggedChk">
