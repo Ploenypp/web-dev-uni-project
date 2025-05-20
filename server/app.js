@@ -18,7 +18,7 @@ const app = express();
 // Enable CORS for all routes
 app.use(cors({  // Allow cross-origin requests
   origin: 'http://localhost:5173',
-  methods: ['GET','POST', 'DELETE', 'PUT', 'OPTIONS'],
+  methods: ['GET','POST', 'DELETE', 'PUT', 'PATCH', 'OPTIONS'],
   credentials: true
 }));
 app.options('*', cors()); // handle preflight requests

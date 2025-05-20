@@ -42,6 +42,8 @@ function MainPage () {
                 title={post.title}
                 author={post.author}
                 timestamp={post.timestamp}
+                edited={post.edited}
+                editDate={post.editDate}
                 content={post.content}
 				        currentUserID={currentUserID}
             />))}

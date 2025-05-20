@@ -64,6 +64,7 @@ function Comment(props) {
 
     const navigate = useNavigate();
     const handleToUser = async () => {
+        if (!userID) { return ;}
         if (userID === currentUserID) { 
             navigate('/profile');
             return ;

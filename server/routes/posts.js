@@ -275,4 +275,34 @@ router.post('/unflag-post', async(req,res) => {
     }
 });
 
+router.patch('/edit-post/:postID', async(req,res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ message: "pas connecté" });
+    }
+    
+    const postID = req.params.postID;
+    const { edit } = req.body;
+    const timestamp = new Date(Date.now());
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+
+        await db.collection("posts").updateOne(
+            {_id: new ObjectId(postID)},
+            { $set: {
+                content: edit,
+                editDate: timestamp,
+                edited: true
+            }}
+        );
+
+        res.status(200).json({ message: "edit successful"});
+
+    } catch(err) {
+        console.error("edit error",err);
+        res.status(500).err({ message: "Internal server error" });
+    }
+});
+
 module.exports = router;

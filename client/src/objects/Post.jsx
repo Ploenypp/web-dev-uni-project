@@ -29,9 +29,7 @@ function Post(props) {
     const currentUserID = props.currentUserID;
     const postID = props.postID;
     const userID = props.userID;
-    const date = new Date(props.timestamp);
-    const readableDate = date.toLocaleString('fr-FR', {
-        weekday: 'long',
+    const OGdate = new Date(props.timestamp).toLocaleString('fr-FR', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
@@ -77,6 +75,7 @@ function Post(props) {
 
     const navigate = useNavigate();
     const handleToUser = async () => {
+        if (!userID) { return; }
         if (userID === currentUserID) { 
             navigate('/profile');
             return ;
@@ -117,6 +116,20 @@ function Post(props) {
     };
 
     const allowModif = currentUserID === userID;
+    const [showEdit, setShowEdit] = useState(false);
+    const toggleEdit = () => { setShowEdit(!showEdit); }
+    const [edit, getEdit] = useState(props.content);
+    const handleConfirmEdit = async() => {
+        try {
+            const response = await axios.patch(`http://localhost:8000/api/posts/edit-post/${postID}`, { edit }, { withCredentials: true });
+            //alert(response.data.message);
+            toggleEdit();
+        } catch(err) {
+            console.error("edit failed", err.response?.data?.message || err.message);
+            alert(err.response?.data?.message || "Something went wrong");
+        }
+        toggleEdit();
+    }
 
     const [showConfirmDel, setShowConfirmDel] = useState(false);
     const toggleConfirmDel = () => {
@@ -181,7 +194,7 @@ function Post(props) {
                             
                             {showConfirmDel && (<button id="rev_del_post" type="button" onClick={toggleConfirmDel}>↩︎</button>)}
                             
-                            <button id="edit_post" type="button">✎</button>
+                            <button id="edit_post" type="button" onClick={toggleEdit}>✎</button>
                         </div>)}
 
                         {!allowModif && (<button className={`flag_post_btn ${alreadyFlagged}`} type="button" onClick={handleFlag}>{!alreadyFlagged ? ("⚐") : ("⚑")}</button>)}
@@ -192,12 +205,19 @@ function Post(props) {
             </div>
             <div id="post_info">
                 <button id="author_btn" type="button" onClick={handleToUser}><img id="post_pfp" src={pfp(props.author)} alt="msg_pfp"/> {props.author}</button> 
-                {readableDate}
+                {!props.edited ? (`${OGdate}`) : (<div>
+                    modifié : {new Date(props.editDate).toLocaleString('fr-FR', {year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric',minute: 'numeric', hour12: false})} |
+                    publié : {new Date(props.timestamp).toLocaleString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric',
+                    })}
+                </div>)}
             </div>
         </div>
-        <div id="post_content">
-            { formatText(props.content) }
-        </div>
+        <div id="post_content">{ formatText(props.content) }</div>
+        { showEdit && (<div id="write-edit">
+            modifier votre publication
+            <textarea id="write-edit-content" type="text" onChange={(evt) => getEdit(evt.target.value)} value={edit}></textarea>
+            <button id="confirm-edit-btn" type="button" onClick={handleConfirmEdit}>confirmer la modification</button>
+        </div>)}
         <div id="post_btns">
             <NewReply parentPostID={postID} />
             
