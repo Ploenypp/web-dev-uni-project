@@ -19,6 +19,8 @@ import tmp_pfp from "../../assets/tmp_pfp.png";
 
 function UserAdminCard(props) {
     const userID = props.userID;
+    const fstname = props.fstname;
+    const surname = props.surname;
     const date = new Date(props.dob);
     const readableDate = date.toLocaleString('fr-FR', {
         year: 'numeric',
@@ -87,8 +89,11 @@ function UserAdminCard(props) {
 
     const deleteUser = async () => {
         try {
-            const response = await axios.delete(`http://localhost:8000/api/admin/delete-user/${userID}`, { withCredentials: true });
-            //alert(response.data.message);
+            const response = await axios.delete(`http://localhost:8000/api/admin/delete-user/${userID}`, {
+                params: { fstname, surname },
+                withCredentials: true 
+            });
+            alert(response.data.message);
         } catch(err) {
             console.error("user deletion failed", err.resopnse?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");
@@ -106,7 +111,7 @@ function UserAdminCard(props) {
         <img id="admin_card_pfp" src={pfp()} alt="pfp" />
         <div id="user_facts">
             <div id="user_name">
-                {props.fstname} {props.surname}
+                {fstname} {surname}
             </div>
             <div id="user_field">
                 date de naissance

@@ -43,7 +43,7 @@ function OtherUserPage() {
         .then(res => res.json())
         .then(data => setFriendships(data))
         .catch(err => console.error("Error fetching friends",err));
-    }, []);
+    }, [friendships]);
     const isFriend = Array.isArray(friendships) && friendships.some(friendship => friendship.friend1ID.toString() === visitID ||
     friendship.friend2ID.toString() === visitID);
 

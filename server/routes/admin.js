@@ -248,7 +248,7 @@ router.delete('/delete-flagged-post/:postID/:authorID', async(req,res) => {
 
         await db.collection("notifications").insertOne({ 
             recipientID: new ObjectId(authorID),
-            subject: "Votre publication " + `'${postTitle}'` + " a été signalée et supprimée.",
+            subject: `Votre publication '${postTitle}' a été signalée et supprimée.`,
             body: warning
         });
         console.log("notification sent success");
@@ -276,7 +276,7 @@ router.post('/restore-flagged-post/:postID/:authorID', async(req,res) => {
         await db.collection("flagged_posts").deleteOne({ _id: new ObjectId(postID) });
         await db.collection("notifications").insertOne({
             recipientID: new ObjectId(authorID),
-            subject: "Votre publication " + `'${postTitle}'` + " n'est plus signalée.",
+            subject: `Votre publication '${postTitle}' n'est plus signalée.`,
             body: null
         });
 
@@ -289,6 +289,8 @@ router.post('/restore-flagged-post/:postID/:authorID', async(req,res) => {
 
 router.delete('/delete-user/:id', async(req,res) => {
     const userID = req.params.id;
+
+    const { fstname, surname } = req.query;
 
     try {
         await client.connect();
@@ -330,24 +332,28 @@ router.delete('/delete-user/:id', async(req,res) => {
         );
         console.log("comments modif success");
 
-        await db.collection("friends").updateMany(
-            { friend1ID: new ObjectId(userID) },
-            { $set: {
-                friend1ID: null,
-                friend1_name: "utilisateur supprimé"
-            }}
-        );
-        console.log("friends1 modif success");
-        await db.collection("friends").updateMany(
-            { friend2ID: new ObjectId(userID) },
-            { $set: {
-                friend2ID: null,
-                friend2_name: "utilisateur supprimé"
-            }}
-        );
+        const friends1 = await db.collection("friends").find({ friend1ID: new ObjectId(userID) }).toArray();
+        for (const f of friends1) {
+            await db.collection("notifications").insertOne({
+                recipientID: new ObjectId(f.friend2ID),
+                subject: `Votre amie(e) ${fstname} ${surname} a quitté l'organisation.`,
+                body: "Nous avons supprimé votre chat."
+            })
+        }
+        await db.collection("friends").deleteMany({ friend1ID: new ObjectId(userID) });
+        console.log("friends1 delete success");
+
+        const friends2 = await db.collection("friends").find({ friend2ID: new ObjectId(userID) }).toArray();
+        for (const f of friends2) {
+            await db.collection("notifications").insertOne({
+                recipientID: new ObjectId(f.friend1ID),
+                subject: `Votre amie(e) ${fstname} ${surname} a quitté l'organisation.`,
+                body: "Nous avons supprimé votre chat."
+            })
+        }
+        await db.collection("friends").deleteMany({ friend2ID: new ObjectId(userID) });
         console.log("friends2 modif success");
 
-        
         await db.collection("friend_requests").deleteMany({ $or: [ 
             { recipientID: new ObjectId(userID) },
             { senderID: new ObjectId(userID) }
