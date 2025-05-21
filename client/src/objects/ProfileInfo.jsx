@@ -45,7 +45,7 @@ function ProfileInfo(props) {
                     <div>Équipe : <strong>{props.team}</strong></div>
                 </div>
             </div>
-            <div className="upload_container">
+            {props.currentUserID === props.userID && (<div className="upload_container">
                 <label htmlFor="pfp_input">modifier le photo de profil</label>
                 <input id="pfp_input" type="file" accept="image/*/" onChange={handleFileUpload}/>
                 {file && (
@@ -54,7 +54,7 @@ function ProfileInfo(props) {
                     <button id="confirm_pfp_btn" type="button" onClick={handleFileSubmit}>confirmer</button>
                     </div>
                 )}
-            </div>
+            </div>)}
     </div>)
 }
 

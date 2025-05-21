@@ -54,7 +54,7 @@ function ProfilePage() {
         <Ribbon fstname={userInfo.fstname} surname={userInfo.surname} pageType={false}/>
         <div id="pf_container">
             <div id="profile_sidebar"> 
-              	<ProfileInfo userID={currentUserID} fstname={userInfo.fstname} surname={userInfo.surname} dob={userInfo.dob} status={userInfo.status} team={userInfo.team}/> 
+              	<ProfileInfo currentUserID={currentUserID} userID={currentUserID} fstname={userInfo.fstname} surname={userInfo.surname} dob={userInfo.dob} status={userInfo.status} team={userInfo.team}/> 
               	
 				<RequestLst reqslst={reqslst}/> 
 

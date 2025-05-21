@@ -94,7 +94,7 @@ function OtherUserPage() {
         <Ribbon pageType={false}/>
         <div id="pf_container">
             <div id="profile_sidebar"> 
-              <ProfileInfo fstname={userInfo.fstname} surname={userInfo.surname} dob={userInfo.dob} status={userInfo.status} team={userInfo.team}/> 
+              <ProfileInfo currentUserID={currentUserID} userID={userInfo._id} fstname={userInfo.fstname} surname={userInfo.surname} dob={userInfo.dob} status={userInfo.status} team={userInfo.team}/> 
               
               { showBtn === "Envoyer Friend Request" && (<button id="friendreq_btn" type="button" onClick={handleFriendReq}>{showBtn}</button>) }
 
@@ -112,6 +112,7 @@ function OtherUserPage() {
                 <Post
                   key={index}
                   postID={post._id}
+                  userID={post.userID}
                   title={post.title}
                   author={post.author}
                   timestamp={post.timestamp}
