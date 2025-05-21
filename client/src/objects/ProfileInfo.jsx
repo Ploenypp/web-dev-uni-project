@@ -35,10 +35,7 @@ function ProfileInfo(props) {
 
     return(<div className="ProfileInfo">
         {props.userID && (
-        <img src={`http://localhost:8000/api/images/load_pfp/${props.userID}?t={Date.now()}`} 
-        id="profile_pic" 
-        alt="profile picture" 
-        />
+        <img src={`http://localhost:8000/api/images/load_pfp/${props.userID}?t=${Date.now()}`} id="profile_pic" alt="profile picture" />
         )}
             <div id="profile_text">
                 <strong>{props.fstname} {props.surname}</strong>

@@ -150,7 +150,7 @@ function Searchbar(props) {
                 {userResults.length === 0 && (<p>aucun utilisateur correspond</p>)}
                 {userResults.map((user, index) => (
                     <button id="user_result_card" type="button" onClick={() => handleToUser(user._id)} key={index}>
-                        <img id="res_pic" src={pfp(user.fstname)} alt="pfp" />
+                        <img id="res_pic" src={`http://localhost:8000/api/images/load_pfp/${user._id}?t=${Date.now()}`} alt="pfp" />
                         <div id="res_name">
                             {user.fstname} {user.surname}
                         </div>

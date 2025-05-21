@@ -108,7 +108,7 @@ function UserAdminCard(props) {
     };
 
     return(<div className="UserAdminCard">
-        <img id="admin_card_pfp" src={pfp()} alt="pfp" />
+        <img id="admin_card_pfp" src={`http://localhost:8000/api/images/load_pfp/${userID}?t=${Date.now()}`} alt="profile picture" />
         <div id="user_facts">
             <div id="user_name">
                 {fstname} {surname}

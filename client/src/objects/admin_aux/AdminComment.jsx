@@ -80,7 +80,7 @@ function AdminComment(props) {
     }
 
     return(<div className="AdminComment">
-        <button id="admincomment_author_btn" type="button" onClick={handleToUser}><img id="comment_pfp" src={pfp(props.author)} alt="msg_pfp"/>{props.author}</button>
+        {userID ? (<button id="admincomment_author_btn" type="button" onClick={handleToUser}><img id="comment_pfp" src={`http://localhost:8000/api/images/load_pfp/${userID}?t=${Date.now()}`} alt="msg_pfp"/>{props.author}</button>) : (<div id="deleted_user"><img src={`http://localhost:8000/api/images/load_pfp/${userID}?t=${Date.now()}`} id="post_pfp" alt="profile picture" /> {props.author}</div>)}
 
         <div id="comment_content">
             <div id="admincomment_time">{readableDate}</div>

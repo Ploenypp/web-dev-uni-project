@@ -51,6 +51,7 @@ router.post('/upload_pfp', upload.single('image'), async (req,res) => {
 
 router.get('/load_pfp/:id', async(req,res) => {
     const pfp_userID = req.params.id;
+    //console.log(pfp_userID);
 
     {/*console.log("Looking for user:", pfp_userID, typeof pfp_userID);
     console.log("Converted to ObjectId:", new ObjectId(pfp_userID));*/}
@@ -59,13 +60,18 @@ router.get('/load_pfp/:id', async(req,res) => {
         await client.connect();
         const db = client.db("IN017");
 
-        if (!ObjectId.isValid(pfp_userID)) {
-            return res.status(400).json({ message: "Invalid user ID" });
+        if (!pfp_userID || pfp_userID === "null" || pfp_userID === "undefined") {
+            const pfp = await db.collection('placeholders').findOne({ name: "deleted.webp" });
+
+            res.contentType(pfp.contentType);
+            res.set('Cache-Control', 'no-store');
+            res.send(pfp.image.buffer || pfp.image);
+            return;
         }
 
         let pfp = await db.collection('profile_pictures').findOne({ user: new ObjectId(pfp_userID) });
 
-        console.log("Retrieved pfp:", pfp);
+        //console.log("Retrieved pfp:", pfp);
 
         if (!pfp) { 
             const user = await db.collection('users').findOne({ _id: new ObjectId(pfp_userID) });

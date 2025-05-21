@@ -8,24 +8,6 @@ import NewAdminComment from "./NewAdminComment.jsx";
 import "../../styles/Post.css";
 import "../../styles/Admin.css";
 
-// profile pictures 
-import tmp_pfp from "../../assets/tmp_pfp.png";
-import xemnas from "../../assets/profile_pics/xemnas.png";
-import xigbar from "../../assets/profile_pics/xigbar.png";
-import xaldin from "../../assets/profile_pics/xaldin.png";
-import vexen from "../../assets/profile_pics/vexen.png";
-import lexaeus from "../../assets/profile_pics/lexaeus.png";
-import zexion from "../../assets/profile_pics/zexion.png";
-import saix from "../../assets/profile_pics/saix.png";
-import axel from "../../assets/profile_pics/axel.png";
-import demyx from "../../assets/profile_pics/demyx.png";
-import luxord from "../../assets/profile_pics/luxord.png";
-import marluxia from "../../assets/profile_pics/marluxia.png";
-import larxene from "../../assets/profile_pics/larxene.png";
-import roxas from "../../assets/profile_pics/roxas.png";
-import xion from "../../assets/profile_pics/xion.png";
-import msg_pfp from "../../assets/msg_pfp.png";
-
 function AdminPost(props) {
     const currentUserID = props.currentUserID;
     const postID = props.postID;
@@ -89,24 +71,6 @@ function AdminPost(props) {
             console.error("visit failed", err.response?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");
         }
-    };
-
-    const pfp = (name) => {
-        if (name === "Xemnas Xehanort") { return xemnas; }
-        if (name === "Xigbar Braig") { return xigbar; }
-        if (name === "Xaldin Dilan") { return xaldin; }
-        if (name === "Vexen Even") { return vexen; }
-        if (name === "Lexaeus Aeleus") { return lexaeus; }
-        if (name === "Zexion Ienzo") { return zexion; }
-        if (name === "Saix Isa") { return saix; }
-        if (name === "Axel Lea") { return axel; }
-        if (name === "Demyx Medy") { return demyx; }
-        if (name === "Luxord Rodul") { return luxord; }
-        if (name === "Marluxia Lauriam") { return marluxia; }
-        if (name === "Larxene Elrena") { return larxene; }
-        if (name === "Roxas Sora") { return roxas; }
-        if (name === "Xion Noi") { return xion; }
-        return msg_pfp;
     };
 
     const [showExtra, setShowExtra] = useState(false);
@@ -206,7 +170,7 @@ function AdminPost(props) {
                 </div>
             </div>
             <div id="admin_post_info">
-                <button id="admin_author_btn" type="button" onClick={handleToUser}><img id="post_pfp" src={pfp(props.author)} alt="msg_pfp"/> {props.author}</button> 
+                {props.userID ? (<button id="admin_author_btn" type="button" onClick={handleToUser}><img src={`http://localhost:8000/api/images/load_pfp/${userID}?t=${Date.now()}`} id="post_pfp" alt="profile picture" /> {props.author}</button> ) : (<div id="deleted_user"><img src={`http://localhost:8000/api/images/load_pfp/${userID}?t=${Date.now()}`} id="post_pfp" alt="profile picture" /> {props.author}</div>)}
                 {!props.edited ? (`${OGdate}`) : (<div>
                     modifié : {new Date(props.editDate).toLocaleString('fr-FR', {year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric',minute: 'numeric', hour12: false})} |
                     publié : {new Date(props.timestamp).toLocaleString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric',
