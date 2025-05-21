@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import gummiphone from '../assets/gummiphone.png';
 import "../styles/ProfilePage.css";
 import "../styles/Chat.css";
 
@@ -60,7 +59,7 @@ function ProfilePage() {
 
         		<NotiLst />
               	
-				<button id="redirChat_btn" type="button" onClick={toChats}><img src={gummiphone} id="profile_msg_icon" alt="icon"/>Messages</button>
+				<button id="redirChat_btn" type="button" onClick={toChats}><img src={`http://localhost:8000/api/images/load_icon/${"gummiphone"}?t=${Date.now()}`} id="profile_msg_icon" alt="icon"/>Messages</button>
             </div>
             <div id="pf_subcontainer">
               	<div id="profile_posts">

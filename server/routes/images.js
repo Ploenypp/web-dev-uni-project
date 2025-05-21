@@ -101,4 +101,23 @@ router.get('/load_pfp/:id', async(req,res) => {
     }
 });
 
+router.get('/load_icon/:name', async(req,res) => {
+    const name = req.params.name;
+    //console.log(name);
+
+    try {
+        await client.connect();
+        const db = client.db("IN017");
+        const icon = await db.collection('icons').findOne({ name: name + ".webp" });
+
+        res.contentType(icon.contentType);
+        res.set('Cache-Control', 'public, max-age=31536000, immutable');
+        res.send(icon.image.buffer || icon.image);
+
+    } catch(err) {
+        console.error("pfp retrieval error",err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 module.exports = router;

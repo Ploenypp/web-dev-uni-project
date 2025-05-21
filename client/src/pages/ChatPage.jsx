@@ -4,25 +4,6 @@ import axios from 'axios';
 import Ribbon from "../objects/Ribbon.jsx";
 import Message from "../objects/Message.jsx";
 
-import icon from '../assets/heart.png';
-// profile pictures 
-import tmp_pfp from "../assets/tmp_pfp.png";
-import xemnas from "../assets/profile_pics/xemnas.png";
-import xigbar from "../assets/profile_pics/xigbar.png";
-import xaldin from "../assets/profile_pics/xaldin.png";
-import vexen from "../assets/profile_pics/vexen.png";
-import lexaeus from "../assets/profile_pics/lexaeus.png";
-import zexion from "../assets/profile_pics/zexion.png";
-import saix from "../assets/profile_pics/saix.png";
-import axel from "../assets/profile_pics/axel.png";
-import demyx from "../assets/profile_pics/demyx.png";
-import luxord from "../assets/profile_pics/luxord.png";
-import marluxia from "../assets/profile_pics/marluxia.png";
-import larxene from "../assets/profile_pics/larxene.png";
-import roxas from "../assets/profile_pics/roxas.png";
-import xion from "../assets/profile_pics/xion.png";
-import msg_pfp from "../assets/msg_pfp.png";
-
 function ChatPage() {
     const [userInfo, setUserInfo] = useState("");
     useEffect(() => {
@@ -95,34 +76,16 @@ function ChatPage() {
       }
     }, [chatSelected]);
 
-    const pfp = (name) => {
-      if (name === "Xemnas Xehanort") { return xemnas; }
-      if (name === "Xigbar Braig") { return xigbar; }
-      if (name === "Xaldin Dilan") { return xaldin; }
-      if (name === "Vexen Even") { return vexen; }
-      if (name === "Lexaeus Aeleus") { return lexaeus; }
-      if (name === "Zexion Ienzo") { return zexion; }
-      if (name === "Saix Isa") { return saix; }
-      if (name === "Axel Lea") { return axel; }
-      if (name === "Demyx Medy") { return demyx; }
-      if (name === "Luxord Rodul") { return luxord; }
-      if (name === "Marluxia Lauriam") { return marluxia; }
-      if (name === "Larxene Elrena") { return larxene; }
-      if (name === "Roxas Sora") { return roxas; }
-      if (name === "Xion Noi") { return xion; }
-      return msg_pfp;
-    }
-
     return(<div className="ChatPage">
         <Ribbon pageType={false}/>
         <div id="chatpage_subcontainer">
             <div id="chat_sidebar">
               <div id="chat_head">
-                <img src={icon} id="chat_icon" alt="icon"/> Ami(e)s
+                <img src={`http://localhost:8000/api/images/load_icon/${"heart"}?t=${Date.now()}`} id="chat_icon" alt="icon"/> Ami(e)s
               </div>
                 <div id="chat_lst">
                     {friends.map((chat,index) => <button key={index} className={`chat_btn ${(chat.friend1ID.toString() != userID ? chat.friend1_name : chat.friend2_name) === friendName}`} type="button" onClick={() => selectChat(chat._id, (chat.friend1ID.toString() != userID ? chat.friend1_name : chat.friend2_name ))}>
-                      <img id="chat_pfp" src={pfp(chat.friend1ID.toString() != userID ? chat.friend1_name : chat.friend2_name)} alt="chat_pfp"/>
+                      <img id="chat_pfp" src={`http://localhost:8000/api/images/load_pfp/${chat.friend1ID != userID ? chat.friend1ID : chat.friend2ID}?t=${Date.now()}`} alt="chat_pfp"/>
                       { chat.friend1ID.toString() != userID ? chat.friend1_name : chat.friend2_name }
                     </button>)}
                 </div>
@@ -130,7 +93,7 @@ function ChatPage() {
             <div id="chat_area">
                 {chatSelected === "none" ? (<div id="chat_placeholder">selectionner un chat...</div>) : 
                     (<div id="msg_lst">
-                        {messages && messages.map((msg,index) => (<Message key={index} type={(msg.authorID.toString() === userID.toString() ? "self" : "other")} pfp={pfp(msg.author)} author={msg.author} timestamp={msg.timestamp} content={msg.content} />))}
+                        {messages && messages.map((msg,index) => (<Message key={index} type={(msg.authorID.toString() === userID.toString() ? "self" : "other")} userID={msg.authorID} author={msg.author} timestamp={msg.timestamp} content={msg.content} />))}
                     </div>)
                 }
                 {chatSelected === "none" ? (<div></div>) : (<div id="new_msg">

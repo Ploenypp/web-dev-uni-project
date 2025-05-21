@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import "../styles/SignIn.css";
-import logo from '../assets/org13_ribbon.png';
 
 import axios from 'axios';
 
@@ -42,7 +41,7 @@ function SignInPage() {
     }
 
     return(<div className="SignInPage">
-        <img src={logo} id="org_signin" alt="Organiz'asso Logo"/>
+        <img src={`http://localhost:8000/api/images/load_icon/${"org13"}?t=${Date.now()}`} id="org_signin" alt="Organiz'asso Logo"/>
 
         <div id="login_box">
             <p>Bienvenue, connectez-vous!</p>

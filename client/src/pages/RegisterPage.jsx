@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../styles/Register.css";
-import logo from '../assets/org13_ribbon.png';
 
 import axios from 'axios';
 
@@ -71,7 +70,7 @@ function RegisterPage() {
     };
 
     return(<div className ="RegisterPage">
-        <img src={logo} id="org_signin" alt="Organiz'asso Logo" onClick={toSignIn}/>
+        <img src={`http://localhost:8000/api/images/load_icon/${"org13"}?t=${Date.now()}`} id="org_signin" alt="Organiz'asso Logo" onClick={toSignIn}/>
         
         <div id="register_box">
             <p>Inscrivez-vous</p>

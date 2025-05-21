@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-import gummiphone from '../assets/gummiphone.png';
 import "../styles/ProfilePage.css";
 import "../styles/Chat.css";
 
@@ -100,7 +99,7 @@ function OtherUserPage() {
 
               { showBtn === "Friend Request envoyé" && (<button id="friendreq_btn_sent" type="button">{showBtn}</button>)}
 
-              { showBtn === "Messager" && (<button id="redirChat_btn" type="button" onClick={toChat}><img src={gummiphone} id="profile_msg_icon" alt="icon"/> {showBtn}</button>) }
+              { showBtn === "Messager" && (<button id="redirChat_btn" type="button" onClick={toChat}><img src={`http://localhost:8000/api/images/load_icon/${gummiphone}?t=${Date.now()}`} id="profile_msg_icon" alt="icon"/> {showBtn}</button>) }
 
 
             </div>

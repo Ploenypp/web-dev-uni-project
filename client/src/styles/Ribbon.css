@@ -10,25 +10,13 @@
     background-color: black;
     border-bottom: 2px solid white;
     align-items: center;
-
     padding-right: 0.5em;
 
     overflow-x: scroll;
     scrollbar-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
 }
 
-#logo_ribbon {
-    transform: scale(0.2,0.2);
-    margin-right: -20em;
-    margin-left: -20em;
-    margin-top: -10em;
-    margin-bottom: -10em;
-    height:fit-content;
-    flex-shrink: 1;
-}
-
 #org13_ribbon {
-    width: 10em;
     height: 2em;
     padding: 0.5em;
 }
@@ -62,20 +50,21 @@
 }
 
 #ribbon_pic {
-    width: 2em;
-    height: 2em;
+    width: 2.5em;
+    height: auto;
     border-radius: 25px;
 }
 
 #ribbon_msg_icon {
-    width: 1.5em;
-    height: 2em;
+    height: 2.5em;
+    width: fit-content;
 }
 
 #chats {
     display: flex;
     flex-direction: row;
 
+    width: fit-content;
     height: 3em;
     background-color: #1c3d5bbd;
     border: 2px solid rgb(35, 65, 85);
@@ -114,8 +103,8 @@
 }
 
 #logout_icon {
-    width: 1.25em;
-    height: 2em;
+    width: auto;
+    height: 2.25em;
 }
 
 #logout {
