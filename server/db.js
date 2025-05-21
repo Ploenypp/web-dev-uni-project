@@ -20,4 +20,11 @@ async function connectDB() {
     }
 }
 
-module.exports = connectDB;
+async function getDB() {
+    return client.db("IN017");
+}
+
+module.exports = { 
+    connectDB,
+    getDB
+};

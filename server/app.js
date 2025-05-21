@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session')
-const connectDB = require('./db'); // Import the database connection logic from db.js
+const { connectDB } = require('./db'); // Import the database connection logic from db.js
 
 const authRoutes = require('./routes/auth.js');
 const postRoutes = require('./routes/posts.js');

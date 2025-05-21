@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { MongoClient } = require("mongodb");
+const { getDB } = require('../db');
+//const { MongoClient } = require("mongodb");
 const { ObjectId } = require('bson'); 
 
-const uri = process.env.MONGODB_URI || "mongodb+srv://Ploenypp:technoweb017-SU25@lu3in017-su2025.mopemx5.mongodb.net/?retryWrites=true&w=majority&appName=LU3IN017-SU2025";
-const client = new MongoClient(uri);
+//const uri = process.env.MONGODB_URI || "mongodb+srv://Ploenypp:technoweb017-SU25@lu3in017-su2025.mopemx5.mongodb.net/?retryWrites=true&w=majority&appName=LU3IN017-SU2025";
+//const client = new MongoClient(uri);
 
 router.post('/newpost', async(req,res) => {
     if (!req.session.userId) {
@@ -17,8 +18,7 @@ router.post('/newpost', async(req,res) => {
     console.log(userID);
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const posts = db.collection("posts");
 
         const existingPost = await posts.findOne({ title });
@@ -39,9 +39,9 @@ router.post('/newpost', async(req,res) => {
 });
 
 router.get('/all-posts', async(req,res) => {
+
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const coll = db.collection("posts").find().sort({'_id': -1});
         const posts = await coll.toArray();
     
@@ -64,8 +64,7 @@ router.post('/newcomment', async(req,res) => {
     console.log(userID);
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const comments = db.collection("comments");
 
         const users = db.collection("users");
@@ -85,8 +84,7 @@ router.post('/newcomment', async(req,res) => {
 router.get('/comments', async(req,res) => {
     const { parentPostID } = req.query;
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const comments = await db.collection("comments").find({ 'parentPostID': new ObjectId(parentPostID) }).toArray();
 
         res.json(comments);
@@ -103,8 +101,7 @@ router.get('/profile-posts', async(req,res) => {
     const user = req.session.userId;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const posts = await db.collection("posts").find({ userID : new ObjectId(user)}).sort({'_id': -1}).toArray();
 
         res.json(posts || []);
@@ -118,8 +115,7 @@ router.get('/visit-user-posts', async(req,res) => {
     const userID = req.session.visitID;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const posts = await db.collection("posts").find({ userID: new ObjectId(userID) }).sort({ '_id': -1 }).toArray();
 
         res.json(posts || []);
@@ -137,8 +133,7 @@ router.post('/delete-post', async(req,res) => {
     const { postID } = req.body;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const posts = db.collection("posts");
         const comments = db.collection("comments");
         const flagged = db.collection("flagged_posts");
@@ -163,8 +158,7 @@ router.post('/flag-post', async(req,res) => {
     const { postID } = req.body;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const flagged_posts = db.collection("flagged_posts");
 
         const post = await db.collection("posts").findOne({ _id: new ObjectId(postID) });
@@ -220,8 +214,7 @@ router.get('/get-flagged/:userID/:postID', async(req,res) => {
     const { userID, postID } = req.params;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const post = await db.collection("flagged_posts").findOne({ _id: new ObjectId(postID) });
 
         if (post) {
@@ -246,8 +239,7 @@ router.post('/unflag-post', async(req,res) => {
     const { postID } = req.body;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const posts = db.collection("flagged_posts");
         const post = await posts.findOne({ _id: new ObjectId(postID) });
 
@@ -287,8 +279,7 @@ router.patch('/edit-post/:postID', async(req,res) => {
     const timestamp = new Date(Date.now());
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
 
         await db.collection("posts").updateOne(
             {_id: new ObjectId(postID)},

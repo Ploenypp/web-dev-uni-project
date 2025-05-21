@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const { MongoClient } = require("mongodb");
+const { getDB } = require('../db');
+//const { MongoClient } = require("mongodb");
 const { ObjectId } = require('bson'); 
 
-const uri = process.env.MONGODB_URI || "mongodb+srv://Ploenypp:technoweb017-SU25@lu3in017-su2025.mopemx5.mongodb.net/?retryWrites=true&w=majority&appName=LU3IN017-SU2025";
-const client = new MongoClient(uri);
+//const uri = process.env.MONGODB_URI || "mongodb+srv://Ploenypp:technoweb017-SU25@lu3in017-su2025.mopemx5.mongodb.net/?retryWrites=true&w=majority&appName=LU3IN017-SU2025";
+//const client = new MongoClient(uri);
 
 router.get('/flagged-posts', async(req,res) => {
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const posts = db.collection("flagged_posts").find().sort({ 'reports': -1 });
         const flagged = await posts.toArray();
         res.json(flagged);
@@ -21,8 +21,7 @@ router.get('/flagged-posts', async(req,res) => {
 
 router.get('/all-users', async(req,res) => {
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const all_users = db.collection("users").find().sort({ 'surname': 1 });
         const users = await all_users.toArray();
         res.json(users);
@@ -34,8 +33,7 @@ router.get('/all-users', async(req,res) => {
 
 router.get('/registrations', async(req,res) => {
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const regs = db.collection("registrations").find().sort({ '_id': 1 });
         const registrations = await regs.toArray();
         res.json(registrations);
@@ -49,8 +47,7 @@ router.post('/accept-registration', async(req,res) => {
     const { regID, fstname, surname, dob, username, password, status, team } = req.body;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const users = db.collection("users");
         const registrations = db.collection("registrations");
 
@@ -68,8 +65,7 @@ router.post('/reject-registration', async(req,res) => {
     const { regID } = req.body;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const registrations = db.collection("registrations");
 
         await registrations.deleteOne({ _id: new ObjectId(regID) });
@@ -85,8 +81,7 @@ router.post('/change-status', async(req,res) => {
     const { userID, newStatus } = req.body;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const users = db.collection("users");
 
         users.updateOne(
@@ -105,8 +100,7 @@ router.post('/assign-team', async(req,res) => {
     const { userID, assignedTeam } = req.body;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const users= db.collection("users");
 
         users.updateOne(
@@ -132,8 +126,7 @@ router.post('/newpost', async(req,res) => {
     console.log(userID);
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const posts = db.collection("admin_posts");
 
         const existingPost = await posts.findOne({ title });
@@ -163,8 +156,7 @@ router.patch('/edit-post/:postID', async(req,res) => {
     const timestamp = new Date(Date.now());
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
 
         await db.collection("admin_posts").updateOne(
             {_id: new ObjectId(postID)},
@@ -191,8 +183,7 @@ router.delete('/delete-post/:postID', async(req,res) => {
     const postID = req.params.postID;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const posts = db.collection("admin_posts");
         const comments = db.collection("comments");
         const flagged = db.collection("flagged_posts");
@@ -210,8 +201,7 @@ router.delete('/delete-post/:postID', async(req,res) => {
 
 router.get('/posts', async(req,res) => {
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const coll = db.collection("admin_posts").find().sort({'_id': -1});
         const posts = await coll.toArray();
     
@@ -232,8 +222,7 @@ router.post('/flag-post', async(req,res) => {
     const { postID } = req.body;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const flagged_posts = db.collection("flagged_posts");
 
         const post = await db.collection("admin_posts").findOne({ _id: new ObjectId(postID) });
@@ -287,8 +276,7 @@ router.delete('/delete-flagged-post/:postID/:authorID', async(req,res) => {
     const { postTitle, warning }= req.query;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
 
         await db.collection("posts").deleteOne({ _id: new ObjectId(postID) });
         console.log("delete post success");
@@ -326,9 +314,8 @@ router.post('/restore-flagged-post/:postID/:authorID', async(req,res) => {
     const { postID, authorID } = req.params;
     const { postTitle } = req.body;
 
-    try { 
-        await client.connect();
-        const db = client.db("IN017");
+    try {
+        const db = await getDB();
 
         await db.collection("flagged_posts").deleteOne({ _id: new ObjectId(postID) });
         await db.collection("notifications").insertOne({
@@ -350,8 +337,7 @@ router.delete('/delete-user/:id', async(req,res) => {
     const { fstname, surname } = req.query;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
 
         await db.collection("posts").updateMany(
             { userID: new ObjectId(userID) },

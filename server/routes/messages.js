@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { MongoClient } = require("mongodb");
+const { getDB } = require('../db');
+//const { MongoClient } = require("mongodb");
 const { ObjectId } = require('bson'); 
 
-const uri = process.env.MONGODB_URI || "mongodb+srv://Ploenypp:technoweb017-SU25@lu3in017-su2025.mopemx5.mongodb.net/?retryWrites=true&w=majority&appName=LU3IN017-SU2025";
-const client = new MongoClient(uri);
+//const uri = process.env.MONGODB_URI || "mongodb+srv://Ploenypp:technoweb017-SU25@lu3in017-su2025.mopemx5.mongodb.net/?retryWrites=true&w=majority&appName=LU3IN017-SU2025";
+//const client = new MongoClient(uri);
 
 router.post('/new-message', async(req,res) => {
     if (!req.session.userId) {
@@ -16,8 +17,7 @@ router.post('/new-message', async(req,res) => {
     const timestamp = new Date(Date.now());
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
 
         const friendship = await db.collection("friends").findOne({ _id: new ObjectId(chatID) });
         const user_name = (userID === friendship.friend1ID.toString() ? friendship.friend1_name : friendship.friend2_name);
@@ -44,8 +44,7 @@ router.get('/get-messages', async(req,res) => {
     const { chatID } = req.query;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const friendship = await db.collection("friends").findOne({ _id: new ObjectId(chatID) });
         const messages = friendship.messages || [] ;
 

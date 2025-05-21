@@ -1,26 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const { MongoClient } = require("mongodb");
+const { getDB } = require('../db');
+//const { MongoClient } = require("mongodb");
 
-const uri = process.env.MONGODB_URI || "mongodb+srv://Ploenypp:technoweb017-SU25@lu3in017-su2025.mopemx5.mongodb.net/?retryWrites=true&w=majority&appName=LU3IN017-SU2025";
-const client =  new MongoClient(uri);
-
-router.get('/test-session', (req, res) => {
-    if (req.session.userId) {
-        console.log("User session:", req.session);
-        res.status(200).json({ message: "Session is active", userId: req.session.userId });
-    } else {
-        console.log("No session found");
-        res.status(401).json({ message: "No active session" });
-    }
-});
+//const uri = process.env.MONGODB_URI || "mongodb+srv://Ploenypp:technoweb017-SU25@lu3in017-su2025.mopemx5.mongodb.net/?retryWrites=true&w=majority&appName=LU3IN017-SU2025";
+//const client =  new MongoClient(uri);
 
 router.post('/register', async (req,res) => {
     const { fstname, surname, dob, username, password } = req.body;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const users = db.collection("users")
         const registrations = db.collection("registrations");
 
@@ -52,8 +42,7 @@ router.post('/login', async (req,res) => {
     const { username, password } = req.body;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const users = db.collection("users");
 
         const user = await users.findOne({ username });

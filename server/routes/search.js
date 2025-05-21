@@ -1,16 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const { MongoClient } = require("mongodb");
+const { getDB } = require('../db');
+//const { MongoClient } = require("mongodb");
 const { ObjectId } = require('bson'); 
 
-const uri = process.env.MONGODB_URI || "mongodb+srv://Ploenypp:technoweb017-SU25@lu3in017-su2025.mopemx5.mongodb.net/?retryWrites=true&w=majority&appName=LU3IN017-SU2025";
-const client = new MongoClient(uri);
+//const uri = process.env.MONGODB_URI || "mongodb+srv://Ploenypp:technoweb017-SU25@lu3in017-su2025.mopemx5.mongodb.net/?retryWrites=true&w=majority&appName=LU3IN017-SU2025";
+//const client = new MongoClient(uri);
 
 router.get('/all-users', async(req,res) => {
     const prompt = req.query.prompt;
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         await db.collection("users").createIndex({
             fstname: "text",
             surname: "text",
@@ -31,8 +31,7 @@ router.get('/all-users', async(req,res) => {
 router.get('/all-posts/text', async(req,res) => {
     const prompt = req.query.prompt;
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         await db.collection("posts").createIndex({
             title: "text",
             content: "text",
@@ -56,8 +55,7 @@ router.get('/all-posts/date', async(req,res) => {
     const end = new Date(searchDate.setHours(23,59,59,999));
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const posts = db.collection("posts");
 
         const results = await posts.find({
@@ -78,8 +76,7 @@ router.get('/all-posts/text-date', async(req,res) => {
     const end = new Date(searchDate.setHours(23,59,59,999));
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         await db.collection("posts").createIndex({
             title: "text",
             content: "text",
@@ -101,8 +98,7 @@ router.get('/all-posts/text-date', async(req,res) => {
 router.get('/admin-users', async(req,res) => {
     const prompt = req.query.prompt;
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         await db.collection("users").createIndex({
             fstname: "text",
             surname: "text",
@@ -124,8 +120,7 @@ router.get('/admin-users', async(req,res) => {
 router.get('/admin-posts/text', async(req,res) => {
     const prompt = req.query.prompt;
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         await db.collection("admin_posts").createIndex({
             title: "text",
             content: "text",
@@ -149,8 +144,7 @@ router.get('/admin-posts/date', async(req,res) => {
     const end = new Date(searchDate.setHours(23,59,59,999));
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const posts = db.collection("admin_posts");
 
         const results = await posts.find({
@@ -171,8 +165,7 @@ router.get('/admin-posts/text-date', async(req,res) => {
     const end = new Date(searchDate.setHours(23,59,59,999));
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         await db.collection("admin_posts").createIndex({
             title: "text",
             content: "text",

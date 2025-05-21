@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { MongoClient } = require('mongodb');
+const { getDB } = require('../db');
+//const { MongoClient } = require('mongodb');
 const { ObjectId } = require('bson'); 
 
-const uri = process.env.MONGODB_URI || "mongodb+srv://Ploenypp:technoweb017-SU25@lu3in017-su2025.mopemx5.mongodb.net/?retryWrites=true&w=majority&appName=LU3IN017-SU2025";
-const client = new MongoClient(uri);
+//const uri = process.env.MONGODB_URI || "mongodb+srv://Ploenypp:technoweb017-SU25@lu3in017-su2025.mopemx5.mongodb.net/?retryWrites=true&w=majority&appName=LU3IN017-SU2025";
+//const client = new MongoClient(uri);
 
 router.get('/profile', async(req,res) => {
     if (!req.session.userId) {
@@ -14,8 +15,7 @@ router.get('/profile', async(req,res) => {
     const userID = req.session.userId;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const all_users = db.collection("users");
 
         const user = await all_users.findOne({ _id: new ObjectId(userID) });
@@ -48,8 +48,7 @@ router.get('/visit-user', async(req,res) => {
     const userID = req.session.visitID;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const user = await db.collection("users").findOne({ _id: new ObjectId(userID) });
         if (!user) { return res.status(404).json({ message: "User not found" }); }
         res.json(user);
@@ -68,8 +67,7 @@ router.get('/friends', async(req,res) => {
     const userID = req.session.userId;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const friends = await db.collection("friends").find({ $or: [ 
             { friend1ID: new ObjectId(userID) },
             { friend2ID: new ObjectId(userID) }
@@ -90,8 +88,7 @@ router.post('/request-friendship', async(req,res) => {
     const { recipientID } = req.body;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const friendreqs = db.collection("friend_requests");
         const sender = await db.collection("users").findOne({ _id: new ObjectId(senderID) });
 
@@ -117,8 +114,7 @@ router.get('/check-friend-requests', async(req,res) => {
     const userID = req.session.userId;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const friendreqs = await db.collection("friend_requests").find({ senderID: new ObjectId(userID) }).toArray();
         res.json(friendreqs || []);
     } catch(err) {
@@ -135,8 +131,7 @@ router.get('/get-friend-requests', async(req,res) => {
     const userID = req.session.userId;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const friendreqs = await db.collection("friend_requests").find({ recipientID: new ObjectId(userID) }).toArray();
         res.json(friendreqs || []);
     } catch(err) {
@@ -155,8 +150,7 @@ router.post('/accept-friend-request', async(req,res) => {
     const friendID = req.body.friendID;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const friends = db.collection("friends");
         const friend_reqs = db.collection("friend_requests");
 
@@ -198,8 +192,7 @@ router.post('/reject-friend-request', async(req,res) => {
     const friendID = req.body.friendID;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const friend_reqs = db.collection("friend_requests");
 
         await friend_reqs.deleteOne({
@@ -226,8 +219,7 @@ router.get('/get-notifications/', async(req,res) => {
     const userID = req.session.userId;
 
     try { 
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         const notifs = await db.collection("notifications").find({ recipientID: new ObjectId(userID) }).toArray();
 
         res.json(notifs || []);
@@ -241,8 +233,7 @@ router.delete('/delete-notification/:notifID', async(req,res) => {
     const notifID = req.params.notifID;
 
     try {
-        await client.connect();
-        const db = client.db("IN017");
+        const db = await getDB();
         await db.collection("notifications").deleteOne({ _id: new ObjectId(notifID) });
 
         res.status(200).json({ message: "delete notification success" });
