@@ -131,27 +131,6 @@ router.get('check-friendship/:userID', async(req,res) => {
     }
 });
 
-//REWRITE ? DELETE -> messages.js
-router.get('/friends', async(req,res) => {
-    if (!req.session.userID) {
-        return res.status(401).json({ message: "pas connecté" });
-    }
-
-    const userID = req.session.userID;
-
-    try {
-        const db = await getDB();
-        const friends = await db.collection("friends").find({ $or: [ 
-            { friend1ID: new ObjectId(userID) },
-            { friend2ID: new ObjectId(userID) }
-        ]}).toArray();
-        res.json(friends || []);
-    } catch(err) {
-        console.error("friends not found :(", err);
-        res.status(500).json({ message: "Internal server error" });
-    }
-});
-
 //CHECK
 router.post('/request-friendship/:recipientID', async(req,res) => {
     if (!req.session.userID) {

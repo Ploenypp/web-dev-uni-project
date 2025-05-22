@@ -5,22 +5,20 @@ import Ribbon from "../objects/Ribbon.jsx";
 import Message from "../objects/Message.jsx";
 
 function ChatPage() {
-    const [userInfo, setUserInfo] = useState("");
+	const [userID, setUserID] = useState("");
     useEffect(() => {
-        fetch('http://localhost:8000/api/user/profile', { credentials: 'include' })
-            .then(res => res.json())
-            .then(data => setUserInfo(data))
-            .catch(err => console.error("Error fetching user data:", err));
+        fetch('http://localhost:8000/api/users/currentUserID', { credentials: 'include' })
+			.then(res => res.json())
+			.then(data => setUserID(data))
+			.catch(err => console.error("error getting current user id :", err));
     }, []);
-
-    const userID = userInfo._id;
 
     const [friends, setFriends] = useState([]);
     useEffect(() => {
-      fetch('http://localhost:8000/api/user/friends', { credentials: 'include' })
+      fetch('http://localhost:8000/api/messages/friends', { credentials: 'include' })
         .then(res => res.json())
         .then(data => { setFriends(data) })
-        .catch(err => console.error("Error fetching friends :( ", err));
+        .catch(err => console.error("error fetching friends", err));
     }, []);
 
     const [chatSelected, setChatSelected] = useState("none");
@@ -34,38 +32,26 @@ function ChatPage() {
             setChatSelected(chatID);
             setFriendName(chatname);
         }
-    }
-
-    const [message,setMessage] = useState("");
-    const getMessage = (evt) => { setMessage(evt.target.value); }
+    };
 
     const [messages, setMessages] = useState([]);
     const fetchMessages = () => {
-      fetch(`http://localhost:8000/api/messages/get-messages?chatID=${chatSelected.toString()}`, { credentials: 'include' })
+      fetch(`http://localhost:8000/api/messages/get-messages/${chatSelected}`, { credentials: 'include' })
         .then(res => res.json())
-        .then(data => {
-          if (Array.isArray(data)) { 
-            setMessages(data); 
-            console.log(data);
-          } 
-          else { setMessages([]); }
-        })
-        .catch(err => console.error("Error fetching comments", err));
+        .then(data => setMessages(data))
+        .catch(err => console.error("error fetching messages :", err));
     };
 
+	const [message,setMessage] = useState("");
+    const getMessage = (evt) => { setMessage(evt.target.value); }
     const handleSendMessage = async () => {
       if (!message.trim()) { return ; }
       try {
-        const response = await axios.post('http://localhost:8000/api/messages/new-message', { 
-          "chatID": chatSelected, 
-          "content": message
-        }, { withCredentials: true });
-
-        //alert(response.data.message);
+        await axios.post(`http://localhost:8000/api/messages/new-message/${chatSelected}`, { message }, { withCredentials: true });
         setMessage("");
         fetchMessages();
       } catch(err) {
-        console.error("message not sent", err.response?.data?.message || err.message);
+        console.error("error sending message", err.response?.data?.message || err.message);
         alert(err.response?.data?.message || "Something went wrong");
       }
     };
