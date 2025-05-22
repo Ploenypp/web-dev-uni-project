@@ -3,6 +3,7 @@ const router = express.Router();
 const { getDB } = require('../db');
 const { ObjectId } = require('bson'); 
 
+// chercher parmis tous les utilisateurs
 router.get('/all-users', async(req,res) => {
     const prompt = req.query.prompt;
     try {
@@ -24,6 +25,7 @@ router.get('/all-users', async(req,res) => {
     }
 });
 
+// chercher toutes les publications dans le forum général par le texte d'enquête
 router.get('/all-posts/text', async(req,res) => {
     const prompt = req.query.prompt;
     try {
@@ -44,6 +46,7 @@ router.get('/all-posts/text', async(req,res) => {
     }
 });
 
+// chercher toutes les publications dans le forum général par leur date de publication
 router.get('/all-posts/date', async(req,res) => {
     const { date } = req.query;
     const searchDate = new Date(date);
@@ -65,6 +68,7 @@ router.get('/all-posts/date', async(req,res) => {
     }
 });
 
+// chercher toutes les publications dans le forum général par le texte d'enquête et leur date de publication
 router.get('/all-posts/text-date', async(req,res) => {
     const { prompt, date } = req.query;
     const searchDate = new Date(date);
@@ -91,6 +95,7 @@ router.get('/all-posts/text-date', async(req,res) => {
     }
 });
 
+// chercher parmis tous les utilisateurs administrateurs
 router.get('/admin-users', async(req,res) => {
     const prompt = req.query.prompt;
     try {
@@ -113,6 +118,7 @@ router.get('/admin-users', async(req,res) => {
     }
 });
 
+// chercher toutes les publications dans le forum administrateur par le texte d'enquête
 router.get('/admin-posts/text', async(req,res) => {
     const prompt = req.query.prompt;
     try {
@@ -133,6 +139,7 @@ router.get('/admin-posts/text', async(req,res) => {
     }
 });
 
+// chercher toutes les publications dans le forum administrateur par leur date de publication
 router.get('/admin-posts/date', async(req,res) => {
     const { date } = req.query;
     const searchDate = new Date(date);
@@ -154,6 +161,7 @@ router.get('/admin-posts/date', async(req,res) => {
     }
 });
 
+// chercher toutes les publications dans le forum administrateur par le texte d'enquête et leur date de publication
 router.get('/admin-posts/text-date', async(req,res) => {
     const { prompt, date } = req.query;
     const searchDate = new Date(date);
@@ -179,6 +187,5 @@ router.get('/admin-posts/text-date', async(req,res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 });
-
 
 module.exports = router;

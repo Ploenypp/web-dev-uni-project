@@ -3,68 +3,63 @@ const router = express.Router();
 const { getDB } = require('../db');
 const { ObjectId } = require('bson'); 
 
+// publier une nouvelle publication dans le forum général
 router.post('/new-post', async(req,res) => {
-    if (!req.session.userID) {
-        return res.status(401).json({ message: "not logged in" });
-    }
+    if (!req.session.userID) { return res.status(401).json({ message: "not logged in" }); }
 
-    const { title, content } = req.body;
     const userID = req.session.userID;
+    const { title, content } = req.body;
     const timestamp = new Date(Date.now());
 
     try {
         const db = await getDB();
         const posts = db.collection("posts");
 
+        // vérifier si le titre a déjà été pris
         const existingPost = await posts.findOne({ title });
         if (existingPost) { return res.status(400).json({ message: "titre déjà pris" })}
 
+        // récupérer le nom de l'auteur
         const user = await db.collection("users").findOne({ _id: new ObjectId(userID) });
         if (!user) { return res.status(404).json( {message: "user not found", userID }); }
-        
-        const author = user.fstname.concat(" ",user.surname);
+        const author = `${user.fstname} ${user.surname}`;
 
         await posts.insertOne({ title, author, "userID": new ObjectId(userID), timestamp, content });
-        res.status(201).json({ message: "publication réussie" });
 
+        res.status(201).json({ message: "post published" });
     } catch(err) {
-        console.error("error publishing :",err);
+        console.error("error publishing post",err);
         res.status(500).json({ message: "internal server error"});
     }
 });
 
+// récupérer toutes les publications du forum administrateur
 router.get('/all-posts', async(req,res) => {
-
     try {
         const db = await getDB();
-        const coll = db.collection("posts").find().sort({'_id': -1});
-        const posts = await coll.toArray();
-    
-        res.json(posts);
-
+        const posts = await db.collection("posts").find().sort({'_id': -1}).toArray();
+        res.status(200).json(posts);
     } catch(err) {
-        console.error("posts not found?",err);
-        res.status(500).json({ message: "Internal server error" });
+        console.error("error fetching posts",err);
+        res.status(500).json({ message: "internal server error" });
     }
 });
 
-//CHECK
+// publier une commentaire à une publication dans le forum général ou le forum administrateur
 router.post('/new-comment/:parentPostID', async(req,res) => {
-    if (!req.session.userID) {
-        return res.status(401).json({ message: "not logged in" });
-    }
-
+    if (!req.session.userID) { return res.status(401).json({ message: "not logged in" }); }
+    const userID = req.session.userID;
     const parentPostID = req.params.parentPostID;
     const { content } = req.body;
-    const userID = req.session.userID;
     const timestamp = new Date(Date.now());
 
     try {
         const db = await getDB();
 
+        // récupérer le nom de l'auteur
         const user = await db.collection("users").findOne({ _id: new ObjectId(userID) });
         if (!user) { return res.status(404).json( {message: "user not found", userID }); }
-        const author = user.fstname.concat(" ",user.surname);
+        const author = `${user.fstname}_${sur.surname}`
 
         await db.collection("comments").insertOne({ "parentPostID": new ObjectId(parentPostID), author, "userID": new ObjectId(userID), timestamp, content });
 
@@ -75,45 +70,40 @@ router.post('/new-comment/:parentPostID', async(req,res) => {
     }
 });
 
-//CHECK
+// récupérer les commentaires d'une publication dans le forum général ou le forum administrateur
 router.get('/comments/:parentPostID', async(req,res) => {
     const parentPostID = req.params.parentPostID;
-
     try {
         const db = await getDB();
         const comments = await db.collection("comments").find({ 'parentPostID': new ObjectId(parentPostID) }).toArray();
-        res.json(comments || []);
+        res.status(200).json(comments);
     } catch(err) {
         console.error("error fetching comments :", err);
         res.status(500).json({ message: "internal server error" });
     }
 });
 
-//CHECK
+// récupérer les posts d'un utilisateur
 router.get('/:userID', async(req,res) => {
     const userID = req.params.userID;
-
     try {
         const db = await getDB();
         const posts = await db.collection("posts").find({ userID: new ObjectId(userID) }).sort({'_id': -1}).toArray();
-        res.json(posts);
+        res.status(200).json(posts);
     } catch(err) {
-        console.error("error fetching user's posts :",err);
+        console.error("error fetching user's posts",err);
         res.status(500).json({ message: "internal server error" });
     }
-
 });
 
-//CHECK 
+// supprimer une publication dans le forum général
 router.delete('/delete-post/:postID', async(req,res) => {
     const postID = req.params.postID;
-
     try {
         const db = await getDB();
-
         await db.collection("posts").deleteOne({ _id: new ObjectId(postID) });
-        await db.collection("comments").deleteMany({ parentPostID: new ObjectId(postID) });
-        await db.collection("flagged_posts").deleteOne({ _id: new ObjectId(postID) });
+        await db.collection("comments").deleteMany({ parentPostID: new ObjectId(postID) }); // supprimer ses commentaires
+        await db.collection("flagged_posts").deleteOne({ _id: new ObjectId(postID) }); // supprimer la signalisation si signalée
 
         res.status(200).json({ message: "post deleted" });
     } catch(err) {
@@ -122,12 +112,9 @@ router.delete('/delete-post/:postID', async(req,res) => {
     }
 });
 
-//CHECK
+// signaler une publication dans le forum général
 router.post('/flag-post/:postID', async(req,res) => {
-    if (!req.session.userID) {
-        return res.status(401).json({ message: "not logged in" });
-    }
-    console.log(req.session.userID);
+    if (!req.session.userID) { return res.status(401).json({ message: "not logged in" }); }
     const userID = req.session.userID;
     const postID = req.params.postID;
 
@@ -135,6 +122,7 @@ router.post('/flag-post/:postID', async(req,res) => {
         const db = await getDB();
         const flagged_posts = db.collection("flagged_posts");
 
+        // récupérer les information de la publication
         const post = await db.collection("posts").findOne({ _id: new ObjectId(postID) });
         const authorID = post.userID;
         const author = post.author;
@@ -142,10 +130,10 @@ router.post('/flag-post/:postID', async(req,res) => {
         const content= post.content;
 
         const alreadyFlagged = await flagged_posts.findOne({ _id: new ObjectId(postID) });
-        if (alreadyFlagged) { 
+        if (alreadyFlagged) { // vérifier si la publication a déjà été signalée
             const byUser = alreadyFlagged.users.some((id) => id.toString() === userID.toString());
 
-            if (!byUser) { 
+            if (!byUser) { // vérifier si l'utilisateur connecté l'a déjà signalée
                 await flagged_posts.updateOne(
                     { _id: new ObjectId(postID) }, 
                     {
@@ -157,7 +145,7 @@ router.post('/flag-post/:postID', async(req,res) => {
             } else {
                 return res.status(201).json({ message: "user already reported" });
             }
-        } else {
+        } else { // signaler pour la première fois
             await flagged_posts.insertOne({ 
                 _id: new ObjectId(postID),
                 reports: 1,
@@ -168,7 +156,7 @@ router.post('/flag-post/:postID', async(req,res) => {
                 content: content
             });
             
-            if (authorID){
+            if (authorID){ // envoyer une notification à l'auteur s'il n'a pas été supprimé et si c'est la première fois que la publication a été signalisée 
                 await db.collection("notifications").insertOne({
                 recipientID: new ObjectId(authorID),
                 subject : `Votre publication "${title}" a été signalée.`,
@@ -178,16 +166,14 @@ router.post('/flag-post/:postID', async(req,res) => {
             return res.status(201).json({ message: "post reported" });
         }
     } catch(err) {
-        console.error("error reporting post :", err);
+        console.error("error reporting post", err);
         res.status(500).json({ message: "internal server error" });
     }
 });
 
-//CHECK
+// vérifier si l'utilisateur connecté a signalé la publication
 router.get('/check-flagged/:postID', async(req,res) => {
-    if (!req.session.userID) {
-        return res.status(401).json({ message: "not logged in" });
-    }
+    if (!req.session.userID) { return res.status(401).json({ message: "not logged in" }); }
     const userID = req.session.userID;
     const postID = req.params.postID;
 
@@ -196,7 +182,7 @@ router.get('/check-flagged/:postID', async(req,res) => {
         const post = await db.collection("flagged_posts").findOne({ _id: new ObjectId(postID) });
 
         if (post) {
-            const byUser = Array.isArray(post.users) && post.users.some((id) => id.toString() === userID.toString());
+            const byUser = Array.isArray(post.users) && post.users.some((id) => id.toString() === userID.toString()); // vérifier si l'utilisateur a signalé
             return res.status(200).json(byUser);
         }
         return res.status(200).json(false);
@@ -206,11 +192,9 @@ router.get('/check-flagged/:postID', async(req,res) => {
     }
 });
 
-//CHECK
+// retirer la signalisation de l'utilisateur connecté
 router.post('/unflag-post/:postID', async(req,res) => {
-    if (!req.session.userID) {
-        return res.status(401).json({ message: "pas connecté" });
-    }
+    if (!req.session.userID) { return res.status(401).json({ message: "not logged in" }); }
     const userID = req.session.userID;
     const postID = req.params.postID;
 
@@ -226,16 +210,15 @@ router.post('/unflag-post/:postID', async(req,res) => {
                 await posts.updateOne( 
                     { _id: new ObjectId(postID) },
                     {
-                        $inc: { reports: -1 },
-                        $pull: { users: new ObjectId(userID) }
+                        $inc: { reports: -1 }, // decrementer le nombrer des signalisations
+                        $pull: { users: new ObjectId(userID) } // retirer l'utilisateur de la liste
                     }
                 );
                 
-                if (post.reports <= 1) { await posts.deleteOne({ _id: new ObjectId(postID) }); }
+                if (post.reports <= 1) { await posts.deleteOne({ _id: new ObjectId(postID) }); } // retirer le sommaire des signalisations si personne ne la signale plus
 
                 return res.status(200).json({ message: "user's report pulled" });
             }
-
             return res.status(200).json({ message: "user didn't report" });
         } 
         return res.status(200).json({ message: "post wasn't flagged" });
@@ -245,11 +228,8 @@ router.post('/unflag-post/:postID', async(req,res) => {
     }
 });
 
+// modifier une publication dans le form général
 router.patch('/edit-post/:postID', async(req,res) => {
-    if (!req.session.userID) {
-        return res.status(401).json({ message: "pas connecté" });
-    }
-    
     const postID = req.params.postID;
     const { edit } = req.body;
     const timestamp = new Date(Date.now());

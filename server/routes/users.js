@@ -3,25 +3,23 @@ const router = express.Router();
 const { getDB } = require('../db');
 const { ObjectId } = require('bson'); 
 
-// get user information by userID
+// récupérer les informations d'un utilisateur par leur userID
 router.get('/byUserID/:userID', async(req,res) => {
     const userID = req.params.userID;
-
     try {
         const db = await getDB();
         const user = await db.collection("users").findOne({ _id: new ObjectId(userID) });
         if (!user) { return res.status(404).json({ message: "user not found" }); }
-        return res.json(user);
+        return res.status(200).json(user);
     } catch(err) {
-        console.error("user not found :", err);
+        console.error("error fetching user information", err);
         res.status(500).json({ message: "internal server error" });
     }
 });
 
-// get user information by user's names (fstname_surname)
+// récupérer les informations d'un utilisateur par leur noms (fstname_surname)
 router.get('/byUserNames/:userNames', async(req,res) => {
     const userNames = req.params.userNames.split('_');
-
     try {
         const db = await getDB();
         const user = await db.collection("users").findOne({
@@ -29,62 +27,54 @@ router.get('/byUserNames/:userNames', async(req,res) => {
             surname: userNames[1]
         });
         if (!user) { return res.status(404).json({ message: "user not found" }); }
-        return res.json(user);
+        return res.status(200).json(user);
     } catch(err) {
-        console.error("user not found :", err);
+        console.error("error fetching user information", err);
         res.status(500).json({ message: "internal server error" });
     }
 });
 
-// get current user's userID
+// récupérer l'userID de l'utilisateur connecté
 router.get('/currentUserID', async(req,res) => {
-    if (!req.session.userID) {
-        return res.status(401).json({ message: "not logged in" });
-    }
-    return res.json(req.session.userID);
+    if (!req.session.userID) { return res.status(401).json({ message: "not logged in" }); }
+    return res.status(200).json(req.session.userID);
 });
 
-// get current user's information
+// récupérer les information de l'utilisateur connecté
 router.get('/currentUser', async(req,res) => {
-    if (!req.session.userID) {
-        return res.status(401).json({ message: "not logged in" });
-    }
+    if (!req.session.userID) { return res.status(401).json({ message: "not logged in" }); }
     const userID = req.session.userID;
 
     try {
         const db = await getDB();
         const user = await db.collection("users").findOne({ _id: new ObjectId(userID) });
         if (!user) { return res.status(404).json({ message: "user not found" }); }
-        return res.json(user);
+        return res.status(200).json(user);
     } catch (err) {
-        console.error("current user not found :",err);
+        console.error("error fetching current user's information",err);
         res.status(500).json({ message: "internal server error" });
     }
 });
 
-// get current user's names (fstname_surname) DELETE IF NOT NEEDED
+// récupérer les noms de l'utilisateur connecté (fstname_surname) DELETE IF NOT NEEDED
 router.get('/currentUserNames', async(req,res) => {
-    if (!req.session.userID) {
-        return res.status(401).json({ message: "not logged in" });
-    }
+    if (!req.session.userID) { return res.status(401).json({ message: "not logged in" }); }
     const userID = req.session.userID;
 
     try {
         const db = await getDB();
         const user = await db.collection("users").findOne({ _id: new ObjectId(userID) });
         const names = `${user.fstname}_${user.surname}`;
-        return res.json(names);
+        return res.status(200).json(names);
     } catch(err) {
-        console.error("current user's names not found :",err);
+        console.error("error fetching current user's names",err);
         res.status(500).json({ message: "internal server error" });
     }
 });
 
-//CHECK
+// vérifier si une requête d'amitié a été envoyé par/à l'utilisateur connecté
 router.get('/check-request/:userID', async(req,res) => {
-    if (!req.session.userID) {
-        return res.status(401).json({ message: "not logged in" });
-    }
+    if (!req.session.userID) { return res.status(401).json({ message: "not logged in" }); }
     const currentUserID = req.session.userID;
     const userID = req.params.userID;
 
@@ -94,22 +84,21 @@ router.get('/check-request/:userID', async(req,res) => {
             $or: [
                 {senderID: new ObjectId(currentUserID),
                 recipientID: new ObjectId(userID)},
+
                 {senderID: new ObjectId(userID),
                 recipientID: new ObjectId(currentUserID)}
             ]
         });
-        return res.json(request != null);
+        return res.status(200).json(request != null);
     } catch(err) {
-        console.error("error checking request status :",err);
+        console.error("error checking request status",err);
         res.status(500).json({ message: "internal server error" });
     }
 });
 
-//CHECK
+// vérifier si l'utilisateur connecté et l'utilisateur en question sont déjà amis
 router.get('/check-friendship/:userID', async(req,res) => {
-    if (!req.session.userID) {
-        return res.status(401).json({ message: "not logged in" });
-    }
+    if (!req.session.userID) { return res.status(401).json({ message: "not logged in" }); }
     const currentUserID = req.session.userID;
     const userID = req.params.userID;
 
@@ -124,28 +113,25 @@ router.get('/check-friendship/:userID', async(req,res) => {
                 friend2ID: new ObjectId(currentUserID) }
             ]
         });
-        return res.json(friendship != null); 
+        return res.status(200).json(friendship != null); 
     } catch(err) {
-        console.error("error checking friendnship status :",err);
+        console.error("error checking friendship status",err);
         res.status(500).json({ message: "internal server error" });
     }
 });
 
-//CHECK
+// envoyer une requête d'amitié
 router.post('/request-friendship/:recipientID', async(req,res) => {
-    if (!req.session.userID) {
-        return res.status(401).json({ message: "not logged in" });
-    }
-
+    if (!req.session.userID) { return res.status(401).json({ message: "not logged in" }); }
     const senderID = req.session.userID;
     const recipientID = req.params.recipientID;
 
     try {
         const db = await getDB();
         const friendreqs = db.collection("friend_requests");
-        const sender = await db.collection("users").findOne({ _id: new ObjectId(senderID) });
+        const sender = await db.collection("users").findOne({ _id: new ObjectId(senderID) }); // récupérer les information de l'utilisateur connecté
 
-        await friendreqs.insertOne({
+        await friendreqs.insertOne({ // envoyer la requête 
             "recipientID": new ObjectId(recipientID),
             "senderID": new ObjectId(senderID),
             "sender_fstname": sender.fstname,
@@ -159,34 +145,30 @@ router.post('/request-friendship/:recipientID', async(req,res) => {
     }
 });
 
+// récuperer toutes les requêtes d'amitié envoyées à l'utilisateur connecté
 router.get('/get-friend-requests', async(req,res) => {
-    if (!req.session.userID) {
-        return res.status(401).json({ message: "not logged in" });
-    }
+    if (!req.session.userID) { return res.status(401).json({ message: "not logged in" }); }
     const userID = req.session.userID;
 
     try {
         const db = await getDB();
         const friendreqs = await db.collection("friend_requests").find({ recipientID: new ObjectId(userID) }).toArray();
-        return res.json(friendreqs || []);
+        return res.status(200).json(friendreqs);
     } catch(err) {
-        console.error("error fetching friend requests :", err);
+        console.error("error fetching friend requests", err);
         res.status(500).json({ message: "internal server error" });
     }
-
 });
 
-//CHECK
+// accepter une requête d'amitié
 router.post('/accept-friend-request/:requestID', async(req,res) => {
     const requestID = req.params.requestID;
-    console.log(requestID);
-
     try {
         const db = await getDB();
-        const req = await db.collection("friend_requests").findOne({ _id: new ObjectId(requestID) });
+        const req = await db.collection("friend_requests").findOne({ _id: new ObjectId(requestID) }); // récupérer les information de la requête
     
-        const sender = await db.collection("users").findOne({ _id: new ObjectId(req.senderID) });
-        const recipient = await db.collection("users").findOne({ _id: new ObjectId(req.recipientID) });
+        const sender = await db.collection("users").findOne({ _id: new ObjectId(req.senderID) }); // récupérer les informations de l'expéditeur
+        const recipient = await db.collection("users").findOne({ _id: new ObjectId(req.recipientID) }); // récupérer les informations du destinataire
         await db.collection("friends").insertOne({
             "friend1ID": new ObjectId(recipient._id),
             "friend1_name" : `${recipient.fstname} ${recipient.surname}`,
@@ -194,8 +176,8 @@ router.post('/accept-friend-request/:requestID', async(req,res) => {
             "friend2_name" : `${sender.fstname} ${sender.surname}`,
             "messages": []
         });
+        await db.collection("friend_requests").deleteOne({ _id: new ObjectId(requestID) }); // supprimer la requête
 
-        await db.collection("friend_requests").deleteOne({ _id: new ObjectId(requestID) });
         res.status(201).json({ message: "friendship accepted" });
     } catch(err) {
         console.error("error accepting friendship request",err);
@@ -203,7 +185,7 @@ router.post('/accept-friend-request/:requestID', async(req,res) => {
     }
 });
 
-//CHECK
+// rejeter une requête d'amitié
 router.delete('/reject-friend-request/:requestID', async(req,res) => {
     const requestID = req.params.requestID;
     try {
@@ -216,23 +198,22 @@ router.delete('/reject-friend-request/:requestID', async(req,res) => {
     }
 });
 
+// récupérer les notifications de l'utilisateur connecté
 router.get('/get-notifications/', async(req,res) => {
-    if (!req.session.userID) {
-        return res.status(401).json({ message: "pas connecté" });
-    }
+    if (!req.session.userID) { return res.status(401).json({ message: "not logged in" }); }
     const userID = req.session.userID;
 
     try { 
         const db = await getDB();
         const notifs = await db.collection("notifications").find({ recipientID: new ObjectId(userID) }).toArray();
-
-        return res.json(notifs || []);
+        return res.status(200).json(notifs);
     } catch(err) {
-        console.error("notification retrieval error",err);
-        res.status(500).json({ message: "Internal server error" });
+        console.error("error fetching notifications",err);
+        res.status(500).json({ message: "internal server error" });
     }
 });
 
+// supprimer une notification
 router.delete('/delete-notification/:notifID', async(req,res) => {
     const notifID = req.params.notifID;
     try {
@@ -241,7 +222,7 @@ router.delete('/delete-notification/:notifID', async(req,res) => {
         res.status(200).json({ message: "notification deleted" });
     } catch(err) {
         console.error("error deleting notification",err);
-        res.status(500).json({ message: "Internal server error" });
+        res.status(500).json({ message: "internal server error" });
     }
 });
 
