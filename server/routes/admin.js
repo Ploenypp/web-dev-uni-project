@@ -116,12 +116,12 @@ router.post('/assign-team', async(req,res) => {
 });
 
 router.post('/newpost', async(req,res) => {
-    if (!req.session.userId) {
+    if (!req.session.userID) {
         return res.status(401).json({ message: "pas connecté" });
     }
 
     const { title, content } = req.body;
-    const userID = req.session.userId;
+    const userID = req.session.userID;
     const timestamp = new Date(Date.now());
     console.log(userID);
 
@@ -147,7 +147,7 @@ router.post('/newpost', async(req,res) => {
 });
 
 router.patch('/edit-post/:postID', async(req,res) => {
-    if (!req.session.userId) {
+    if (!req.session.userID) {
         return res.status(401).json({ message: "pas connecté" });
     }
     
@@ -176,7 +176,7 @@ router.patch('/edit-post/:postID', async(req,res) => {
 });
 
 router.delete('/delete-post/:postID', async(req,res) => {
-    if (!req.session.userId) {
+    if (!req.session.userID) {
         return res.status(401).json({ message: "pas connecté" });
     }
 
@@ -214,11 +214,11 @@ router.get('/posts', async(req,res) => {
 });
 
 router.post('/flag-post', async(req,res) => {
-    if (!req.session.userId) {
+    if (!req.session.userID) {
         return res.status(401).json({ message: "pas connecté" });
     }
     
-    const userID = req.session.userId;
+    const userID = req.session.userID;
     const { postID } = req.body;
 
     try {
@@ -267,10 +267,10 @@ router.post('/flag-post', async(req,res) => {
 });
 
 router.delete('/delete-flagged-post/:postID/:authorID', async(req,res) => {
-    if (!req.session.userId) {
+    if (!req.session.userID) {
         return res.status(401).json({ message: "pas connecté" });
     }
-    console.log(req.session.userId);
+    console.log(req.session.userID);
 
     const { postID, authorID } = req.params;
     const { postTitle, warning }= req.query;
@@ -306,10 +306,10 @@ router.delete('/delete-flagged-post/:postID/:authorID', async(req,res) => {
 });
 
 router.post('/restore-flagged-post/:postID/:authorID', async(req,res) => {
-    if (!req.session.userId) {
+    if (!req.session.userID) {
         return res.status(401).json({ message: "pas connecté" });
     }
-    console.log(req.session.userId);
+    console.log(req.session.userID);
 
     const { postID, authorID } = req.params;
     const { postTitle } = req.body;

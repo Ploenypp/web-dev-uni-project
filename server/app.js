@@ -5,7 +5,7 @@ const { connectDB } = require('./db'); // Import the database connection logic f
 
 const authRoutes = require('./routes/auth.js');
 const postRoutes = require('./routes/posts.js');
-const userRoutes = require('./routes/user.js');
+const usersRoutes = require('./routes/users.js');
 const messagesRoutes = require('./routes/messages.js');
 const adminRoutes = require('./routes/admin.js');
 const searchRoutes = require('./routes/search.js');
@@ -39,7 +39,7 @@ connectDB();
 
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
-app.use('/api/user', userRoutes);
+app.use('/api/users', usersRoutes);
 app.use('/api/messages', messagesRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/search', searchRoutes);

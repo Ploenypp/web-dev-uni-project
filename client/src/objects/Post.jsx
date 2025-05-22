@@ -11,6 +11,7 @@ function Post(props) {
     const currentUserID = props.currentUserID;
     const postID = props.postID;
     const userID = props.userID;
+    const author = props.author;
     const OGdate = new Date(props.timestamp).toLocaleString('fr-FR', {
         year: 'numeric',
         month: 'long',
@@ -32,13 +33,10 @@ function Post(props) {
     const [comments, setComments] = useState([]);
     useEffect(() => {
         if (postID) {
-        fetch(`http://localhost:8000/api/posts/comments?parentPostID=${postID.toString()}`, { credentials: 'include' })
+        fetch(`http://localhost:8000/api/posts/comments/${postID}`, { credentials: 'include' })
             .then(res => res.json())
-            .then(data => {
-                if (Array.isArray(data)) { setComments(data); }
-                else { setComments([]); }
-            })
-            .catch(err => console.error("Error fetching comments", err)); 
+            .then(data => setComments(data))
+            .catch(err => console.error("error fetching comments", err)); 
         }
     }, [comments]);
 
@@ -57,20 +55,9 @@ function Post(props) {
 
     const navigate = useNavigate();
     const handleToUser = async () => {
-        if (!userID) { return; }
-        if (userID === currentUserID) { 
-            navigate('/profile');
-            return ;
-        }
-
-        try {
-            const response = await axios.post('http://localhost:8000/api/user/visit', { userID }, { withCredentials: true });
-            //alert(response.data.message);
-            navigate('/user');
-        } catch(err) {
-            console.error("visit failed", err.response?.data?.message || err.message);
-            alert(err.response?.data?.message || "Something went wrong");
-        }
+        const names = author.split(" ");
+        navigate(`/profile/${names[0]}_${names[1]}`);
+        window.location.reload();
     };
 
     const [showExtra, setShowExtra] = useState(false);
@@ -86,11 +73,10 @@ function Post(props) {
     const [edit, getEdit] = useState(props.content);
     const handleConfirmEdit = async() => {
         try {
-            const response = await axios.patch(`http://localhost:8000/api/posts/edit-post/${postID}`, { edit }, { withCredentials: true });
-            //alert(response.data.message);
+            await axios.patch(`http://localhost:8000/api/posts/edit-post/${postID}`, { edit }, { withCredentials: true });
             toggleEdit();
         } catch(err) {
-            console.error("edit failed", err.response?.data?.message || err.message);
+            console.error("error editing post :", err.response?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");
         }
         toggleExtra();
@@ -100,10 +86,9 @@ function Post(props) {
     const toggleConfirmDel = () => { setShowConfirmDel(!showConfirmDel); };
     const handleDelete = async () => {
         try {
-            const response = await axios.post('http://localhost:8000/api/posts/delete-post', { postID }, { withCredentials: true });
-            //alert(response.data.message);
+            await axios.delete(`http://localhost:8000/api/posts/delete-post/${postID}`, { withCredentials: true });
         } catch(err) {
-            console.error("visit failed", err.response?.data?.message || err.message);
+            console.error("error deleting post: ", err.response?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");
         }
         toggleExtra();
@@ -111,33 +96,25 @@ function Post(props) {
 
     const [alreadyFlagged, setAlreadyFlagged] = useState(false);
     const updateFlaggedState = async () => {
-        try {
-            const response = await fetch(`http://localhost:8000/api/posts/get-flagged/${currentUserID}/${postID}`, { credentials: 'include' });
-            const data = await response.json();
-            setAlreadyFlagged(data);
-        } catch(err) {
-            console.error("Error updating flag info", err);
-        }
+        await fetch(`http://localhost:8000/api/posts/check-flagged/${postID}/${currentUserID}`, { credentials: 'include' })
+            .then(res => res.json())
+            .then(data => setAlreadyFlagged(data))
+            .catch(err => console.error("error updating flagged status :", err))
     };
-    useEffect(() => {
-        updateFlaggedState();
-    },[alreadyFlagged]);
-
+    useEffect(() => { updateFlaggedState(); },[alreadyFlagged]);
     const handleFlag = async () => {
         if (alreadyFlagged) {
             try {
-                const response = await axios.post('http://localhost:8000/api/posts/unflag-post', { postID }, { withCredentials: true });
-                //alert(response.data.message);
+                await axios.post(`http://localhost:8000/api/posts/unflag-post/${postID}`, { withCredentials: true });
             } catch(err) {
-                console.error("unfailed failed", err.response?.data?.message || err.message);
+                console.error("error flagging post :", err.response?.data?.message || err.message);
                 alert(err.response?.data?.message || "Something went wrong");
             }
         } else {
             try {
-                const response = await axios.post('http://localhost:8000/api/posts/flag-post', { postID }, { withCredentials: true });
-                //alert(response.data.message);
+                await axios.post(`http://localhost:8000/api/posts/flag-post/${postID}`, { withCredentials: true });
             } catch(err) {
-                console.error("flagging failed", err.response?.data?.message || err.message);
+                console.error("error reporting post :", err.response?.data?.message || err.message);
                 alert(err.response?.data?.message || "Something went wrong");
             }
         }
@@ -168,7 +145,7 @@ function Post(props) {
                 </div>
             </div>
             <div id="post_info">
-                {props.userID ? (<button id="author_btn" type="button" onClick={handleToUser}><img src={`http://localhost:8000/api/images/load_pfp/${userID}?t=${Date.now()}`} id="post_pfp" alt="profile picture" /> {props.author}</button> ) : (<div id="deleted_user"><img src={`http://localhost:8000/api/images/load_pfp/${userID}?t=${Date.now()}`} id="post_pfp" alt="profile picture" /> {props.author}</div>)}
+                {userID ? (<button id="author_btn" type="button" onClick={handleToUser}><img src={`http://localhost:8000/api/images/load_pfp/${userID}?t=${Date.now()}`} id="post_pfp" alt="profile picture" /> {author}</button> ) : (<div id="deleted_user"><img src={`http://localhost:8000/api/images/load_pfp/${userID}?t=${Date.now()}`} id="post_pfp" alt="profile picture" /> {author}</div>)}
                 {!props.edited ? (`${OGdate}`) : (<div>
                     modifié : {new Date(props.editDate).toLocaleString('fr-FR', {year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric',minute: 'numeric', hour12: false})} |
                     publié : {new Date(props.timestamp).toLocaleString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric',

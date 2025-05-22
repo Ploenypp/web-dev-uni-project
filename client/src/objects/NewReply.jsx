@@ -16,15 +16,9 @@ function NewReply(props) {
         }
         
         try {
-            const response = await axios.post('http://localhost:8000/api/posts/newcomment', {
-                parentPostID, 
-                content 
-            }, { withCredentials: true });
-
-            //alert(response.data.message);
+            await axios.post(`http://localhost:8000/api/posts/new-comment/${parentPostID}`, { content }, { withCredentials: true });
             setShowReplyDraft(false);
             setReplyBtnText("répondre");
-
         } catch(error) {
             console.error("Publication failed:", error.response?.data?.message || error.message);
             alert(error.response?.data?.message || "Something went wrong");

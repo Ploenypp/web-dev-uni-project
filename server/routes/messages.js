@@ -8,12 +8,12 @@ const { ObjectId } = require('bson');
 //const client = new MongoClient(uri);
 
 router.post('/new-message', async(req,res) => {
-    if (!req.session.userId) {
+    if (!req.session.userID) {
         return res.status(401).json({ message: "pas connecté" });
     }
 
     const { chatID, content } = req.body;
-    const userID = req.session.userId;
+    const userID = req.session.userID;
     const timestamp = new Date(Date.now());
 
     try {
@@ -37,7 +37,7 @@ router.post('/new-message', async(req,res) => {
 });
 
 router.get('/get-messages', async(req,res) => {
-    if (!req.session.userId) {
+    if (!req.session.userID) {
         return res.status(401).json({ message: "pas connecté" });
     }
 

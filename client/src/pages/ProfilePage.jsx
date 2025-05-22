@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 
 import "../styles/ProfilePage.css";
 import "../styles/Chat.css";
@@ -11,55 +12,103 @@ import RequestLst from "../objects/RequestLst.jsx";
 import NotiLst from "../objects/NotiLst.jsx";
 
 function ProfilePage() {
+    const { userNames } = useParams();
     const [userInfo, setUserInfo] = useState("");
+	const [currentUserID, setCurrentUserID] = useState(null);
     useEffect(() => {
-      	fetch('http://localhost:8000/api/user/profile', { credentials: 'include' })
-        .then(res => res.json())
-        .then(data => setUserInfo(data))
-        .catch(err => console.error("Error fetching user data:", err));
+      	fetch(`http://localhost:8000/api/users/byUserNames/${userNames}`, { credentials: 'include' })
+        	.then(res => res.json())
+          	.then(data => setUserInfo(data))
+          	.catch(err => console.error("error fetching user data :", err));
+		
+		fetch('http://localhost:8000/api/users/currentUserID', { credentials: 'include' })
+			.then(res => res.json())
+			.then(data => setCurrentUserID(data))
+			.catch(err => console.error("error getting current user id :", err));
     }, []);
-    const currentUserID = userInfo._id;
-
-    const navigate = useNavigate();
-    const toChats = () => {
-      navigate("/chats");
-    }
 
     const [posts, setPosts] = useState([]);
     useEffect(() => {
-      fetch('http://localhost:8000/api/posts/profile-posts', { credentials: 'include' })
-        .then(res => res.json())
-        .then(data => { 
-          //console.log(data)
-          if (Array.isArray(data)) { setPosts(data); } 
-          else { setPosts([]); }
-        })
-
-        .catch(err=> console.error("Error fetching user posts", err));
-    }, [posts]);
+		if (userInfo) {
+			fetch(`http://localhost:8000/api/posts/${userInfo._id}`, { credentials: 'include' })
+				.then(res => res.json())
+				.then(data => setPosts(data))
+				.catch(err=> console.error("error fetching user posts :", err));
+		}
+    }, [userInfo, posts]);
 
     const [reqslst, setReqLst] = useState([]);
     useEffect(() => {
-      fetch('http://localhost:8000/api/user/get-friend-requests', { credentials: 'include' })
+      fetch('http://localhost:8000/api/users/get-friend-requests', { credentials: 'include' })
           .then(res => res.json())
-          .then(data => {
-              //console.log("reqslst",data)
-              setReqLst(data)
-          })
-          .catch(err => console.error("Error fetching friend requests", err));
+          .then(data => setReqLst(data))
+          .catch(err => console.error("error fetching friend requests :", err));
     }, [reqslst]);
+
+	const [requested, setRequested] = useState(false);
+	const [friend, setFriend] = useState(false);
+	useEffect(() => {
+		if (currentUserID != userInfo._id) {
+			fetch(`http://localhost:8000/api/users/check-request/${userInfo._id}`, { credentials: 'include' })
+				.then(res => res.json())
+				.then(data => setRequested(data))
+				.catch(err => console.error("error fetching request status :", err));
+			
+			fetch(`http://localhost:8000/api/users/check-friendship/${userInfo._id}`, { credentials: 'include' })
+				.then(res => res.json())
+				.then(data => setFriend(data))
+				.catch(err => console.error("error fetching friendship status :", err));
+		}
+	}, [requested, friend]);
+
+	const handleRequest = async() => {
+		try {
+			await axios.post(`http://localhost:8000/api/users/accept-friend-request/${userInfo._id}`, { withCredentials: true });
+		} catch(err) {
+			console.error("error requesting friendship :", err.response?.data?.message || err.message);
+		}
+	};
+
+	const navigate = useNavigate();
+    const toChats = () => { navigate("/chats"); }
 
     return(<div className="ProfilePage">
         <Ribbon fstname={userInfo.fstname} surname={userInfo.surname} pageType={false}/>
-        <div id="pf_container">
+        
+		<div id="pf_container">
             <div id="profile_sidebar"> 
-              	<ProfileInfo currentUserID={currentUserID} userID={currentUserID} fstname={userInfo.fstname} surname={userInfo.surname} dob={userInfo.dob} status={userInfo.status} team={userInfo.team}/> 
+              	<ProfileInfo 
+                  currentUserID={currentUserID} 
+                  userID={userInfo._id} 
+                  fstname={userInfo.fstname} 
+                  surname={userInfo.surname} 
+                  dob={userInfo.dob} 
+                  status={userInfo.status} 
+                  team={userInfo.team}
+                /> 
               	
-				<RequestLst reqslst={reqslst}/> 
-
-        		<NotiLst />
-              	
-				<button id="redirChat_btn" type="button" onClick={toChats}><img src={`http://localhost:8000/api/images/load_icon/${"gummiphone"}?t=${Date.now()}`} id="profile_msg_icon" alt="icon"/>Messages</button>
+				{ currentUserID === userInfo._id ? 
+					(<div>
+						<RequestLst reqslst={reqslst}/> 
+						<NotiLst />
+						<button id="redirChat_btn" type="button" onClick={toChats}>
+							<img src={`http://localhost:8000/api/images/load_icon/${"gummiphone"}?t=${Date.now()}`} id="profile_msg_icon" alt="icon"/>
+							Messages
+						</button>
+					</div>) : 
+					(<div>
+						{ !friend ? (
+							!requested ? 
+								(<button id="friendreq_btn" type="button" onClick={handleRequest}>Envoyer Friend Request</button>) : 
+								(<button id="friendreq_btn" type="button">Friend Request envoyé</button>)) : 
+								
+								(<button id="redirChat_btn" type="button" onClick={toChats}>
+								<img src={`http://localhost:8000/api/images/load_icon/${gummiphone}?t=${Date.now()}`} id="profile_msg_icon" alt="icon"/>
+								Messager
+								</button>)
+						}
+					</div>) 
+				}
             </div>
             <div id="pf_subcontainer">
               	<div id="profile_posts">

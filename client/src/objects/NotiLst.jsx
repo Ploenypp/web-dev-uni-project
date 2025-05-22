@@ -9,7 +9,7 @@ function NotiLst() {
 
     const [notifications, setNotifications] = useState([]);
     useEffect(() => {
-        fetch(`http://localhost:8000/api/user/get-notifications/`, { credentials: 'include' })
+        fetch(`http://localhost:8000/api/users/get-notifications/`, { credentials: 'include' })
             .then(res => res.json())
             .then(data => setNotifications(data))
             .catch(err => console.error("Error fetching notifications", err));

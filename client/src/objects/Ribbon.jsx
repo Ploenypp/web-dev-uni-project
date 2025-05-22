@@ -6,17 +6,17 @@ import axios from 'axios';
 import "../styles/Ribbon.css";
 
 function Ribbon(props) {
+    const [userInfo, setUserInfo] = useState("");
     const [userID, setUserID] = useState("");
-    const [name, setName] = useState("");
     const [status, setStatus] = useState("");
     const adminPage = props.pageType;
 
     useEffect(() => {
-        fetch('http://localhost:8000/api/user/profile', { credentials: 'include' })
+        fetch('http://localhost:8000/api/users/currentUser', { credentials: 'include' })
             .then(res => res.json())
             .then(data => {
+                setUserInfo(data);
                 setUserID(data._id);
-                setName(data.fstname + " " + data.surname);
                 setStatus(data.status);
             })
             .catch(err => console.error("Error fetching user data:", err))
@@ -24,7 +24,7 @@ function Ribbon(props) {
 
     const navigate = useNavigate();
     const toDashboard = () => { navigate("/dashboard"); };
-    const toProfile = () => { navigate("/profile"); };
+    const toProfile = () => { navigate(`/profile/${userInfo.fstname}_${userInfo.surname}`)};
     const toChats = () => { navigate("/chats"); };
     const toAdmin = () => { navigate("/admin"); };
 
@@ -41,27 +41,36 @@ function Ribbon(props) {
     };
 
     return(<div className="Ribbon">
-        <img src={`http://localhost:8000/api/images/load_icon/${"org13"}?t=${Date.now()}`} id="org13_ribbon" alt="Organiz'asso Logo" onClick={toDashboard}/>
+        <img src={`http://localhost:8000/api/images/load_icon/${"org13"}`} id="org13_ribbon" alt="Organiz'asso Logo" onClick={toDashboard}/>
+        
         <div id="nothing"></div>
+        
         <button id="profile" type="button" onClick={toProfile}>
-            <img src={`http://localhost:8000/api/images/load_pfp/${userID}?t=${Date.now()}`} id="ribbon_pic" alt="profile picture"/>
-            {name}
+            <img src={`http://localhost:8000/api/images/load_pfp/${userID}`} id="ribbon_pic" alt="profile picture"/>
+            {`${userInfo.fstname} ${userInfo.surname}`}
         </button>
-        <button id="chats" type="button" onClick={toChats}><img src={`http://localhost:8000/api/images/load_icon/${"gummiphone"}?t=${Date.now()}`} id="ribbon_msg_icon" alt="icon"/>Messages</button>
+
+        <button id="chats" type="button" onClick={toChats}>
+            <img src={`http://localhost:8000/api/images/load_icon/${"gummiphone"}`} id="ribbon_msg_icon" alt="icon"/>
+            Messages
+        </button>
         
         {status === "admin" && (adminPage ?
             (<button id="forum_btn" type="button" onClick={toDashboard}>
-                <img src={`http://localhost:8000/api/images/load_icon/${"computer"}?t=${Date.now()}`} id="forum_icon" alt="icon" /> 
+                <img src={`http://localhost:8000/api/images/load_icon/${"computer"}`} id="forum_icon" alt="icon" /> 
                 General
             </button>)
             :
             (<button id="forum_btn" type="button" onClick={toAdmin}>
-                <img src={`http://localhost:8000/api/images/load_icon/${"computer"}?t=${Date.now()}`} id="forum_icon" alt="icon" /> 
+                <img src={`http://localhost:8000/api/images/load_icon/${"computer"}`} id="forum_icon" alt="icon" /> 
                 Admin
             </button>))
         }
         
-        <button id="logout" type="button" onClick={handleLogout}><img src={`http://localhost:8000/api/images/load_icon/${"keyblade_icon"}?t=${Date.now()}`} id="logout_icon" alt="icon"/>Deconnexion</button>
+        <button id="logout" type="button" onClick={handleLogout}>
+            <img src={`http://localhost:8000/api/images/load_icon/${"keyblade_icon"}`} id="logout_icon" alt="icon"/>
+            Deconnexion
+        </button>
     </div>)
 }
 

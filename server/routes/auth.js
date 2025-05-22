@@ -1,10 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const { getDB } = require('../db');
-//const { MongoClient } = require("mongodb");
-
-//const uri = process.env.MONGODB_URI || "mongodb+srv://Ploenypp:technoweb017-SU25@lu3in017-su2025.mopemx5.mongodb.net/?retryWrites=true&w=majority&appName=LU3IN017-SU2025";
-//const client =  new MongoClient(uri);
 
 router.post('/register', async (req,res) => {
     const { fstname, surname, dob, username, password } = req.body;
@@ -49,7 +45,7 @@ router.post('/login', async (req,res) => {
         if (!user) { return res.status(401).json({ message: "Cette utilisateur n'existe pas" }) };
         if (user.password != password) { return res.status(401).json({ message: "Password incorrect" }) };
 
-        req.session.userId = user._id;
+        req.session.userID = user._id;
         console.log("User session: ", req.session);
 
         res.status(201).json({ message: "Connexion réussie", userID: user._id });

@@ -8,25 +8,21 @@ import Post from "../objects/Post.jsx";
 import "../styles/MainPage.css";
 
 function MainPage () {
-    const [userInfo, setUserInfo] = useState("");
+    const [currentUserID, setCurrentUserID] = useState("");
     useEffect(() => {
-        fetch('http://localhost:8000/api/user/profile', { credentials: 'include' })
-            .then(res => res.json())
-            .then(data => setUserInfo(data))
-            .catch(err => console.error("Error fetching user data:", err));
-    }, []);
-	  const currentUserID = userInfo._id;
+      fetch('http://localhost:8000/api/users/currentUserID', { credentials: 'include' })
+        .then(res => res.json())
+        .then(data => setCurrentUserID(data))
+        .catch(err => console.error("error fetching current user's ID :",err))
+    },[]);
 
     const [postsContent, setPostContents] = useState([]);
     useEffect(() => {
       fetch('http://localhost:8000/api/posts/all-posts', {
         credentials: 'include' })
           .then(res => res.json())
-          .then(data => {
-            //console.log(data)
-            setPostContents(data) 
-          })
-          .catch(err => console.error("Error fetching posts",err));
+          .then(data => setPostContents(data))
+          .catch(err => console.error("error fetching posts :",err));
     }, [postsContent]);
 
     return(<div className="MainPage">
@@ -45,11 +41,10 @@ function MainPage () {
                 edited={post.edited}
                 editDate={post.editDate}
                 content={post.content}
-				        currentUserID={currentUserID}
+				currentUserID={currentUserID}
             />))}
         </div>
-    </div>)
-    
+    </div>) 
 }
 
 export default MainPage;

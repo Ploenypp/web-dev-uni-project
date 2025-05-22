@@ -22,15 +22,17 @@ function ProfileInfo(props) {
         if (!file) { return; }
 
         const formData = new FormData();
-        formData.append('image', file); // or wherever your file comes from
+        formData.append('image', file); 
 
         axios.post('http://localhost:8000/api/images/upload_pfp', formData, {
-        withCredentials: true, // include if your server uses sessions/cookies
+        withCredentials: true,
         headers: {
             'Content-Type': 'multipart/form-data',
         },})
-        .then(res => { console.log('Upload successful:', res.data); })
-        .catch(err => { console.error('Upload failed:', err); });
+            .then(res => { console.log('Upload successful:', res.data); })
+            .catch(err => { console.error('Upload failed:', err); });
+        setFile(null);
+        window.location.reload();
     };
 
     return(<div className="ProfileInfo">

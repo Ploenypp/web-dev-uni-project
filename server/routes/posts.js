@@ -1,21 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const { getDB } = require('../db');
-//const { MongoClient } = require("mongodb");
 const { ObjectId } = require('bson'); 
 
-//const uri = process.env.MONGODB_URI || "mongodb+srv://Ploenypp:technoweb017-SU25@lu3in017-su2025.mopemx5.mongodb.net/?retryWrites=true&w=majority&appName=LU3IN017-SU2025";
-//const client = new MongoClient(uri);
-
-router.post('/newpost', async(req,res) => {
-    if (!req.session.userId) {
+router.post('/new-post', async(req,res) => {
+    if (!req.session.userID) {
         return res.status(401).json({ message: "pas connecté" });
     }
 
     const { title, content } = req.body;
-    const userID = req.session.userId;
+    const userID = req.session.userID;
     const timestamp = new Date(Date.now());
-    console.log(userID);
 
     try {
         const db = await getDB();
@@ -24,17 +19,17 @@ router.post('/newpost', async(req,res) => {
         const existingPost = await posts.findOne({ title });
         if (existingPost) { return res.status(400).json({ message: "titre déjà pris" })}
 
-        const users = db.collection("users");
-        const user = await users.findOne({ _id: new ObjectId(userID) });
+        const user = await db.collection("users").findOne({ _id: new ObjectId(userID) });
         if (!user) { return res.status(404).json( {message: "user not found", userID }); }
+        
         const author = user.fstname.concat(" ",user.surname);
 
         await posts.insertOne({ title, author, "userID": new ObjectId(userID), timestamp, content });
         res.status(201).json({ message: "publication réussie" });
 
     } catch(err) {
-        console.error("publication error:",err);
-        res.status(500).json({ message: "Internal server error"});
+        console.error("error publishing :",err);
+        res.status(500).json({ message: "internal server error"});
     }
 });
 
@@ -53,109 +48,87 @@ router.get('/all-posts', async(req,res) => {
     }
 });
 
-router.post('/newcomment', async(req,res) => {
-    if (!req.session.userId) {
-        return res.status(401).json({ message: "pas connecté" });
+//CHECK
+router.post('/new-comment/:parentPostID', async(req,res) => {
+    if (!req.session.userID) {
+        return res.status(401).json({ message: "not logged in" });
     }
 
-    const { parentPostID, content } = req.body;
-    const userID = req.session.userId;
+    const parentPostID = req.params.parentPostID;
+    const content = req.body;
+    const userID = req.session.userID;
     const timestamp = new Date(Date.now());
-    console.log(userID);
 
     try {
         const db = await getDB();
-        const comments = db.collection("comments");
 
-        const users = db.collection("users");
-        const user = await users.findOne({ _id: new ObjectId(userID) });
+        const user = await db.collection("users").findOne({ _id: new ObjectId(userID) });
         if (!user) { return res.status(404).json( {message: "user not found", userID }); }
         const author = user.fstname.concat(" ",user.surname);
 
-        await comments.insertOne({ "parentPostID": new ObjectId(parentPostID), author, "userID": new ObjectId(userID), timestamp, content });
-        res.status(201).json({ message: "publication réussie" });
+        await db.collection("comments").insertOne({ "parentPostID": new ObjectId(parentPostID), author, "userID": new ObjectId(userID), timestamp, content });
 
+        res.status(201).json({ message: "comment published" });
     } catch(err) {
-        console.error("publication error:",err);
-        res.status(500).json({ message: "Internal server error"});
+        console.error("error publishing comment :",err);
+        res.status(500).json({ message: "internal server error"});
     }
 });
 
-router.get('/comments', async(req,res) => {
-    const { parentPostID } = req.query;
+//CHECK
+router.get('/comments/:parentPostID', async(req,res) => {
+    const parentPostID = req.params.parentPostID;
+
     try {
         const db = await getDB();
         const comments = await db.collection("comments").find({ 'parentPostID': new ObjectId(parentPostID) }).toArray();
-
-        res.json(comments);
+        res.json(comments || []);
     } catch(err) {
-        console.error("comments not found?", err);
-        res.status(500).json({ message: "Internal server error" });
+        console.error("error fetching comments :", err);
+        res.status(500).json({ message: "internal server error" });
     }
 });
 
-router.get('/profile-posts', async(req,res) => {
-    if (!req.session.userId) {
-        return res.status(401).json({ message: "pas connecté" });
-    }
-    const user = req.session.userId;
+//CHECK
+router.get('/:userID', async(req,res) => {
+    const userID = req.params.userID;
 
     try {
         const db = await getDB();
-        const posts = await db.collection("posts").find({ userID : new ObjectId(user)}).sort({'_id': -1}).toArray();
-
+        const posts = await db.collection("posts").find({ userID: new ObjectId(userID) }).sort({'_id': -1}).toArray();
         res.json(posts || []);
     } catch(err) {
-        console.error("user posts not found",err);
-        res.status(500).json({ message: "Internal server error" });
+        console.error("error fetching user's posts :",err);
+        res.status(500).json({ message: "internal server error" });
     }
+
 });
 
-router.get('/visit-user-posts', async(req,res) => {
-    const userID = req.session.visitID;
+//CHECK 
+router.delete('/delete-post/:postID', async(req,res) => {
+    const postID = req.params.postID;
 
     try {
         const db = await getDB();
-        const posts = await db.collection("posts").find({ userID: new ObjectId(userID) }).sort({ '_id': -1 }).toArray();
 
-        res.json(posts || []);
+        await db.collection("posts").deleteOne({ _id: new ObjectId(postID) });
+        await db.collection("comments").deleteMany({ parentPostID: new ObjectId(postID) });
+        await db.collection("flagged_posts").deleteOne({ _id: new ObjectId(postID) });
+
+        res.status(200).json({ message: "post deleted" });
     } catch(err) {
-        console.error("user posts not found", err);
-        res.status(500).json({ message: "Internal server error" });
+        console.error("error deleting post :",err);
+        res.status(500).json({ message: "internal server error" });
     }
 });
 
-router.post('/delete-post', async(req,res) => {
-    if (!req.session.userId) {
+//CHECK
+router.post('/flag-post/:postID', async(req,res) => {
+    if (!req.session.userID) {
         return res.status(401).json({ message: "pas connecté" });
     }
-
-    const { postID } = req.body;
-
-    try {
-        const db = await getDB();
-        const posts = db.collection("posts");
-        const comments = db.collection("comments");
-        const flagged = db.collection("flagged_posts");
-
-        await posts.deleteOne({ _id: new ObjectId(postID) });
-        await comments.deleteMany({ parentPostID: new ObjectId(postID) });
-        await flagged.deleteOne({ _id: new ObjectId(postID) });
-
-        res.status(200).json({ message: "suppression réussie" });
-    } catch(err) {
-        console.error("deletion error:",err);
-        res.status(500).json({ message: "Internal server error" });
-    }
-});
-
-router.post('/flag-post', async(req,res) => {
-    if (!req.session.userId) {
-        return res.status(401).json({ message: "pas connecté" });
-    }
-    
-    const userID = req.session.userId;
-    const { postID } = req.body;
+    const userID = req.session.userID;
+    const postID = req.params.postID;
 
     try {
         const db = await getDB();
@@ -176,14 +149,13 @@ router.post('/flag-post', async(req,res) => {
                     { _id: new ObjectId(postID) }, 
                     {
                         $inc: { reports: 1 },
-                        $push: {users: new ObjectId(userID) } 
+                        $push: { users: new ObjectId(userID) } 
                     }
                 ); 
-                return res.status(201).json({ message: "report success" });
+                return res.status(201).json({ message: "post reported" });
             } else {
                 return res.status(201).json({ message: "user already reported" });
             }
-
         } else {
             await flagged_posts.insertOne({ 
                 _id: new ObjectId(postID),
@@ -202,16 +174,17 @@ router.post('/flag-post', async(req,res) => {
                 body : "Un administrateur examinera votre publication et décidera s'elle doit être restaurée ou supprimée. Vous serez informé de la décision."
                 })
             }
-            return res.status(201).json({ message: "report success" });
+            return res.status(201).json({ message: "post reported" });
         }
     } catch(err) {
-        console.error("report error", err);
-        res.status(500).json({ message: "Internal server error" });
+        console.error("error reporting post", err);
+        res.status(500).json({ message: "internal server error" });
     }
 });
 
-router.get('/get-flagged/:userID/:postID', async(req,res) => {
-    const { userID, postID } = req.params;
+//CHECK
+router.get('/check-flagged/:postID/:userID', async(req,res) => {
+    const { postID, userID } = req.params;
 
     try {
         const db = await getDB();
@@ -219,24 +192,22 @@ router.get('/get-flagged/:userID/:postID', async(req,res) => {
 
         if (post) {
             const byUser = Array.isArray(post.users) && post.users.some((id) => id.toString() === userID.toString());
-
             return res.status(200).json(byUser);
-        } else {
-            return res.status(200).json(false);
         }
+        return res.status(200).json(false);
     } catch(err) {
-        console.error("get report info error", err);
-        res.status(500).json({ message: "Internal server error" });
+        console.error("error getting report info :", err);
+        res.status(500).json({ message: "internal server error" });
     }
 });
 
-router.post('/unflag-post', async(req,res) => {
-    if (!req.session.userId) {
+//CHECK
+router.post('/unflag-post/:postID', async(req,res) => {
+    if (!req.session.userID) {
         return res.status(401).json({ message: "pas connecté" });
     }
-
-    const userID = req.session.userId;
-    const { postID } = req.body;
+    const userID = req.session.userID;
+    const postID = req.params.postID;
 
     try {
         const db = await getDB();
@@ -251,26 +222,26 @@ router.post('/unflag-post', async(req,res) => {
                     { _id: new ObjectId(postID) },
                     {
                         $inc: { reports: -1 },
-                        $pull: {users: new ObjectId(userID) }
+                        $pull: { users: new ObjectId(userID) }
                     }
                 );
                 
                 if (post.reports <= 1) { await posts.deleteOne({ _id: new ObjectId(postID) }); }
 
-                return res.status(200).json({ message: "unflag success" });
+                return res.status(200).json({ message: "user's report pulled" });
             }
 
             return res.status(200).json({ message: "user didn't report" });
         } 
         return res.status(200).json({ message: "post wasn't flagged" });
     } catch(err) {
-        console.error("unflag error",err);
-        res.status(500).error({ message: "Internal server error" });
+        console.error("error pulling report: ",err);
+        res.status(500).err({ message: "internal server error" });
     }
 });
 
 router.patch('/edit-post/:postID', async(req,res) => {
-    if (!req.session.userId) {
+    if (!req.session.userID) {
         return res.status(401).json({ message: "pas connecté" });
     }
     

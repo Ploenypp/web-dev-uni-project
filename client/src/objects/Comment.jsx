@@ -8,6 +8,7 @@ import "../styles/Comment.css"
 function Comment(props) {
     const currentUserID = props.currentUserID;
     const userID = props.userID;
+    const author = props.author;
     const date = new Date(props.timestamp);
     const readableDate = date.toLocaleString('fr-FR', {
         month: 'long',
@@ -28,23 +29,13 @@ function Comment(props) {
 
     const navigate = useNavigate();
     const handleToUser = async () => {
-        if (!userID) { return ;}
-        if (userID === currentUserID) { 
-            navigate('/profile');
-            return ;
-        }
-      try {
-          const response = await axios.post('http://localhost:8000/api/user/visit', { userID }, { withCredentials: true });
-          //alert(response.data.message);
-          navigate('/user');
-      } catch(err) {
-          console.error("visit failed", err.response?.data?.message || err.message);
-          alert(err.response?.data?.message || "Something went wrong");
-      }
-    }
+        const names = author.split(" ");
+        navigate(`/profile/${names[0]}_${names[1]}`);
+        window.location.reload();
+    };
 
     return(<div className="Comment">
-        {userID ? (<button id="comment_author_btn" type="button" onClick={handleToUser}><img id="comment_pfp" src={`http://localhost:8000/api/images/load_pfp/${userID}?t=${Date.now()}`} alt="profile_pic"/>{props.author}</button>) : (<div id="deleted_user"><img src={`http://localhost:8000/api/images/load_pfp/${userID}?t=${Date.now()}`} id="post_pfp" alt="profile picture" /> {props.author}</div>)}
+        {userID ? (<button id="comment_author_btn" type="button" onClick={handleToUser}><img id="comment_pfp" src={`http://localhost:8000/api/images/load_pfp/${userID}?t=${Date.now()}`} alt="profile_pic"/>{author}</button>) : (<div id="deleted_user"><img src={`http://localhost:8000/api/images/load_pfp/${userID}?t=${Date.now()}`} id="post_pfp" alt="profile picture" /> {author}</div>)}
 
         <div id="comment_content">
             <div id="comment_time">{readableDate}</div>

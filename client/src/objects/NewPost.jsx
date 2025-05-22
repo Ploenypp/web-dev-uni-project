@@ -9,35 +9,29 @@ function NewPost() {
     const toggleShowWrite = () => {
         if (showWrite) {
             setShowWrite(false)
-            setWriteBtnText("ouvrir une nouvelle discussion");
-            
+            setWriteBtnText("ouvrir une nouvelle discussion");     
         } else {
             setShowWrite(true)
             setWriteBtnText("annuler");
         }
-        console.log(showWrite);
-    }
+    };
 
     const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
-
     const getTitle = (evt) => { setTitle(evt.target.value); }
+    const [content, setContent] = useState("");
     const getContent = (evt) => { setContent(evt.target.value); }
 
     const handlePublish = async () => {
         try {
-            const response = await axios.post('http://localhost:8000/api/posts/newpost', {
+            await axios.post('http://localhost:8000/api/posts/new-post', {
                 title,
                 content
             }, { withCredentials: true });
-
-            //alert(response.data.message);
             setShowWrite(false);
             setWriteBtnText("ouvrir une nouvelle discussion");
-
-        } catch(error) {
-            console.error("Publication failed:", error.response?.data?.message || error.message);
-            alert(error.response?.data?.message || "Something went wrong");
+        } catch(err) {
+            console.error("error publishing :", err.response?.data?.message || err.message);
+            alert(err.response?.data?.message || "Something went wrong");
         }
     };
 
@@ -50,7 +44,6 @@ function NewPost() {
             <button id="post_btn" type="button" onClick={handlePublish}>publier</button>
         </div>)}
     </div>)
-    
 }
 
 export default NewPost;
