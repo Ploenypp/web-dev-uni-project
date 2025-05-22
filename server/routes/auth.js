@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { getDB } = require('../db');
 
-router.post('/register', async (req,res) => {
+router.post('/register', async(req,res) => {
     const { fstname, surname, dob, username, password } = req.body;
 
     try {
@@ -34,7 +34,7 @@ router.post('/register', async (req,res) => {
     }
 });
 
-router.post('/login', async (req,res) => {
+router.post('/login', async(req,res) => {
     const { username, password } = req.body;
 
     try {
@@ -56,7 +56,7 @@ router.post('/login', async (req,res) => {
     }
 });
 
-router.post('/logout', async (req,res) => {
+router.post('/logout', async(req,res) => {
     req.session.destroy((err) => {
         if (err) {
             return res.status(500).json({ message: "Error logging out" });
@@ -64,6 +64,11 @@ router.post('/logout', async (req,res) => {
         res.clearCookie('cookie');
         res.status(200).json({ message: "Deconnexion réussie" });
     });
+});
+
+router.get('/check-session', async(req,res) => {
+    if (req.session.userID) { return res.status(200).json({ message: "logged in" }); }
+    else { return res.status(401).json({ message: "not logged in" }); }
 });
 
 module.exports = router;

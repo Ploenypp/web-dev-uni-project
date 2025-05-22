@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import Ribbon from '../objects/Ribbon';
@@ -12,6 +13,12 @@ import AdminSearchbar from '../objects/admin_aux/AdminSearchbar';
 import '../styles/Admin.css';
 
 function AdminPage() {
+    const navigate = useNavigate();
+    useEffect(() => {
+        fetch('http://localhost:8000/api/auth/check-session', { credentials: 'include' })
+            .then(res => { if (res.status === 401) { navigate('/'); }})
+            .catch(err => console.error("error checking session :", err));
+    },[]);
     const [currentUserID, setCurrentUserID] = useState("");
     useEffect(() => {
         fetch('http://localhost:8000/api/users/currentUserID', { credentials: 'include' })

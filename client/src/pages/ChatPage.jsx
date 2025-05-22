@@ -1,10 +1,18 @@
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import Ribbon from "../objects/Ribbon.jsx";
 import Message from "../objects/Message.jsx";
 
 function ChatPage() {
+  	const navigate = useNavigate();
+    useEffect(() => {
+        fetch('http://localhost:8000/api/auth/check-session', { credentials: 'include' })
+            .then(res => { if (res.status === 401) { navigate('/'); }})
+            .catch(err => console.error("error checking session :", err));
+    },[]);
+
 	const [userID, setUserID] = useState("");
     useEffect(() => {
         fetch('http://localhost:8000/api/users/currentUserID', { credentials: 'include' })

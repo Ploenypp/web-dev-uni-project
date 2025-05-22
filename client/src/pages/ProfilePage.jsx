@@ -12,6 +12,13 @@ import RequestLst from "../objects/RequestLst.jsx";
 import NotiLst from "../objects/NotiLst.jsx";
 
 function ProfilePage() {
+	const navigate = useNavigate();
+    useEffect(() => {
+        fetch('http://localhost:8000/api/auth/check-session', { credentials: 'include' })
+            .then(res => { if (res.status === 401) { navigate('/'); }})
+            .catch(err => console.error("error checking session :", err));
+    },[]);
+
     const { userNames } = useParams();
     const [userInfo, setUserInfo] = useState("");
 	const [currentUserID, setCurrentUserID] = useState(null);
@@ -69,7 +76,6 @@ function ProfilePage() {
 		}
 	};
 
-	const navigate = useNavigate();
     const toChats = () => { navigate("/chats"); }
 
     return(<div className="ProfilePage">

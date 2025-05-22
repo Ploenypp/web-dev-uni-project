@@ -1,4 +1,5 @@
 import {useState, useEffect, useRef} from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Ribbon from "../objects/Ribbon.jsx";
 import Searchbar from "../objects/Searchbar.jsx";
@@ -8,6 +9,13 @@ import Post from "../objects/Post.jsx";
 import "../styles/MainPage.css";
 
 function MainPage () {
+    const navigate = useNavigate();
+    useEffect(() => {
+        fetch('http://localhost:8000/api/auth/check-session', { credentials: 'include' })
+            .then(res => { if (res.status === 401) { navigate('/'); }})
+          .catch(err => console.error("error checking session :", err));
+    },[]);
+
     const [currentUserID, setCurrentUserID] = useState("");
     useEffect(() => {
       fetch('http://localhost:8000/api/users/currentUserID', { credentials: 'include' })

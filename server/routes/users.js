@@ -187,7 +187,6 @@ router.post('/accept-friend-request/:senderID', async(req,res) => {
 
     try {
         const db = await getDB();
-
         const user = await db.collection("users").findOne({ _id: new ObjectId(userID) });
         const sender = await db.collection("users").findOne({ _id: new ObjectId(senderID) });
 
@@ -222,7 +221,6 @@ router.delete('/reject-friend-request/:requestID', async(req,res) => {
 
     try {
         const db = await getDB();
-
         await db.collection("friend_requests").deleteOne({ _id: new ObjectId(requestID) });
 
         res.status(201).json({ message: "friendship rejected" });

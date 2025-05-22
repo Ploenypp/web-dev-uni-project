@@ -15,21 +15,13 @@ function SignInPage() {
     const getPassword = (evt) => {
         setPassword(evt.target.value);
     }
-    useEffect(() => {
-        console.log(`username: ${username}, password: ${password}`);
-    },[username,password]);
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post('http://localhost:8000/api/auth/login', {
-                username,
-                password
-            }, { withCredentials: true });
-            //alert(response.data.message);
+            await axios.post('http://localhost:8000/api/auth/login', { username, password }, { withCredentials: true });
             navigate('/dashboard');
-
         } catch(error) {
-            console.error("Login failed", error.response?.data?.message || error.message);
+            console.error("error logging in", error.response?.data?.message || error.message);
             alert(error.response?.data?.message || "Something went wrong");
         }
     };
@@ -41,7 +33,7 @@ function SignInPage() {
     }
 
     return(<div className="SignInPage">
-        <img src={`http://localhost:8000/api/images/load_icon/${"org13"}?t=${Date.now()}`} id="org_signin" alt="Organiz'asso Logo"/>
+        <img src={`http://localhost:8000/api/images/load_icon/${"org13"}`} id="org_signin" alt="Organiz'asso Logo"/>
 
         <div id="login_box">
             <p>Bienvenue, connectez-vous!</p>

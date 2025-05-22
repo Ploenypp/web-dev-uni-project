@@ -96,7 +96,7 @@ router.get('/:userID', async(req,res) => {
     try {
         const db = await getDB();
         const posts = await db.collection("posts").find({ userID: new ObjectId(userID) }).sort({'_id': -1}).toArray();
-        res.json(posts || []);
+        res.json(posts);
     } catch(err) {
         console.error("error fetching user's posts :",err);
         res.status(500).json({ message: "internal server error" });
@@ -250,12 +250,11 @@ router.patch('/edit-post/:postID', async(req,res) => {
     }
     
     const postID = req.params.postID;
-    const { edit } = req.body;
+    const edit = req.body;
     const timestamp = new Date(Date.now());
 
     try {
         const db = await getDB();
-
         await db.collection("posts").updateOne(
             {_id: new ObjectId(postID)},
             { $set: {
@@ -264,11 +263,9 @@ router.patch('/edit-post/:postID', async(req,res) => {
                 edited: true
             }}
         );
-
-        res.status(200).json({ message: "edit successful"});
-
+        res.status(200).json({ message: "post edited"});
     } catch(err) {
-        console.error("edit error",err);
+        console.error("error editing post",err);
         res.status(500).err({ message: "Internal server error" });
     }
 });
