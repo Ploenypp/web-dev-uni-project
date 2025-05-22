@@ -6,9 +6,14 @@ import Post from './Post';
 
 import "../styles/Searchbar.css";
 
-function Searchbar(props) {
-    const currentUserID = props.currentUserID;
-
+function Searchbar() {
+    const [currentUserID, setCurrentUserID] = useState("");
+    useEffect(() => {
+        fetch('http://localhost:8000/api/users/currentUserID', { credentials: 'include' })
+            .then(res => res.json())
+            .then(data => setCurrentUserID(data))
+            .catch(err => console.error("error fetching current user ID :", err));
+    })
     const [showResults, setShowResults] = useState(false);
     
     const [searchText, setSearchText] = useState("");
@@ -25,63 +30,35 @@ function Searchbar(props) {
     const [userResults, setUserResults] = useState([]);
     const searchUsers = async (e) => {
         e.preventDefault();
-        try {
-            const response = await axios.get(`http://localhost:8000/api/search/all-users?prompt=${searchText}`);
-            setUserResults(response.data);
-        } catch(err) {
-            console.error("user search failed", err);
-        }
-    };
-    const pfp = (name) => {
-        if (name === "Xemnas") { return xemnas; }
-        if (name === "Xigbar") { return xigbar; }
-        if (name === "Xaldin") { return xaldin; }
-        if (name === "Vexen") { return vexen; }
-        if (name === "Lexaeus") { return lexaeus; }
-        if (name === "Zexion") { return zexion; }
-        if (name === "Saix") { return saix; }
-        if (name === "Axel") { return axel; }
-        if (name === "Demyx") { return demyx; }
-        if (name === "Luxord") { return luxord; }
-        if (name === "Marluxia") { return marluxia; }
-        if (name === "Larxene") { return larxene; }
-        if (name === "Roxas") { return roxas; }
-        if (name === "Xion") { return xion; }
-        return tmp_pfp;
+        fetch(`http://localhost:8000/api/search/all-users?prompt=${searchText}`, { credentials: 'include' })
+            .then(res => res.json())
+            .then(data => setUserResults(data))
+            .catch(err => console.error("error searching for user :", err))
     };
 
     const [postResults, setPostResults] = useState([]);
     const searchByText = async (e) => {
         e.preventDefault();
-
-        try {
-            const response = await axios.get(`http://localhost:8000/api/search/all-posts/text?prompt=${searchText}`);
-            setPostResults(response.data);
-        } catch(err) {
-            console.error("search by text failed", err);
-        }
+        fetch(`http://localhost:8000/api/search/all-posts/text?prompt=${searchText}`, { credentials: 'include' })
+            .then(res => res.json())
+            .then(data => setPostResults(data))
+            .catch(err => console.error("error searching by text :", err));
     };
 
     const searchByDate = async (e) => {
         e.preventDefault();
-
-        try {
-            const response = await axios.get(`http://localhost:8000/api/search/all-posts/date?date=${searchDate}`);
-            setPostResults(response.data);
-        } catch(err) {
-            console.error("search by date failed",err);
-        }
+        fetch(`http://localhost:8000/api/search/all-posts/date?date=${searchDate}`, { credentials: 'include' })
+            .then(res => res.json())
+            .then(data => setPostResults(data))
+            .catch(err => console.error("error searching by date :", err));
     };
 
     const searchByTextDate = async (e) => {
         e.preventDefault();
-
-        try {
-            const response = await axios.get(`http://localhost:8000/api/search/all-posts/text-date?prompt=${searchText}&date=${searchDate}`);
-            setPostResults(response.data);
-        } catch(err) {
-            console.error("search by text and search",err);
-        }
+        fetch(`http://localhost:8000/api/search/all-posts/text-date?prompt=${searchText}&date=${searchDate}`, { credentials: 'include' })
+            .then(res => res.json())
+            .then(data => setPostResults(data))
+            .catch(err => console.error("error searching by text and date :", err));
     };
 
     const handleSearch = (e) => {
@@ -100,20 +77,9 @@ function Searchbar(props) {
     };
 
     const navigate = useNavigate();
-    const handleToUser = async (userID) => {
-        if (userID === currentUserID) { 
-            navigate('/profile');
-            return ;
-        }
-
-        try {
-            const response = await axios.post('http://localhost:8000/api/user/visit', { userID }, { withCredentials: true });
-            //alert(response.data.message);
-            navigate('/user');
-        } catch(err) {
-            console.error("visit failed", err.response?.data?.message || err.message);
-            alert(err.response?.data?.message || "Something went wrong");
-        }
+    const handleToUser = async(userNames) => {
+        navigate(`/profile/${userNames}`);
+        window.location.reload();
     };
 
     return(<div className="Searchbar">
@@ -131,7 +97,7 @@ function Searchbar(props) {
             <div id="user_results">
                 {userResults.length === 0 && (<p>aucun utilisateur correspond</p>)}
                 {userResults.map((user, index) => (
-                    <button id="user_result_card" type="button" onClick={() => handleToUser(user._id)} key={index}>
+                    <button id="user_result_card" type="button" onClick={() => handleToUser(`${user.fstname}_${user.surname}`)} key={index}>
                         <img id="res_pic" src={`http://localhost:8000/api/images/load_pfp/${user._id}?t=${Date.now()}`} alt="pfp" />
                         <div id="res_name">
                             {user.fstname} {user.surname}
@@ -174,7 +140,7 @@ function Searchbar(props) {
                     author={post.author}
                     timestamp={post.timestamp}
                     content={post.content}
-                            currentUserID={currentUserID}
+                    currentUserID={currentUserID}
                 />))}
             </div>
         </div>)}

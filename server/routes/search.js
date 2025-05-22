@@ -1,11 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { getDB } = require('../db');
-//const { MongoClient } = require("mongodb");
 const { ObjectId } = require('bson'); 
-
-//const uri = process.env.MONGODB_URI || "mongodb+srv://Ploenypp:technoweb017-SU25@lu3in017-su2025.mopemx5.mongodb.net/?retryWrites=true&w=majority&appName=LU3IN017-SU2025";
-//const client = new MongoClient(uri);
 
 router.get('/all-users', async(req,res) => {
     const prompt = req.query.prompt;

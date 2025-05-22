@@ -5,7 +5,7 @@ const { ObjectId } = require('bson');
 
 router.post('/new-post', async(req,res) => {
     if (!req.session.userID) {
-        return res.status(401).json({ message: "pas connecté" });
+        return res.status(401).json({ message: "not logged in" });
     }
 
     const { title, content } = req.body;

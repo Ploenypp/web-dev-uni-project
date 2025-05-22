@@ -27,7 +27,7 @@ function MainPage () {
 
     return(<div className="MainPage">
         <Ribbon pageType={false}/>
-        <Searchbar currentUserID={currentUserID}/>
+        <Searchbar />
         <div className="posts">
           <NewPost />
           {postsContent.map((post, index) => (
@@ -41,7 +41,7 @@ function MainPage () {
                 edited={post.edited}
                 editDate={post.editDate}
                 content={post.content}
-				currentUserID={currentUserID}
+				        currentUserID={currentUserID}
             />))}
         </div>
     </div>) 
