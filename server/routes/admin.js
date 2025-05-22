@@ -43,7 +43,7 @@ router.post('/accept-registration/:regID', async(req,res) => {
 
     try {
         const db = await getDB();
-        const reg = db.collection("registrations").findOne({ _id: new ObjectId(regID) });
+        const reg = await db.collection("registrations").findOne({ _id: new ObjectId(regID) });
         await db.collection("users").insertOne( { 
             fstname: reg.fstname, 
             surname: reg.surname, 
@@ -65,7 +65,6 @@ router.post('/accept-registration/:regID', async(req,res) => {
 //CHECK
 router.delete('/reject-registration/:regID', async(req,res) => {
     const regID = req.params.regID;
-
     try {
         const db = await getDB();
         await db.collection("registrations").deleteOne({ _id: new ObjectId(regID) });
@@ -79,7 +78,7 @@ router.delete('/reject-registration/:regID', async(req,res) => {
 //CHECK
 router.patch('/change-status/:userID', async(req,res) => {
     const userID = req.params.userID;
-    const newStatus = req.body;
+    const { newStatus } = req.body;
 
     try {
         const db = await getDB();
@@ -97,7 +96,7 @@ router.patch('/change-status/:userID', async(req,res) => {
 //CHECK
 router.patch('/assign-team/:userID', async(req,res) => {
     const userID = req.params.userID;
-    const assignedTeam = req.body;
+    const { assignedTeam } = req.body;
 
     try {
         const db = await getDB();
@@ -147,7 +146,7 @@ router.patch('/edit-post/:postID', async(req,res) => {
     }
     
     const postID = req.params.postID;
-    const edit = req.body;
+    const { edit } = req.body;
     const timestamp = new Date(Date.now());
 
     try {
@@ -296,10 +295,10 @@ router.delete('/delete-flagged-post/:postID/:authorID', async(req,res) => {
         }
         console.log("notification sent success");
 
-        res.status(200).json({ message: "suppression réussie" });
+        return res.status(200).json({ message: "flagged post deleted" });
     } catch(err) {
-        console.error("deletion error:",err);
-        res.status(500).json({ message: "Internal server error" });
+        console.error("error deleting flagged post :",err);
+        res.status(500).json({ message: "internal server error" });
     }
 });
 

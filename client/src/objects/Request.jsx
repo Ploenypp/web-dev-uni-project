@@ -3,11 +3,12 @@ import axios from 'axios';
 import "../styles/Requests.css";
 
 function Request(props) {
+    const requestID = props.requestID;
     const senderID = props.senderID;
 
     const handleAccept = async () => {
         try {
-            await axios.post(`http://localhost:8000/api/users/accept-friend-request/${senderID}`, { withCredentials: true });
+            await axios.post(`http://localhost:8000/api/users/accept-friend-request/${requestID}`, {}, { withCredentials: true });
         } catch(err) {
             console.error("error accepting request :", err.reponse?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");
@@ -16,7 +17,7 @@ function Request(props) {
 
     const handleReject = async () => {
         try {
-            await axios.delete(`http://localhost:8000/api/user/reject-friend-request/${senderID}`, { withCredentials: true });
+            await axios.delete(`http://localhost:8000/api/users/reject-friend-request/${requestID}`, { withCredentials: true });
         } catch(err) {
             console.error("error rejecting request :", err.response?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");

@@ -24,18 +24,20 @@ function Ribbon(props) {
 
     const navigate = useNavigate();
     const toDashboard = () => { navigate("/dashboard"); };
-    const toProfile = () => { navigate(`/profile/${userInfo.fstname}_${userInfo.surname}`)};
+    const toProfile = () => { 
+        navigate(`/profile/${userInfo.fstname}_${userInfo.surname}`)
+        window.location.reload();
+    };
     const toChats = () => { navigate("/chats"); };
     const toAdmin = () => { navigate("/admin"); };
 
     const handleLogout = async () => {
         try {
-            const response = await axios.post('http://localhost:8000/api/auth/logout', {}, { withCredentials: true });
-            //alert(response.data.message);
+            await axios.post('http://localhost:8000/api/auth/logout', {}, { withCredentials: true });
             navigate('/');
 
         } catch (error) {
-            console.error("Logout failed", error.response?.data?.message || error.message);
+            console.error("error logging out", error.response?.data?.message || error.message);
             alert(error.response?.data?.message || "Something went wrong");
         }
     };

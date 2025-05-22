@@ -46,16 +46,16 @@ function ProfilePage() {
 
     const [reqslst, setReqLst] = useState([]);
     useEffect(() => {
-      fetch('http://localhost:8000/api/users/get-friend-requests', { credentials: 'include' })
-          .then(res => res.json())
-          .then(data => setReqLst(data))
-          .catch(err => console.error("error fetching friend requests :", err));
-    }, [reqslst]);
+      	fetch('http://localhost:8000/api/users/get-friend-requests', { credentials: 'include' })
+          	.then(res => res.json())
+          	.then(data => setReqLst(data))
+          	.catch(err => console.error("error fetching friend requests :", err));
+    }, 	[reqslst]);
 
 	const [requested, setRequested] = useState(false);
 	const [friend, setFriend] = useState(false);
 	useEffect(() => {
-		if (currentUserID != userInfo._id) {
+		if (currentUserID && userInfo && currentUserID != userInfo._id) {
 			fetch(`http://localhost:8000/api/users/check-request/${userInfo._id}`, { credentials: 'include' })
 				.then(res => res.json())
 				.then(data => setRequested(data))
@@ -66,14 +66,15 @@ function ProfilePage() {
 				.then(data => setFriend(data))
 				.catch(err => console.error("error fetching friendship status :", err));
 		}
-	}, [requested, friend]);
+	}, [currentUserID, userInfo]);
 
 	const handleRequest = async() => {
 		try {
-			await axios.post(`http://localhost:8000/api/users/accept-friend-request/${userInfo._id}`, { withCredentials: true });
+			await axios.post(`http://localhost:8000/api/users/request-friendship/${userInfo._id}`, {}, { withCredentials: true });
 		} catch(err) {
 			console.error("error requesting friendship :", err.response?.data?.message || err.message);
 		}
+		window.location.reload();
 	};
 
     const toChats = () => { navigate("/chats"); }
@@ -109,7 +110,7 @@ function ProfilePage() {
 								(<button id="friendreq_btn" type="button">Friend Request envoyé</button>)) : 
 								
 								(<button id="redirChat_btn" type="button" onClick={toChats}>
-								<img src={`http://localhost:8000/api/images/load_icon/${gummiphone}?t=${Date.now()}`} id="profile_msg_icon" alt="icon"/>
+								<img src={`http://localhost:8000/api/images/load_icon/${"gummiphone"}?t=${Date.now()}`} id="profile_msg_icon" alt="icon"/>
 								Messager
 								</button>)
 						}

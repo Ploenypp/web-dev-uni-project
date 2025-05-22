@@ -82,20 +82,9 @@ function AdminSearchbar(props) {
     };
 
     const navigate = useNavigate();
-    const handleToUser = async (userID) => {
-        if (userID === currentUserID) { 
-            navigate('/profile');
-            return ;
-        }
-
-        try {
-            const response = await axios.post('http://localhost:8000/api/user/visit', { userID }, { withCredentials: true });
-            //alert(response.data.message);
-            navigate('/user');
-        } catch(err) {
-            console.error("visit failed", err.response?.data?.message || err.message);
-            alert(err.response?.data?.message || "Something went wrong");
-        }
+    const handleToUser = async(userNames) => {
+        navigate(`/profile/${userNames}`);
+        window.location.reload();
     };
 
     return(<div className="AdminSearchbar">
@@ -113,7 +102,7 @@ function AdminSearchbar(props) {
             <div id="user_adminresults">
                 {userResults.length === 0 && (<p>aucun utilisateur correspond</p>)}
                 {userResults.map((user, index) => (
-                    <button id="user_adminresult_card" type="button" onClick={() => handleToUser(user._id)}>
+                    <button id="user_adminresult_card" type="button" onClick={() => handleToUser(`${user.fstname}_${user.surname}`)}>
                         <img id="res_pic" src={`http://localhost:8000/api/images/load_pfp/${user._id}?t=${Date.now()}`} alt="pfp" />
                         <div id="res_name">
                             {user.fstname} {user.surname}

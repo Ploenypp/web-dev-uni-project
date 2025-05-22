@@ -7,10 +7,9 @@ function Notification(props) {
     
     const handleBtn = async() => {
         try {
-            const response = await axios.delete(`http://localhost:8000/api/user/delete-notification/${notifID}`, { withCredentials: true });
-            //alert(response.data.message);
+            await axios.delete(`http://localhost:8000/api/users/delete-notification/${notifID}`, { withCredentials: true });
         } catch(err) {
-            console.error("delete notification failed", err.response?.data?.message || err.message);
+            console.error("error deleting notification", err.response?.data?.message || err.message);
             (err.response?.data?.message || "Something went wrong");
         }
     };

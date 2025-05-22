@@ -81,6 +81,7 @@ function AdminPost(props) {
         }
         toggleEdit();
         toggleExtra();
+        window.location.reload();
     }
 
     const [showConfirmDel, setShowConfirmDel] = useState(false);
@@ -107,14 +108,14 @@ function AdminPost(props) {
     const handleFlag = async () => {
         if (alreadyFlagged) {
             try {
-                await axios.post(`http://localhost:8000/api/posts/unflag-post/${postID}`, { withCredentials: true });
+                await axios.post(`http://localhost:8000/api/posts/unflag-post/${postID}`, {}, { withCredentials: true });
             } catch(err) {
                 console.error("error flagging post :", err.response?.data?.message || err.message);
                 alert(err.response?.data?.message || "Something went wrong");
             }
         } else {
             try {
-                await axios.post(`http://localhost:8000/api/admin/flag-post/${postID}`, { withCredentials: true });
+                await axios.post(`http://localhost:8000/api/admin/flag-post/${postID}`, {}, { withCredentials: true });
             } catch(err) {
                 console.error("error reporting post :", err.response?.data?.message || err.message);
                 alert(err.response?.data?.message || "Something went wrong");

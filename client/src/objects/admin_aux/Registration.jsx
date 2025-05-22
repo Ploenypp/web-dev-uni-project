@@ -49,12 +49,12 @@ function Registration(props) {
 
     const rejectRegistration = async () => {
         try {
-            await axios.delete(`http://localhost:8000/api/admin/reject-registration/:${regID}`, { withCredentials: true });
+            await axios.delete(`http://localhost:8000/api/admin/reject-registration/${regID}`, { withCredentials: true });
         } catch(err) {
             console.error("error rejecting registration", err.reponse?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");
         }
-    }
+    };
 
     return(<div className="Registration">
         <div id="reg_info">

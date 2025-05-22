@@ -28,11 +28,10 @@ function FlaggedChk(props) {
 
     const handleDelete = async() => {
         try {
-            const response = await axios.delete(`http://localhost:8000/api/admin/delete-flagged-post/${postID}/${authorID}`, { 
+            await axios.delete(`http://localhost:8000/api/admin/delete-flagged-post/${postID}/${authorID}`, { 
                 params: { postTitle, warning },
                 withCredentials: true 
             });
-            //alert(response.data.message);
         } catch(err) {
             console.error("flagged post deletion failed", err.resopnse?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");
@@ -44,9 +43,7 @@ function FlaggedChk(props) {
 
     const handleRestore = async() => {
         try {
-            const response = await axios.post(`http://localhost:8000/api/admin/restore-flagged-post/${postID}/${authorID}`, { postTitle }, { withCredentials: true });
-            //alert(response.data.message)
-
+            await axios.post(`http://localhost:8000/api/admin/restore-flagged-post/${postID}/${authorID}`, { postTitle }, { withCredentials: true });
         } catch(err) {
             console.error("flagged post deletion failed", err.resopnse?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");
@@ -69,7 +66,11 @@ function FlaggedChk(props) {
 
         {show && (<div id="flagged_btns">
             <button id="restore_flagged_btn" type="button" onClick={handleRestore}>↩</button>
-            <button className={`del_flagged_btn ${writeWarning}`} type="button" onClick={toggleWriteWarning}>{!writeWarning ? (<div>⌦</div>) : (<div>↪</div>)}</button>
+
+            { authorID ? (<button className={`del_flagged_btn ${writeWarning}`} type="button" onClick={toggleWriteWarning}> 
+                {!writeWarning ? (<div>⌦</div>) : (<div>↪</div>)}</button>) :
+            
+            (<button className={`del_flagged_btn ${writeWarning}`} type="button" onClick={handleDelete}>⌦</button>) }
         </div>)}
 
         {writeWarning && (<div id="flagged_warning">

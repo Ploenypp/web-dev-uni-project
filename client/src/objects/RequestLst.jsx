@@ -32,6 +32,7 @@ function RequestLst(props) {
             {Array.isArray(friendReqs) && friendReqs.length > 0 ?
                 (friendReqs.map((request,index) => <Request 
                     key={index}
+                    requestID={request._id}
                     senderID={request.senderID}
                     fst_name={request.sender_fstname}
                     surname={request.sender_surname} />)

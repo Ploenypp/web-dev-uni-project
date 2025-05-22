@@ -31,7 +31,7 @@ router.post('/new-message/:chatID', async(req,res) => {
 
     const userID = req.session.userID;
     const chatID = req.params.chatID;
-    const { content } = req.body;
+    const { message } = req.body;
     const timestamp = new Date(Date.now());
 
     try {
@@ -43,7 +43,7 @@ router.post('/new-message/:chatID', async(req,res) => {
         await db.collection("friends").updateOne({ _id: new ObjectId(chatID) }, {$push: { messages : { 
             authorID: userID, 
             author: user_name, 
-            content: content, 
+            content: message, 
             timestamp: timestamp 
         }}})
 

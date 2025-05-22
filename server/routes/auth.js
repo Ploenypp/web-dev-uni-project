@@ -49,7 +49,6 @@ router.post('/login', async(req,res) => {
         console.log("User session: ", req.session);
 
         res.status(201).json({ message: "Connexion réussie", userID: user._id });
-
     } catch (err) {
         console.error("Login error:", err);
         res.status(500).json({ message: "Internal server error" });

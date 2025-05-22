@@ -33,6 +33,7 @@ function NewPost() {
             console.error("error publishing :", err.response?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");
         }
+        window.location.reload();
     };
 
     return(<div className="NewPost">

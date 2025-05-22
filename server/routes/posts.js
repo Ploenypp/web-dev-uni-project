@@ -55,7 +55,7 @@ router.post('/new-comment/:parentPostID', async(req,res) => {
     }
 
     const parentPostID = req.params.parentPostID;
-    const content = req.body;
+    const { content } = req.body;
     const userID = req.session.userID;
     const timestamp = new Date(Date.now());
 
@@ -127,6 +127,7 @@ router.post('/flag-post/:postID', async(req,res) => {
     if (!req.session.userID) {
         return res.status(401).json({ message: "not logged in" });
     }
+    console.log(req.session.userID);
     const userID = req.session.userID;
     const postID = req.params.postID;
 
@@ -250,7 +251,7 @@ router.patch('/edit-post/:postID', async(req,res) => {
     }
     
     const postID = req.params.postID;
-    const edit = req.body;
+    const { edit } = req.body;
     const timestamp = new Date(Date.now());
 
     try {

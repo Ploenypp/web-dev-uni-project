@@ -106,7 +106,7 @@ router.get('/check-request/:userID', async(req,res) => {
 });
 
 //CHECK
-router.get('check-friendship/:userID', async(req,res) => {
+router.get('/check-friendship/:userID', async(req,res) => {
     if (!req.session.userID) {
         return res.status(401).json({ message: "not logged in" });
     }
@@ -177,37 +177,25 @@ router.get('/get-friend-requests', async(req,res) => {
 });
 
 //CHECK
-router.post('/accept-friend-request/:senderID', async(req,res) => {
-    if(!req.session.userID) {
-        return res.status(401).json({ message: "pas connecté" });
-    }
-
-    const userID = req.session.userID;
-    const senderID = req.params.senderID;
+router.post('/accept-friend-request/:requestID', async(req,res) => {
+    const requestID = req.params.requestID;
+    console.log(requestID);
 
     try {
         const db = await getDB();
-        const user = await db.collection("users").findOne({ _id: new ObjectId(userID) });
-        const sender = await db.collection("users").findOne({ _id: new ObjectId(senderID) });
-
+        const req = await db.collection("friend_requests").findOne({ _id: new ObjectId(requestID) });
+    
+        const sender = await db.collection("users").findOne({ _id: new ObjectId(req.senderID) });
+        const recipient = await db.collection("users").findOne({ _id: new ObjectId(req.recipientID) });
         await db.collection("friends").insertOne({
-            "friend1ID": new ObjectId(userID),
-            "friend1_name" : user.fstname.concat(" ",user.surname),
-            "friend2ID": new ObjectId(senderID),
-            "friend2_name" : sender.fstname.concat(" ",sender.surname),
+            "friend1ID": new ObjectId(recipient._id),
+            "friend1_name" : `${recipient.fstname} ${recipient.surname}`,
+            "friend2ID": new ObjectId(sender._id),
+            "friend2_name" : `${sender.fstname} ${sender.surname}`,
             "messages": []
         });
 
-        await db.collection("friend_requests").deleteOne({
-            $or: [
-                {"recipientID" : new ObjectId(userID),
-                "senderID": new ObjectId(senderID) },
-
-                {"recipientID" : new ObjectId(senderID),
-                "senderID": new ObjectId(userID)}
-            ]
-        });
-
+        await db.collection("friend_requests").deleteOne({ _id: new ObjectId(requestID) });
         res.status(201).json({ message: "friendship accepted" });
     } catch(err) {
         console.error("error accepting friendship request",err);
@@ -218,12 +206,10 @@ router.post('/accept-friend-request/:senderID', async(req,res) => {
 //CHECK
 router.delete('/reject-friend-request/:requestID', async(req,res) => {
     const requestID = req.params.requestID;
-
     try {
         const db = await getDB();
         await db.collection("friend_requests").deleteOne({ _id: new ObjectId(requestID) });
-
-        res.status(201).json({ message: "friendship rejected" });
+        res.status(200).json({ message: "friendship rejected" });
     } catch(err) {
         console.error("error rejecting friendship request",err);
         res.status(500).json({ message: "internal server error" });
@@ -249,14 +235,12 @@ router.get('/get-notifications/', async(req,res) => {
 
 router.delete('/delete-notification/:notifID', async(req,res) => {
     const notifID = req.params.notifID;
-
     try {
         const db = await getDB();
         await db.collection("notifications").deleteOne({ _id: new ObjectId(notifID) });
-
-        res.status(200).json({ message: "delete notification success" });
+        res.status(200).json({ message: "notification deleted" });
     } catch(err) {
-        console.error("notification deletion error",err);
+        console.error("error deleting notification",err);
         res.status(500).json({ message: "Internal server error" });
     }
 });

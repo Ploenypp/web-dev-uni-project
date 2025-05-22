@@ -33,7 +33,7 @@ function UserAdminCard(props) {
     const changeStatus = async () => {
         const newStatus = (status == "member" ? "admin" : "member");
         try {
-            await axios.patch(`http://localhost:8000/api/admin/change-status/:${userID}`, { newStatus }, { withCredentials: true });
+            await axios.patch(`http://localhost:8000/api/admin/change-status/${userID}`, { newStatus }, { withCredentials: true });
         } catch(err) {
             console.error("error changing status", err.response?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");

@@ -33,6 +33,7 @@ function NewAdminPost() {
             console.error("error publishing post", err.response?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");
         }
+        window.location.reload();
     };
 
     return(<div className="NewAdminPost">
