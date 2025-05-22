@@ -33,10 +33,9 @@ function UserAdminCard(props) {
     const changeStatus = async () => {
         const newStatus = (status == "member" ? "admin" : "member");
         try {
-            const response = await axios.post('http://localhost:8000/api/admin/change-status', { userID, newStatus }, { withCredentials: true });
-            //alert(response.data.message);
+            await axios.patch(`http://localhost:8000/api/admin/change-status/:${userID}`, { newStatus }, { withCredentials: true });
         } catch(err) {
-            console.error("status change failed", err.response?.data?.message || err.message);
+            console.error("error changing status", err.response?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");
         }
         toggleStatus();
@@ -44,10 +43,9 @@ function UserAdminCard(props) {
 
     const assignTeam = async () => {
         try {
-            const response = await axios.post('http://localhost:8000/api/admin/assign-team', { userID, assignedTeam }, { withCredentials: true });
-            //alert(response.data.message);
+            await axios.patch(`http://localhost:8000/api/admin/assign-team/${userID}`, { assignedTeam }, { withCredentials: true });
         } catch(err) {
-            console.error("team assignment failed", err.response?.data?.message || err.message);
+            console.error("error assigning team", err.response?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");
         }
         toggleTeam();
@@ -55,13 +53,12 @@ function UserAdminCard(props) {
 
     const deleteUser = async () => {
         try {
-            const response = await axios.delete(`http://localhost:8000/api/admin/delete-user/${userID}`, {
+            await axios.delete(`http://localhost:8000/api/admin/delete-user/${userID}`, {
                 params: { fstname, surname },
                 withCredentials: true 
             });
-            alert(response.data.message);
         } catch(err) {
-            console.error("user deletion failed", err.resopnse?.data?.message || err.message);
+            console.error("error deleting user", err.resopnse?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");
         }
         toggleRemove();

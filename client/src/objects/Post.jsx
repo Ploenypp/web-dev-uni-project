@@ -36,7 +36,7 @@ function Post(props) {
         fetch(`http://localhost:8000/api/posts/comments/${postID}`, { credentials: 'include' })
             .then(res => res.json())
             .then(data => setComments(data))
-            .catch(err => console.error("error fetching comments", err)); 
+            .catch(err => console.error("error fetching comments :", err)); 
         }
     }, [comments]);
 
@@ -88,7 +88,7 @@ function Post(props) {
         try {
             await axios.delete(`http://localhost:8000/api/posts/delete-post/${postID}`, { withCredentials: true });
         } catch(err) {
-            console.error("error deleting post: ", err.response?.data?.message || err.message);
+            console.error("error deleting post :", err.response?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");
         }
         toggleExtra();
@@ -96,10 +96,10 @@ function Post(props) {
 
     const [alreadyFlagged, setAlreadyFlagged] = useState(false);
     const updateFlaggedState = async () => {
-        await fetch(`http://localhost:8000/api/posts/check-flagged/${postID}/${currentUserID}`, { credentials: 'include' })
+        await fetch(`http://localhost:8000/api/posts/check-flagged/${postID}`, { credentials: 'include' })
             .then(res => res.json())
             .then(data => setAlreadyFlagged(data))
-            .catch(err => console.error("error updating flagged status :", err))
+            .catch(err => console.error("error updating flagged status :", err));
     };
     useEffect(() => { updateFlaggedState(); },[alreadyFlagged]);
     const handleFlag = async () => {
@@ -169,7 +169,6 @@ function Post(props) {
                 { comments.map((comment,index) => (
                     <Comment 
                     key={index}
-                    currentUserID={currentUserID}
                     userID={comment.userID}
                     author={comment.author}
                     timestamp={comment.timestamp}

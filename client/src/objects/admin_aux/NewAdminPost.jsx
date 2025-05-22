@@ -26,16 +26,11 @@ function NewAdminPost() {
 
     const handlePublish = async () => {
         try {
-            const response = await axios.post('http://localhost:8000/api/admin/newpost', {
-                title,
-                content
-            }, { withCredentials: true });
-
-            //alert(response.data.message);
+            await axios.post('http://localhost:8000/api/admin/new-post', { title, content }, { withCredentials: true });
             setShowWrite(false);
             setWriteBtnText("ouvrir une nouvelle discussion");
         } catch(err) {
-            console.error("Publication failed", err.response?.data?.message || err.message);
+            console.error("error publishing post", err.response?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");
         }
     };

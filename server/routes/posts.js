@@ -125,7 +125,7 @@ router.delete('/delete-post/:postID', async(req,res) => {
 //CHECK
 router.post('/flag-post/:postID', async(req,res) => {
     if (!req.session.userID) {
-        return res.status(401).json({ message: "pas connecté" });
+        return res.status(401).json({ message: "not logged in" });
     }
     const userID = req.session.userID;
     const postID = req.params.postID;
@@ -177,14 +177,18 @@ router.post('/flag-post/:postID', async(req,res) => {
             return res.status(201).json({ message: "post reported" });
         }
     } catch(err) {
-        console.error("error reporting post", err);
+        console.error("error reporting post :", err);
         res.status(500).json({ message: "internal server error" });
     }
 });
 
 //CHECK
-router.get('/check-flagged/:postID/:userID', async(req,res) => {
-    const { postID, userID } = req.params;
+router.get('/check-flagged/:postID', async(req,res) => {
+    if (!req.session.userID) {
+        return res.status(401).json({ message: "not logged in" });
+    }
+    const userID = req.session.userID;
+    const postID = req.params.postID;
 
     try {
         const db = await getDB();

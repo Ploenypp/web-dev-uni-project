@@ -6,7 +6,6 @@ import axios from 'axios';
 import "../styles/Comment.css"
 
 function Comment(props) {
-    const currentUserID = props.currentUserID;
     const userID = props.userID;
     const author = props.author;
     const date = new Date(props.timestamp);

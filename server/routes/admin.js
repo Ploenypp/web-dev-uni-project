@@ -1,127 +1,123 @@
 const express = require('express');
 const router = express.Router();
 const { getDB } = require('../db');
-//const { MongoClient } = require("mongodb");
-const { ObjectId } = require('bson'); 
-
-//const uri = process.env.MONGODB_URI || "mongodb+srv://Ploenypp:technoweb017-SU25@lu3in017-su2025.mopemx5.mongodb.net/?retryWrites=true&w=majority&appName=LU3IN017-SU2025";
-//const client = new MongoClient(uri);
+const { ObjectId } = require('bson');
 
 router.get('/flagged-posts', async(req,res) => {
     try {
         const db = await getDB();
-        const posts = db.collection("flagged_posts").find().sort({ 'reports': -1 });
-        const flagged = await posts.toArray();
+        const flagged = await db.collection("flagged_posts").find().sort({ 'reports': -1 }).toArray();
         res.json(flagged);
     } catch(err) {
-        console.error("flagged posts not found",err);
-        res.status(500).json({ message: "Internal server error" });
+        console.error("error fetching flagged posts",err);
+        res.status(500).json({ message: "internal server error" });
     }
 });
 
 router.get('/all-users', async(req,res) => {
     try {
         const db = await getDB();
-        const all_users = db.collection("users").find().sort({ 'surname': 1 });
-        const users = await all_users.toArray();
+        const users = await db.collection("users").find().sort({ 'surname': 1 }).toArray();
         res.json(users);
     } catch(err) {
-        console.error("users not found",err);
-        res.status(500).json({ message: "Internal server error" });
+        console.error("error fetching users",err);
+        res.status(500).json({ message: "internal server error" });
     }
 });
 
 router.get('/registrations', async(req,res) => {
     try {
         const db = await getDB();
-        const regs = db.collection("registrations").find().sort({ '_id': 1 });
-        const registrations = await regs.toArray();
+        const registrations = await db.collection("registrations").find().sort({ '_id': 1 }).toArray();
         res.json(registrations);
     } catch(err) {
-        console.error("users not found",err);
-        res.status(500).json({ message: "Internal server error" });
+        console.error("error fetching registration requests",err);
+        res.status(500).json({ message: "internal server error" });
     }
 });
 
-router.post('/accept-registration', async(req,res) => {
-    const { regID, fstname, surname, dob, username, password, status, team } = req.body;
+//CHECK
+router.post('/accept-registration/:regID', async(req,res) => {
+    const regID = req.params.regID;
+    const { status, team } = req.body;
 
     try {
         const db = await getDB();
-        const users = db.collection("users");
-        const registrations = db.collection("registrations");
+        const reg = db.collection("registrations").findOne({ _id: new ObjectId(regID) });
+        await db.collection("users").insertOne( { 
+            fstname: reg.fstname, 
+            surname: reg.surname, 
+            dob: reg.dob, 
+            username: reg.username, 
+            password: reg.password, 
+            status: status, 
+            team: team 
+        });
+        await db.collection("registrations").deleteOne({ _id : new ObjectId(regID) });
 
-        await users.insertOne( { fstname, surname, dob, username, password, status, team });
-        await registrations.deleteOne( {_id : new ObjectId(regID) });
-
-        res.status(201).json({ message: "registration acceptance success" });
+        res.status(201).json({ message: "registration accepted" });
     } catch(err) {
-        console.error("registration acceptance failed", err);
-        res.status(500).json({ message: "Internal server error" });
+        console.error("error accepting registration", err);
+        res.status(500).json({ message: "internal server error" });
     }
 });
 
-router.post('/reject-registration', async(req,res) => {
-    const { regID } = req.body;
+//CHECK
+router.delete('/reject-registration/:regID', async(req,res) => {
+    const regID = req.params.regID;
 
     try {
         const db = await getDB();
-        const registrations = db.collection("registrations");
-
-        await registrations.deleteOne({ _id: new ObjectId(regID) });
-
-        res.status(200).json({ message: "registration rejection success" });
+        await db.collection("registrations").deleteOne({ _id: new ObjectId(regID) });
+        res.status(200).json({ message: "registration rejected" });
     } catch(err) {
-        console.error("registration rejection failed", err);
-        res.status(500).json({ message: "Internal server error" });
+        console.error("error rejecting registration", err);
+        res.status(500).json({ message: "internal server error" });
     }
 });
 
-router.post('/change-status', async(req,res) => {
-    const { userID, newStatus } = req.body;
+//CHECK
+router.patch('/change-status/:userID', async(req,res) => {
+    const userID = req.params.userID;
+    const newStatus = req.body;
 
     try {
         const db = await getDB();
-        const users = db.collection("users");
-
-        users.updateOne(
+        db.collection("users").updateOne(
             { _id: new ObjectId(userID) },
             { $set: { status: newStatus } }
         );
-
-        res.status(200).json({ message: "status change success" });
+        res.status(200).json({ message: "status changed" });
     } catch(err) {
-        console.error("status change failed", err);
-        res.status(500).json({ message: "Internal server error" });
+        console.error("error changing status", err);
+        res.status(500).json({ message: "internal server error" });
     }
 });
 
-router.post('/assign-team', async(req,res) => {
-    const { userID, assignedTeam } = req.body;
+//CHECK
+router.patch('/assign-team/:userID', async(req,res) => {
+    const userID = req.params.userID;
+    const assignedTeam = req.body;
 
     try {
         const db = await getDB();
-        const users= db.collection("users");
-
-        users.updateOne(
+        db.collection("users").updateOne(
             { _id: new ObjectId(userID) },
             { $set: { team: assignedTeam } }
         );
-
-        res.status(200).json({ message: "team assignment success" });
+        res.status(200).json({ message: "team assigned" });
     } catch(err) {
-        console.error("team assignment failed", err);
-        res.status(500).json({ message: "Internal server error" });
+        console.error("error assigning team", err);
+        res.status(500).json({ message: "internal server error" });
     }
 });
 
-router.post('/newpost', async(req,res) => {
+router.post('/new-post', async(req,res) => {
     if (!req.session.userID) {
         return res.status(401).json({ message: "pas connecté" });
     }
-
-    const { title, content } = req.body;
     const userID = req.session.userID;
+    const { title, content } = req.body;
     const timestamp = new Date(Date.now());
     console.log(userID);
 
@@ -132,8 +128,7 @@ router.post('/newpost', async(req,res) => {
         const existingPost = await posts.findOne({ title });
         if (existingPost) { return res.status(400).json({ message: "titre déjà pris" })}
 
-        const users = db.collection("users");
-        const user = await users.findOne({ _id: new ObjectId(userID) });
+        const user = await db.collection("users").findOne({ _id: new ObjectId(userID) });
         if (!user) { return res.status(404).json( {message: "user not found", userID }); }
         const author = user.fstname.concat(" ",user.surname);
 
@@ -148,11 +143,11 @@ router.post('/newpost', async(req,res) => {
 
 router.patch('/edit-post/:postID', async(req,res) => {
     if (!req.session.userID) {
-        return res.status(401).json({ message: "pas connecté" });
+        return res.status(401).json({ message: "not logged in" });
     }
     
     const postID = req.params.postID;
-    const { edit } = req.body;
+    const edit = req.body;
     const timestamp = new Date(Date.now());
 
     try {
@@ -177,49 +172,43 @@ router.patch('/edit-post/:postID', async(req,res) => {
 
 router.delete('/delete-post/:postID', async(req,res) => {
     if (!req.session.userID) {
-        return res.status(401).json({ message: "pas connecté" });
+        return res.status(401).json({ message: "not logged in" });
     }
 
     const postID = req.params.postID;
 
     try {
         const db = await getDB();
-        const posts = db.collection("admin_posts");
-        const comments = db.collection("comments");
-        const flagged = db.collection("flagged_posts");
 
-        await posts.deleteOne({ _id: new ObjectId(postID) });
-        await comments.deleteMany({ parentPostID: new ObjectId(postID) });
-        await flagged.deleteOne({ _id: new ObjectId(postID) });
+        await db.collection("admin_posts").deleteOne({ _id: new ObjectId(postID) });
+        await db.collection("comments").deleteMany({ parentPostID: new ObjectId(postID) });
+        await db.collection("flagged_posts").deleteOne({ _id: new ObjectId(postID) });
 
-        res.status(200).json({ message: "suppression réussie" });
+        res.status(200).json({ message: "post deleted" });
     } catch(err) {
-        console.error("deletion error:",err);
-        res.status(500).json({ message: "Internal server error" });
+        console.error("error deleting post :",err);
+        res.status(500).json({ message: "internal server error" });
     }
 });
 
 router.get('/posts', async(req,res) => {
     try {
         const db = await getDB();
-        const coll = db.collection("admin_posts").find().sort({'_id': -1});
-        const posts = await coll.toArray();
-    
+        const posts = await db.collection("admin_posts").find().sort({'_id': -1}).toArray();
         res.json(posts);
-
     } catch(err) {
-        console.error("posts not found?",err);
-        res.status(500).json({ message: "Internal server error" });
+        console.error("error fetching posts :",err);
+        res.status(500).json({ message: "internal server error" });
     }
 });
 
-router.post('/flag-post', async(req,res) => {
+router.post('/flag-post/:postID', async(req,res) => {
     if (!req.session.userID) {
-        return res.status(401).json({ message: "pas connecté" });
+        return res.status(401).json({ message: "not logged in" });
     }
     
     const userID = req.session.userID;
-    const { postID } = req.body;
+    const postID = req.params.postID;
 
     try {
         const db = await getDB();
@@ -243,7 +232,7 @@ router.post('/flag-post', async(req,res) => {
                         $push: {users: new ObjectId(userID) } 
                     }
                 ); 
-                return res.status(201).json({ message: "report success" });
+                return res.status(201).json({ message: "post reported" });
             } else {
                 return res.status(201).json({ message: "user already reported" });
             }
@@ -258,11 +247,20 @@ router.post('/flag-post', async(req,res) => {
                 title: title,
                 content: content
             });
-            return res.status(201).json({ message: "report success" });
+
+            if (authorID){
+                await db.collection("notifications").insertOne({
+                recipientID: new ObjectId(authorID),
+                subject : `Votre publication "${title}" a été signalée.`,
+                body : "Un administrateur examinera votre publication et décidera s'elle doit être restaurée ou supprimée. Vous serez informé de la décision."
+                })
+            }
+
+            return res.status(201).json({ message: "post reported" });
         }
     } catch(err) {
-        console.error("report error", err);
-        res.status(500).json({ message: "Internal server error" });
+        console.error("error reporting post :", err);
+        res.status(500).json({ message: "internal server error" });
     }
 });
 

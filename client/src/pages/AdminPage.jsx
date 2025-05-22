@@ -12,14 +12,13 @@ import AdminSearchbar from '../objects/admin_aux/AdminSearchbar';
 import '../styles/Admin.css';
 
 function AdminPage() {
-    const [userInfo, setUserInfo] = useState("");
+    const [currentUserID, setCurrentUserID] = useState("");
     useEffect(() => {
-        fetch('http://localhost:8000/api/user/profile', { credentials: 'include' })
+        fetch('http://localhost:8000/api/users/currentUserID', { credentials: 'include' })
             .then(res => res.json())
-            .then(data => setUserInfo(data))
-            .catch(err => console.error("Error fetching user data:", err));
+            .then(data => setCurrentUserID(data))
+            .catch(err => console.error("error fetching current user's ID :", err));
     }, []);
-	const currentUserID = userInfo._id;
     
     const [showDuty, setShowDuty] = useState("forum");
     const toggleForum = () => {
@@ -113,8 +112,6 @@ function AdminPage() {
                             <Registration 
                                 key={index} 
                                 regID={reg._id}
-                                username={reg.username} 
-                                password={reg.password} 
                                 fstname={reg.fstname} 
                                 surname={reg.surname} 
                                 dob={reg.dob} 

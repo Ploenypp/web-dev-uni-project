@@ -14,19 +14,17 @@ function NewReply(props) {
             alert("Pas possible de publier un commentaire vide");
             return ;
         }
-        
         try {
             await axios.post(`http://localhost:8000/api/posts/new-comment/${parentPostID}`, { content }, { withCredentials: true });
             setShowReplyDraft(false);
             setReplyBtnText("répondre");
         } catch(error) {
-            console.error("Publication failed:", error.response?.data?.message || error.message);
+            console.error("error publishing comment :", error.response?.data?.message || error.message);
             alert(error.response?.data?.message || "Something went wrong");
         }
     };
 
     const [showReplyDraft, setShowReplyDraft] = useState(false);
-
     const [replyBtnText, setReplyBtnText] = useState("répondre");
 
     const toggleReplyDraft = () => {

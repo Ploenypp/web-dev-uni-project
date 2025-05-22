@@ -5,8 +5,6 @@ function Registration(props) {
     const regID = props.regID;
     const fstname = props.fstname;
     const surname = props.surname;
-    const username = props.username;
-    const password = props.password;
     const dob = props.dob;
     const date = new Date(dob);
     const readableDate = date.toLocaleString('fr-FR', {
@@ -42,22 +40,18 @@ function Registration(props) {
 
     const acceptRegistration = async () => {
         try {
-            const response = await axios.post('http://localhost:8000/api/admin/accept-registration', { regID, fstname, surname, dob, username, password, status, team }, { withCredentials: true });
-
-            //alert(response.data.message);
+            await axios.post(`http://localhost:8000/api/admin/accept-registration/${regID}`, { status, team }, { withCredentials: true });
         } catch(err) {
-            console.error("registration acceptance failed", err.response?.data?.message || err.message);
+            console.error("error accepting registration", err.response?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");
         }
     };
 
     const rejectRegistration = async () => {
         try {
-            const response = await axios.post('http://localhost:8000/api/admin/reject-registration', { regID }, { withCredentials: true });
-            
-            //alert(response.data.message);
+            await axios.delete(`http://localhost:8000/api/admin/reject-registration/:${regID}`, { withCredentials: true });
         } catch(err) {
-            console.error("registration rejection failed", err.reponse?.data?.message || err.message);
+            console.error("error rejecting registration", err.reponse?.data?.message || err.message);
             alert(err.response?.data?.message || "Something went wrong");
         }
     }
