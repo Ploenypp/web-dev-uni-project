@@ -93,7 +93,7 @@ function AdminPage() {
                 {showDuty === "none" && (<p>selectionner une responsabilité</p>)}
 
                 {showDuty === "forum" && (<div id="forum_subcontainer">
-                    <AdminSearchbar currenUserID={currentUserID} />
+                    <AdminSearchbar />
                     <div id="admin_post_lst">
                         <NewAdminPost />
                         {posts.map((post, index) => (

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
@@ -31,6 +31,7 @@ function AdminPost(props) {
         ));
     };
 
+    // récupérer les commentaires de la publication
     const [comments, setComments] = useState([]);
     useEffect(() => {
         if (postID) {
@@ -41,6 +42,7 @@ function AdminPost(props) {
         }
     }, [comments]);
 
+    // basculer l'affichage des commentaires 
     const [showThread, setShowThread] = useState(false);
     const [threadBtnText, setThreadBtnText] = useState("afficher la discussion")
     const toggleThread = () => {
@@ -54,6 +56,7 @@ function AdminPost(props) {
         console.log(showThread);
     };
 
+    // naviguer à la page de profile de l'auteur
     const navigate = useNavigate();
     const handleToUser = async () => {
         const names = author.split(" ");
@@ -61,15 +64,19 @@ function AdminPost(props) {
         window.location.reload();
     };
 
+    // basculer l'affichage des boutons de fonctionnalités supplementaires
     const [showExtra, setShowExtra] = useState(false);
     const toggleExtra = () => {
         setShowExtra(!showExtra);
         if (showConfirmDel) { setShowConfirmDel(false); }
     };
 
+    // basculer l'affichage du bouton de modfication de la publication
     const allowModif = currentUserID === userID;
     const [showEdit, setShowEdit] = useState(false);
     const toggleEdit = () => { setShowEdit(!showEdit); }
+    
+    // modifier la publication
     const [edit, getEdit] = useState(props.content);
     const handleConfirmEdit = async() => {
         try {
@@ -84,6 +91,7 @@ function AdminPost(props) {
         window.location.reload();
     }
 
+    // basculer l'affichage du bouton de suppresion de la publication + supprimer la publication
     const [showConfirmDel, setShowConfirmDel] = useState(false);
     const toggleConfirmDel = () => { setShowConfirmDel(!showConfirmDel); };
     const handleDelete = async () => {
@@ -96,6 +104,7 @@ function AdminPost(props) {
         toggleExtra();
     };
 
+    // mettre à jour le statut de signalisation par l'utilisateur
     const [alreadyFlagged, setAlreadyFlagged] = useState(false);
     const updateFlaggedState = async () => {
         await fetch(`http://localhost:8000/api/posts/check-flagged/${postID}`, { credentials: 'include' })
@@ -106,14 +115,14 @@ function AdminPost(props) {
     useEffect(() => { updateFlaggedState(); },[alreadyFlagged]);
 
     const handleFlag = async () => {
-        if (alreadyFlagged) {
+        if (alreadyFlagged) { // retirer la signalisation
             try {
                 await axios.post(`http://localhost:8000/api/posts/unflag-post/${postID}`, {}, { withCredentials: true });
             } catch(err) {
                 console.error("error flagging post :", err.response?.data?.message || err.message);
                 alert(err.response?.data?.message || "Something went wrong");
             }
-        } else {
+        } else { // signaler la publication
             try {
                 await axios.post(`http://localhost:8000/api/admin/flag-post/${postID}`, {}, { withCredentials: true });
             } catch(err) {
@@ -121,7 +130,7 @@ function AdminPost(props) {
                 alert(err.response?.data?.message || "Something went wrong");
             }
         }
-        updateFlaggedState();
+        updateFlaggedState(); // mettre à jour le statut
         toggleExtra();
     };
 
@@ -129,8 +138,8 @@ function AdminPost(props) {
         <div id="adminpost_head">
             <div id="post_top">
                 <div id="post_title">{props.title}</div>
-                <div id="post_extra">
-                    {showExtra && (<div>
+                <div id="post_extra"> 
+                    {showExtra && (<div> 
                         {allowModif && (<div id="user_extra_btns">
                             {!showConfirmDel && (<button id="del_adminpost" type="button" onClick={toggleConfirmDel}>⌦</button>)}
                             
@@ -148,25 +157,44 @@ function AdminPost(props) {
                 </div>
             </div>
             <div id="admin_post_info">
-                {props.userID ? (<button id="admin_author_btn" type="button" onClick={handleToUser}><img src={`http://localhost:8000/api/images/load_pfp/${userID}?t=${Date.now()}`} id="post_pfp" alt="profile picture" /> {author}</button> ) : (<div id="deleted_user"><img src={`http://localhost:8000/api/images/load_pfp/${userID}?t=${Date.now()}`} id="post_pfp" alt="profile picture" /> {author}</div>)}
-                {!props.edited ? (`${OGdate}`) : (<div>
-                    modifié : {new Date(props.editDate).toLocaleString('fr-FR', {year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric',minute: 'numeric', hour12: false})} |
-                    publié : {new Date(props.timestamp).toLocaleString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric',
-                    })}
-                </div>)}
+                {props.userID ? 
+                    (<button id="admin_author_btn" type="button" onClick={handleToUser}><img src={`http://localhost:8000/api/images/load_pfp/${userID}?t=${Date.now()}`} id="post_pfp" alt="profile picture" /> {author}</button> ) : 
+                    
+                    (<div id="deleted_user"><img src={`http://localhost:8000/api/images/load_pfp/${userID}?t=${Date.now()}`} id="post_pfp" alt="profile picture" /> {author}</div>)
+                }
+
+                {!props.edited ? 
+                    (`${OGdate}`) : 
+                    
+                    (<div>
+                        modifié : {new Date(props.editDate).toLocaleString('fr-FR', {year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric',minute: 'numeric', hour12: false})} |
+                        
+                        publié : {new Date(props.timestamp).toLocaleString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric',})}
+                    </div>)
+                }
             </div>
         </div>
+        
         <div id="post_content">{ formatText(props.content) }</div>
+        
         { showEdit && (<div id="write-admin-edit">
             modifier votre publication
+                
             <textarea id="write-admin-edit-content" type="text" onChange={(evt) => getEdit(evt.target.value)} value={edit}></textarea>
+                
             <button id="confirm-admin-edit-btn" type="button" onClick={handleConfirmEdit}>confirmer la modification</button>
         </div>)}
+        
         <div id="adminpost_btns">
             <NewAdminComment parentPostID={postID} />
             
-            { comments.length > 0 ? (<button id="show_adminthread" type="button" onClick={toggleThread}>{threadBtnText}</button>) : <button id="no_comment" type="button">pas de commentaire</button> }
+            { comments.length > 0 ? 
+                (<button id="show_adminthread" type="button" onClick={toggleThread}>{threadBtnText}</button>) : 
+                
+                <button id="no_comment" type="button">pas de commentaire</button> 
+            }
         </div>
+        
         { showThread && (
             <div className="adminthread">
                 { comments.map((comment,index) => (

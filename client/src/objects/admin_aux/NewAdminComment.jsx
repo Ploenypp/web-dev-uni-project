@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef} from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
 import "../../styles/NewReply.css";
@@ -7,9 +7,11 @@ import "../../styles/Admin.css";
 function NewAdminComment(props) {
     const parentPostID = props.parentPostID;
 
+    // récupérer le brouillon de la commentaire
     const [content, setContent] = useState("");
     const getContent = (evt) => { setContent(evt.target.value); }
 
+    // publier la commentaire
     const handleComment = async () => {
         if (!content.trim()) {
             alert("Pas possible de publier un commentaire vide");
@@ -25,9 +27,9 @@ function NewAdminComment(props) {
         }
     };
 
+    // basculer l'afficher de la zone de texte
     const [showReplyDraft, setShowReplyDraft] = useState(false);
     const [replyBtnText, setReplyBtnText] = useState("répondre");
-
     const toggleReplyDraft = () => {
         if (showReplyDraft) {
             setShowReplyDraft(false);
@@ -43,6 +45,7 @@ function NewAdminComment(props) {
 
         { showReplyDraft && (<div id="new-admincomment-draft">
             <textarea id="write-admin-comment" type="text" placeholder="répondre..." onChange={getContent}></textarea>
+            
             <div id="admincomment-btns">
                 <button id="admincomment_btn" type="button" onClick={handleComment}>publier</button>
             </div>

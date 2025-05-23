@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import "../../styles/Admin.css";
 
 import axios from 'axios';

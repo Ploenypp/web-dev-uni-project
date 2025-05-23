@@ -1,7 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import axios from 'axios';
 
 import "../../styles/Comment.css"
 import "../../styles/Admin.css";
@@ -27,15 +24,22 @@ function AdminComment(props) {
       ));
     };
 
+    // naviguer à la page de profile de l'auteur
     const navigate = useNavigate();
     const handleToUser = async () => {
         const names = author.split(" ");
         navigate(`/profile/${names[0]}_${names[1]}`);
         window.location.reload();
-    }
+    };
 
     return(<div className="AdminComment">
-        {userID ? (<button id="admincomment_author_btn" type="button" onClick={handleToUser}><img id="comment_pfp" src={`http://localhost:8000/api/images/load_pfp/${userID}?t=${Date.now()}`} alt="msg_pfp"/>{author}</button>) : (<div id="deleted_user"><img src={`http://localhost:8000/api/images/load_pfp/${userID}?t=${Date.now()}`} id="post_pfp" alt="profile picture" /> {author}</div>)}
+        {userID ? 
+            // photo et nom de l'auteur 
+            (<button id="admincomment_author_btn" type="button" onClick={handleToUser}><img id="comment_pfp" src={`http://localhost:8000/api/images/load_pfp/${userID}?t=${Date.now()}`} alt="profile pic"/>{author}</button>) : 
+            
+            // cas où l'utilisateur est supprimé
+            (<div id="deleted_user"><img src={`http://localhost:8000/api/images/load_pfp/${userID}?t=${Date.now()}`} id="post_pfp" alt="profile pic" /> {author}</div>)
+        }
 
         <div id="comment_content">
             <div id="admincomment_time">{readableDate}</div>
