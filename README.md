@@ -19,10 +19,27 @@ Depuis le doisser `client/`, exécutez :
 npm run dev
 ```
 
-###  Accéder à l’application
+###  3. Accéder à l’application
 
 Une fois les deux serveurs en fonctionnement, ouvrez votre navigateur à l’adresse suivante :
 
 ```bash
 http://localhost:5173/
 ```
+
+## Objectifs et fonctionnalités du projet
+
+L’objectif principal de ce projet est de développer un forum, avec une architecture fullstack (MongoDB, Express, React, Node.js). Le projet inclut les fonctionnalités suivantes :
+- Création de compte et connexion utilisateur
+- Publication, édition et suppression de posts
+- Système de commentaires
+- Affichage des profils utilisateurs avec image de profil
+- Barre de recherche
+- Modération de contenu
+- Séparation claire entre les rôles administrateur et utilisateur
+
+## Technologies utilisées
+- Front-end : React, Vite, CSS
+- Back-end : Node.js. Express
+- Base de données : MongoDB via Atlas
+- Autres outils : Mongoose, dotenv, Mutler, Sharp
