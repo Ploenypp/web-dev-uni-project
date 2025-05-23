@@ -10,11 +10,11 @@ Pour lancer l’application, suivez les étapes ci-dessous dans deux terminaux d
 Depuis le dossier `server/`, exécutez la commande suivante :
 ```bash
 node app.js
-``
+```
 
 ### 2. Lancer le côté client (front-end)
 
-Depuis le doisser client/, exécutez :
+Depuis le doisser `client/`, exécutez :
 ```bash
 npm run dev
 ```
