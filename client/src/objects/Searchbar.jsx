@@ -1,6 +1,5 @@
-import {useState, useEffect, useRef} from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 import Post from './Post';
 
@@ -18,14 +17,8 @@ function Searchbar() {
     
     const [searchText, setSearchText] = useState("");
     const getSearchText = (evt) => { setSearchText(evt.target.value); }
-    const [searchDate, setSearchDate] = useState("");
-    const getSearchDate = (evt) => { setSearchDate(evt.target.value); }
-    const date = new Date(searchDate);
-    const readableDate = date.toLocaleString('fr-FR', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
 
     const [userResults, setUserResults] = useState([]);
     const searchUsers = async (e) => {
@@ -42,35 +35,35 @@ function Searchbar() {
         fetch(`http://localhost:8000/api/search/all-posts/text?prompt=${searchText}`, { credentials: 'include' })
             .then(res => res.json())
             .then(data => setPostResults(data))
-            .catch(err => console.error("error searching by text :", err));
+            .catch(err => console.error("error searching by text", err));
     };
 
-    const searchByDate = async (e) => {
+    const searchByDateRange = async (e) => {
         e.preventDefault();
-        fetch(`http://localhost:8000/api/search/all-posts/date?date=${searchDate}`, { credentials: 'include' })
+        fetch(`http://localhost:8000/api/search/all-posts/date?start=${startDate}&end=${endDate}`, { credentials: 'include' })
             .then(res => res.json())
             .then(data => setPostResults(data))
-            .catch(err => console.error("error searching by date :", err));
+            .catch(err => console.error("error searching by date range", err));
     };
-
-    const searchByTextDate = async (e) => {
+    
+    const searchByTextDateRange = async (e) => {
         e.preventDefault();
-        fetch(`http://localhost:8000/api/search/all-posts/text-date?prompt=${searchText}&date=${searchDate}`, { credentials: 'include' })
+        fetch(`http://localhost:8000/api/search/all-posts/text-date?prompt=${searchText}&start=${startDate}&end=${endDate}`, { credentials: 'include' })
             .then(res => res.json())
             .then(data => setPostResults(data))
-            .catch(err => console.error("error searching by text and date :", err));
+            .catch(err => console.error("error searching by text and date range", err));
     };
 
     const handleSearch = (e) => {
         setShowResults(false);
         searchUsers(e);
-        if (searchText != "") {
-            if (searchDate != "") { searchByTextDate(e); }
+        if (searchText !== "") {
+            if (startDate !== "" && endDate !== "") { searchByTextDateRange(e); }
             else { searchByText(e); }
             setShowResults(true);
         } else {
-            if (searchDate != "") { 
-                searchByDate(e); 
+            if (startDate !== "" && endDate !== "") { 
+                searchByDateRange(e); 
                 setShowResults(true);
             } else { setShowResults(false); }
         }
@@ -87,13 +80,19 @@ function Searchbar() {
             <form><div id="searchbar_form">
                 <label htmlFor="text-search">recherche</label>
                 <input id="text-search" type="text" className="text-input" onChange={getSearchText}placeholder="chercher des mots clés, des utilisateurs..."/>
-                <input id="date-search" type="date" min="1900-01-01" max="2007-12-31" onChange={getSearchDate}/>
+                
+                <label htmlFor="date-search">de</label>
+                <input id="date-search" type="date" min="1900-01-01" max="2007-12-31" onChange={(e) => setStartDate(e.target.value)} />
+                <label htmlFor="date-search">à</label>
+                <input id="date-search" type="date" min="1900-01-01" max="2007-12-31" onChange={(e) => setEndDate(e.target.value)} />
+                
                 <button id="submit-search" type="button" onClick={handleSearch}><img src={`http://localhost:8000/api/images/load_icon/${"search"}?t=${Date.now()}`} id="search_icon" alt="icon"/></button>
             </div></form>
         </div>
 
         {showResults && (<div id="results">
-            <p>résultats pour {searchText != "" && (searchText)}{(searchText != "" && searchDate != "") && (", ")} {searchDate != "" && (readableDate)}</p>
+            <p>résultats pour {searchText != "" && (searchText)}{(searchText != "" && startDate != "" && endDate != "") && (", ")} {startDate != "" && (new Date(startDate).toLocaleString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' }))} - {endDate != "" && (new Date(endDate).toLocaleString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' }))}</p>
+            
             <div id="user_results">
                 {userResults.length === 0 && (<p>aucun utilisateur correspond</p>)}
                 {userResults.map((user, index) => (

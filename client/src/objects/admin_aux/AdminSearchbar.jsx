@@ -1,25 +1,25 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import AdminPost from './AdminPost';
 import "../../styles/Searchbar.css";
 
-function AdminSearchbar(props) {
-    const currentUserID = props.currentUserID;
+function AdminSearchbar() {
+    const [currentUserID, setCurrentUserID] = useState("");
+    useEffect(() => {
+        fetch('http://localhost:8000/api/users/currentUserID', { credentials: 'include' })
+            .then(res => res.json())
+            .then(data => setCurrentUserID(data))
+            .catch(err => console.error("error fetching current user ID :", err));
+    })
 
     const [showResults, setShowResults] = useState(false);
     
     const [searchText, setSearchText] = useState("");
     const getSearchText = (evt) => { setSearchText(evt.target.value); }
-    const [searchDate, setSearchDate] = useState("");
-    const getSearchDate = (evt) => { setSearchDate(evt.target.value); }
-    const date = new Date(searchDate);
-    const readableDate = date.toLocaleString('fr-FR', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
 
     const [userResults, setUserResults] = useState([]);
     const searchUsers = async (e) => {
@@ -35,47 +35,38 @@ function AdminSearchbar(props) {
     const [postResults, setPostResults] = useState([]);
     const searchByText = async (e) => {
         e.preventDefault();
-
-        try {
-            const response = await axios.get(`http://localhost:8000/api/search/admin-posts/text?prompt=${searchText}`);
-            setPostResults(response.data);
-        } catch(err) {
-            console.error("post search failed", err);
-        }
+        fetch(`http://localhost:8000/api/search/admin-posts/text?prompt=${searchText}`, { credentials: 'include' })
+            .then(res => res.json())
+            .then(data => setPostResults(data))
+            .catch(err => console.error("error searching by text", err));
     };
 
-    const searchByDate = async (e) => {
+    const searchByDateRange = async (e) => {
         e.preventDefault();
-
-        try {
-            const response = await axios.get(`http://localhost:8000/api/search/admin-posts/date?date=${searchDate}`);
-            setPostResults(response.data);
-        } catch(err) {
-            console.error("search by date failed",err);
-        }
+        fetch(`http://localhost:8000/api/search/admin-posts/date?start=${startDate}&end=${endDate}`, { credentials: 'include' })
+            .then(res => res.json())
+            .then(data => setPostResults(data))
+            .catch(err => console.error("error searching by date range", err));
     };
 
-    const searchByTextDate = async (e) => {
+    const searchByTextDateRange = async (e) => {
         e.preventDefault();
-
-        try {
-            const response = await axios.get(`http://localhost:8000/api/search/admin-posts/text-date?prompt=${searchText}&date=${searchDate}`);
-            setPostResults(response.data);
-        } catch(err) {
-            console.error("search by text and search",err);
-        }
+        fetch(`http://localhost:8000/api/search/admin-posts/text-date?prompt=${searchText}&start=${startDate}&end=${endDate}`, { credentials: 'include' })
+            .then(res => res.json())
+            .then(data => setPostResults(data))
+            .catch(err => console.error("error searching by text and date range", err));
     };
 
     const handleSearch = (e) => {
         setShowResults(false);
         searchUsers(e);
-        if (searchText != "") {
-            if (searchDate != "") { searchByTextDate(e); }
+        if (searchText !== "") {
+            if (startDate !== "" && endDate !== "") { searchByTextDateRange(e); }
             else { searchByText(e); }
             setShowResults(true);
         } else {
-            if (searchDate != "") { 
-                searchByDate(e); 
+            if (startDate !== "" && endDate !== "") { 
+                searchByDateRange(e); 
                 setShowResults(true);
             } else { setShowResults(false); }
         }
@@ -92,13 +83,19 @@ function AdminSearchbar(props) {
             <form><div id="searchbar_form">
                 <label htmlFor="text-search">recherche</label>
                 <input id="text-search-admin" type="text" className="text-input" onChange={getSearchText}placeholder="chercher des mots clés, des utilisateurs..."/>
-                <input id="date-search-admin" type="date" min="1900-01-01" max="2007-12-31" onChange={getSearchDate}/>
+                
+                <label htmlFor="date-search-admin">de</label>
+                <input id="date-search-admin" type="date" min="1900-01-01" max="2007-12-31" onChange={(e) => setStartDate(e.target.value)} />
+                <label htmlFor="date-search-admin">à</label>
+                <input id="date-search-admin" type="date" min="1900-01-01" max="2007-12-31" onChange={(e) => setEndDate(e.target.value)} />
+                
                 <button id="submit-search-admin" type="button" onClick={handleSearch}><img src={`http://localhost:8000/api/images/load_icon/${"search"}?t=${Date.now()}`} id="search_icon" alt="icon"/></button>
             </div></form>
         </div>
 
         {showResults && (<div id="admin_results">
-            <p>résultats pour {searchText != "" && (searchText)}{(searchText != "" && searchDate != "") && (", ")} {searchDate != "" && (readableDate)}</p>
+            <p>résultats pour {searchText != "" && (searchText)}{(searchText != "" && startDate != "" && endDate != "") && (", ")} {startDate != "" && (new Date(startDate).toLocaleString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' }))} - {endDate != "" && (new Date(endDate).toLocaleString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' }))}</p>
+            
             <div id="user_adminresults">
                 {userResults.length === 0 && (<p>aucun utilisateur correspond</p>)}
                 {userResults.map((user, index) => (
