@@ -59,13 +59,13 @@ router.post('/new-comment/:parentPostID', async(req,res) => {
         // récupérer le nom de l'auteur
         const user = await db.collection("users").findOne({ _id: new ObjectId(userID) });
         if (!user) { return res.status(404).json( {message: "user not found", userID }); }
-        const author = `${user.fstname}_${sur.surname}`
+        const author = `${user.fstname}_${user.surname}`
 
         await db.collection("comments").insertOne({ "parentPostID": new ObjectId(parentPostID), author, "userID": new ObjectId(userID), timestamp, content });
 
         res.status(201).json({ message: "comment published" });
     } catch(err) {
-        console.error("error publishing comment :",err);
+        console.error("error publishing comment",err);
         res.status(500).json({ message: "internal server error"});
     }
 });
@@ -229,7 +229,7 @@ router.post('/unflag-post/:postID', async(req,res) => {
 });
 
 // modifier une publication dans le form général
-router.patch('/edit-post/:postID', async(req,res) => {
+router.patch('/edit-post/:postID', async(req,res) => { 
     const postID = req.params.postID;
     const { edit } = req.body;
     const timestamp = new Date(Date.now());
