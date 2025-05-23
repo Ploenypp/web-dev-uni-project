@@ -33,7 +33,7 @@ router.post('/new-post', async(req,res) => {
     }
 });
 
-// récupérer toutes les publications du forum administrateur
+// récupérer toutes les publications du forum général
 router.get('/all-posts', async(req,res) => {
     try {
         const db = await getDB();
