@@ -5,6 +5,7 @@ import axios from 'axios';
 import AdminPost from './AdminPost';
 import "../../styles/Searchbar.css";
 
+// barre de recherche dans le forum  administrateur
 function AdminSearchbar() {
     const [currentUserID, setCurrentUserID] = useState("");
     useEffect(() => {
@@ -16,11 +17,13 @@ function AdminSearchbar() {
 
     const [showResults, setShowResults] = useState(false);
     
+    // récupérer les enquêtes
     const [searchText, setSearchText] = useState("");
     const getSearchText = (evt) => { setSearchText(evt.target.value); }
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
 
+    // chercher parmi les utilisateurs administrateur
     const [userResults, setUserResults] = useState([]);
     const searchUsers = async (e) => {
         e.preventDefault();
@@ -31,8 +34,10 @@ function AdminSearchbar() {
             console.error("user search failed", err);
         }
     };
-
+    
     const [postResults, setPostResults] = useState([]);
+
+    // chercher par des mots-clés
     const searchByText = async (e) => {
         e.preventDefault();
         fetch(`http://localhost:8000/api/search/admin-posts/text?prompt=${searchText}`, { credentials: 'include' })
@@ -41,6 +46,7 @@ function AdminSearchbar() {
             .catch(err => console.error("error searching by text", err));
     };
 
+    // chercher par une intervalle de temps
     const searchByDateRange = async (e) => {
         e.preventDefault();
         fetch(`http://localhost:8000/api/search/admin-posts/date?start=${startDate}&end=${endDate}`, { credentials: 'include' })
@@ -49,6 +55,7 @@ function AdminSearchbar() {
             .catch(err => console.error("error searching by date range", err));
     };
 
+    // chercher par des mot-clés et une intervalle de temps
     const searchByTextDateRange = async (e) => {
         e.preventDefault();
         fetch(`http://localhost:8000/api/search/admin-posts/text-date?prompt=${searchText}&start=${startDate}&end=${endDate}`, { credentials: 'include' })
@@ -57,6 +64,7 @@ function AdminSearchbar() {
             .catch(err => console.error("error searching by text and date range", err));
     };
 
+    // chercher selon les champs fournis
     const handleSearch = (e) => {
         setShowResults(false);
         searchUsers(e);
@@ -98,6 +106,7 @@ function AdminSearchbar() {
             
             <div id="user_adminresults">
                 {userResults.length === 0 && (<p>aucun utilisateur correspond</p>)}
+                
                 {userResults.map((user, index) => (
                     <button id="user_adminresult_card" type="button" onClick={() => handleToUser(`${user.fstname}_${user.surname}`)}>
                         <img id="res_pic" src={`http://localhost:8000/api/images/load_pfp/${user._id}?t=${Date.now()}`} alt="pfp" />

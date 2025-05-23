@@ -1,8 +1,9 @@
-import {useState, useEffect, useRef} from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
 import "../styles/ProfilePage.css";
 
+// composant qui contient les informations des utilisateurs et qui s'affiche sur la page de profile de l'utilisateur
 function ProfileInfo(props) {
     const date = new Date(props.dob);
     const readableDate = date.toLocaleString('fr-FR', {
@@ -11,6 +12,7 @@ function ProfileInfo(props) {
         day: 'numeric'
     });
 
+    // télécharger une photo de profil
     const [file, setFile] = useState(null);
     const handleFileUpload = (evt) => {
         const file = evt.target.files[0];
@@ -18,6 +20,7 @@ function ProfileInfo(props) {
         else { setFile(null); }
     };
 
+    // télécharge la photo à la base de données
     const handleFileSubmit = async () => {
         if (!file) { return; }
 

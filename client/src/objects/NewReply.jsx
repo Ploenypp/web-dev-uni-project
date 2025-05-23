@@ -1,14 +1,17 @@
-import {useState, useEffect, useRef} from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
 import "../styles/NewReply.css";
 
+// composant qui permet de publier une nouvelle commentaire à une publication dans le forum général
 function NewReply(props) {
     const parentPostID = props.parentPostID;
 
+    // récupérer le brouillon de la commentaire
     const [content, setContent] = useState("");
     const getContent = (evt) => { setContent(evt.target.value); }
 
+    // publier la commentaire
     const handleComment = async () => {
         if (!content.trim()) {
             alert("Pas possible de publier un commentaire vide");
@@ -24,9 +27,9 @@ function NewReply(props) {
         }
     };
 
+    // basculer la zone d'écriture
     const [showReplyDraft, setShowReplyDraft] = useState(false);
     const [replyBtnText, setReplyBtnText] = useState("répondre");
-
     const toggleReplyDraft = () => {
         if (showReplyDraft) {
             setShowReplyDraft(false);

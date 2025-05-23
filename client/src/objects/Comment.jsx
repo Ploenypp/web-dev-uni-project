@@ -1,10 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import axios from 'axios';
 
 import "../styles/Comment.css"
 
+// commentaire d'une publication dans le forum général
 function Comment(props) {
     const userID = props.userID;
     const author = props.author;

@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
+// "carte" d'inscription qui permet à un administrateur d'accepter ou de rejeter l'inscription
 function Registration(props) {
     const regID = props.regID;
     const fstname = props.fstname;
@@ -13,6 +14,7 @@ function Registration(props) {
         day: 'numeric'
     });
 
+    // basculer les boutons de confirmation d'action
     const [btnSelected, setBtnSelected] = useState("none");
     const toggleAcceptBtn = () => { 
         if (btnSelected === "accept") { setBtnSelected("none"); }
@@ -23,21 +25,20 @@ function Registration(props) {
         else { setBtnSelected("reject"); }
 
     }
+
+    // au cas d'acceptation, l'administrateur attribue au nouvel utilisateur son statut et son équipe
     const [status, setStatus] = useState("");
-    const getStatus = (evt) => {
-        setStatus(evt.target.value);
-    }
-
+    const getStatus = (evt) => { setStatus(evt.target.value); }
     const [team, setTeam] = useState("");
-    const getTeam = (evt) => {
-        setTeam(evt.target.value);
-    }
+    const getTeam = (evt) => { setTeam(evt.target.value); }
 
+    // reconfirmer l'action
     const handleRegOpsConfirm = () => {
         if (btnSelected === "accept") { acceptRegistration(); }
         if (btnSelected === "reject") { rejectRegistration(); }
     };
 
+    // accepter l'inscription
     const acceptRegistration = async () => {
         try {
             await axios.post(`http://localhost:8000/api/admin/accept-registration/${regID}`, { status, team }, { withCredentials: true });
@@ -47,6 +48,7 @@ function Registration(props) {
         }
     };
 
+    // rejeter l'inscription
     const rejectRegistration = async () => {
         try {
             await axios.delete(`http://localhost:8000/api/admin/reject-registration/${regID}`, { withCredentials: true });

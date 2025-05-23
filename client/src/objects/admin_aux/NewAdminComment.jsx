@@ -4,6 +4,7 @@ import axios from 'axios';
 import "../../styles/NewReply.css";
 import "../../styles/Admin.css";
 
+// composant qui permet de publier une nouvelle commentaire à une publication dans le forum administrateur
 function NewAdminComment(props) {
     const parentPostID = props.parentPostID;
 
@@ -27,7 +28,7 @@ function NewAdminComment(props) {
         }
     };
 
-    // basculer l'afficher de la zone de texte
+    // basculer la zone d'écriture
     const [showReplyDraft, setShowReplyDraft] = useState(false);
     const [replyBtnText, setReplyBtnText] = useState("répondre");
     const toggleReplyDraft = () => {
@@ -42,7 +43,7 @@ function NewAdminComment(props) {
 
     return(<div className="NewAdminComment">
         <button id="admincomment_btn" type="button" onClick={toggleReplyDraft}>{replyBtnText}</button>
-
+        
         { showReplyDraft && (<div id="new-admincomment-draft">
             <textarea id="write-admin-comment" type="text" placeholder="répondre..." onChange={getContent}></textarea>
             

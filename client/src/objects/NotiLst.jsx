@@ -3,10 +3,13 @@ import { useState, useEffect } from 'react';
 import Notification from "./Notification.jsx";
 import "../styles/Notification.css";
 
+// composant qui regroupe les notifications destinées à un utilisateur 
 function NotiLst() {
+    // basculer l'affichage des notifications
     const [showNotifs, setShowNotifs] = useState(false);
     const toggleNotifs = () => { setShowNotifs(!showNotifs); }
 
+    // récuperer les notifications
     const [notifications, setNotifications] = useState([]);
     useEffect(() => {
         fetch(`http://localhost:8000/api/users/get-notifications/`, { credentials: 'include' })

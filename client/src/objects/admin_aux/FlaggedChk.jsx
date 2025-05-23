@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 
+// "carte" qui contient le contenu d'une publication signalée et qui permet à un administrateur de la restauter ou de la supprimer
 function FlaggedChk(props) {
     const postID = props.postID;
     const authorID = props.authorID;

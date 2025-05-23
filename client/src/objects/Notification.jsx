@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import axios from 'axios';
 
+// notification qui informe l'utilisateur des certains actions (ex. signalisation d'une publication)
 function Notification(props) {
     const notifID = props.notifID;
     
+    // supprimer la notification
     const handleBtn = async() => {
         try {
             await axios.delete(`http://localhost:8000/api/users/delete-notification/${notifID}`, { withCredentials: true });
@@ -14,6 +16,7 @@ function Notification(props) {
         }
     };
 
+    // basculer les informations supplémentaires du notification s'il y en a
     const [showBody, setShowBody] = useState(false)
     const toggleBody = () => { setShowBody(!showBody); }
 

@@ -7,6 +7,7 @@ import Comment from "./Comment.jsx";
 import NewReply from './NewReply.jsx';
 import "../styles/Post.css";
 
+// publication dans le forum général
 function Post(props) {
     const currentUserID = props.currentUserID;
     const postID = props.postID;
@@ -30,6 +31,7 @@ function Post(props) {
         ));
     };
 
+    // récupérer les commentaires de la publication
     const [comments, setComments] = useState([]);
     useEffect(() => {
         if (postID) {
@@ -40,6 +42,7 @@ function Post(props) {
         }
     }, [comments]);
 
+    // basculer l'affichage des commentaires 
     const [showThread, setShowThread] = useState(false);
     const [threadBtnText, setThreadBtnText] = useState("afficher la discussion")
     const toggleThread = () => {
@@ -53,6 +56,7 @@ function Post(props) {
         console.log(showThread);
     };
 
+    // naviguer à la page de profile de l'auteur
     const navigate = useNavigate();
     const handleToUser = async () => {
         const names = author.split(" ");
@@ -60,6 +64,7 @@ function Post(props) {
         window.location.reload();
     };
 
+    // basculer l'affichage des boutons de fonctionnalités supplementaires
     const [showExtra, setShowExtra] = useState(false);
     const toggleExtra = () => {
         setShowExtra(!showExtra);
@@ -67,9 +72,12 @@ function Post(props) {
         if(showEdit) { setShowEdit(false); }
     };
 
+    // basculer l'affichage du bouton de modfication de la publication
     const allowModif = currentUserID === userID;
     const [showEdit, setShowEdit] = useState(false);
     const toggleEdit = () => { setShowEdit(!showEdit); }
+
+    // modifier la publication
     const [edit, getEdit] = useState(props.content);
     const handleConfirmEdit = async() => {
         try {
@@ -83,8 +91,11 @@ function Post(props) {
         window.location.reload();
     };
 
+    // basculer l'affichage du bouton de suppresion de la publication 
     const [showConfirmDel, setShowConfirmDel] = useState(false);
     const toggleConfirmDel = () => { setShowConfirmDel(!showConfirmDel); };
+
+    // supprimer la publication
     const handleDelete = async () => {
         try {
             await axios.delete(`http://localhost:8000/api/posts/delete-post/${postID}`, { withCredentials: true });
@@ -95,6 +106,7 @@ function Post(props) {
         toggleExtra();
     };
 
+    // mettre à jour le statut de signalisation par l'utilisateur
     const [alreadyFlagged, setAlreadyFlagged] = useState(false);
     const updateFlaggedState = async () => {
         await fetch(`http://localhost:8000/api/posts/check-flagged/${postID}`, { credentials: 'include' })
@@ -103,15 +115,16 @@ function Post(props) {
             .catch(err => console.error("error updating flagged status :", err));
     };
     useEffect(() => { updateFlaggedState(); },[alreadyFlagged]);
+    
     const handleFlag = async () => {
-        if (alreadyFlagged) {
+        if (alreadyFlagged) { // retirer la signalisation
             try {
                 await axios.post(`http://localhost:8000/api/posts/unflag-post/${postID}`, {}, { withCredentials: true });
             } catch(err) {
                 console.error("error flagging post :", err.response?.data?.message || err.message);
                 alert(err.response?.data?.message || "Something went wrong");
             }
-        } else {
+        } else { // signaler la publication
             try {
                 await axios.post(`http://localhost:8000/api/posts/flag-post/${postID}`, {}, { withCredentials: true });
             } catch(err) {
@@ -119,7 +132,7 @@ function Post(props) {
                 alert(err.response?.data?.message || "Something went wrong");
             }
         }
-        updateFlaggedState();
+        updateFlaggedState(); // mettre à jour le statut
         toggleExtra();
     };
 

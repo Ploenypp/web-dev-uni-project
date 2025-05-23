@@ -8,6 +8,7 @@ import NewAdminComment from "./NewAdminComment.jsx";
 import "../../styles/Post.css";
 import "../../styles/Admin.css";
 
+// publication dans le forum administrateur
 function AdminPost(props) {
     const currentUserID = props.currentUserID;
     const postID = props.postID;
@@ -91,9 +92,11 @@ function AdminPost(props) {
         window.location.reload();
     }
 
-    // basculer l'affichage du bouton de suppresion de la publication + supprimer la publication
+    // basculer l'affichage du bouton de suppresion de la publication
     const [showConfirmDel, setShowConfirmDel] = useState(false);
     const toggleConfirmDel = () => { setShowConfirmDel(!showConfirmDel); };
+
+    // supprimer la publication
     const handleDelete = async () => {
         try {
             await axios.delete(`http://localhost:8000/api/admin/delete-post/${postID}`, { withCredentials: true });

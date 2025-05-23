@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import "../../styles/Comment.css"
 import "../../styles/Admin.css";
 
+// commentaire d'une publication dans le forum administrateur
 function AdminComment(props) {
     const userID = props.userID;
     const author = props.author;

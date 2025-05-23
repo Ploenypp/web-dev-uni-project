@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
+// "carte" qui contient les information d'un utilisateur et qui permet à un administrateur de promovoir/retrograder utilisateur, de changer son équipe, ou de le supprimer de l'organisation 
 function UserAdminCard(props) {
     const userID = props.userID;
     const fstname = props.fstname;
@@ -13,6 +14,7 @@ function UserAdminCard(props) {
     });
     const status = props.status;
 
+    // basculer l'action 
     const [btnSelected, setBtnSelected] = useState("none");
     const toggleStatus = () => {
         if (btnSelected === "status") { setBtnSelected("none"); }
@@ -30,6 +32,7 @@ function UserAdminCard(props) {
     const [assignedTeam, setAssignedTeam] = useState("");
     const getAssignedTeam = (evt) => { setAssignedTeam(evt.target.value); }
 
+    // changer son statut
     const changeStatus = async () => {
         const newStatus = (status == "member" ? "admin" : "member");
         try {
@@ -41,6 +44,7 @@ function UserAdminCard(props) {
         toggleStatus();
     };
 
+    // changer son équipe
     const assignTeam = async () => {
         try {
             await axios.patch(`http://localhost:8000/api/admin/assign-team/${userID}`, { assignedTeam }, { withCredentials: true });
@@ -51,6 +55,7 @@ function UserAdminCard(props) {
         toggleTeam();
     };
 
+    // supprimer l'utilisateur
     const deleteUser = async () => {
         try {
             await axios.delete(`http://localhost:8000/api/admin/delete-user/${userID}`, {
@@ -64,6 +69,7 @@ function UserAdminCard(props) {
         toggleRemove();
     };
 
+    // confimer l'action
     const handleUserOps = () => {
         if (btnSelected === "status") { changeStatus(); }
         if (btnSelected === "team") { assignTeam(); }
@@ -99,18 +105,18 @@ function UserAdminCard(props) {
             <div id="user_modif_btns">
                 <button className={`update_status_btn ${btnSelected === "status"}`} type="button" onClick={toggleStatus}>
                     {btnSelected === "status" ? 
-                        (status === "member" ? (<div>↑ promouvoyez</div>) : (<div>↓ rétrogradez</div>)) : 
+                        (status === "member" ? (<div>↑ promouvoir</div>) : (<div>↓ rétrograder</div>)) : 
                         
                         (status === "member" ? (<div>↑</div>) : (<div>↓</div>)) }
                 </button>
 
                 <button className={`assign_team_btn ${btnSelected === "team"}`} type="button" onClick={toggleTeam}>
-                    {btnSelected === "team" ? (<div>⇄ attribuez une équipe</div>) : (<div>⇄</div>)}
+                    {btnSelected === "team" ? (<div>⇄ attribuer une équipe</div>) : (<div>⇄</div>)}
                 </button>
                 {btnSelected === "team" && (<input id="assigned_team" type="text" onChange={getAssignedTeam}></input>)}
 
                 <button className={`rem_user_btn ${btnSelected === "remove"}`} type="button" onClick={toggleRemove}>
-                    {btnSelected === "remove" ? (<div>⌫ enlevez</div>) : (<div>⌫</div>)}
+                    {btnSelected === "remove" ? (<div>⌫ enlever</div>) : (<div>⌫</div>)}
                 </button>
             </div>
 

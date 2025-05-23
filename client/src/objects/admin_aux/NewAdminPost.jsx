@@ -3,7 +3,9 @@ import "../../styles/Admin.css";
 
 import axios from 'axios';
 
+// composant qui permet de publier une nouvelle publication dans le forum administrateur 
 function NewAdminPost() {
+    // basculer la zone d'écriture
     const [showWrite, setShowWrite] = useState(false);
     const [writeBtnText, setWriteBtnText] = useState("ouvrir une nouvelle discussion");
     const toggleShowWrite = () => {
@@ -24,6 +26,7 @@ function NewAdminPost() {
     const getTitle = (evt) => { setTitle(evt.target.value); }
     const getContent = (evt) => { setContent(evt.target.value); }
 
+    // publier la publication
     const handlePublish = async () => {
         try {
             await axios.post('http://localhost:8000/api/admin/new-post', { title, content }, { withCredentials: true });

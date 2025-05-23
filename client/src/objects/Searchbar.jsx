@@ -5,6 +5,7 @@ import Post from './Post';
 
 import "../styles/Searchbar.css";
 
+// barre de recherche dans le forum général
 function Searchbar() {
     const [currentUserID, setCurrentUserID] = useState("");
     useEffect(() => {
@@ -15,11 +16,13 @@ function Searchbar() {
     })
     const [showResults, setShowResults] = useState(false);
     
+    // récupérer les enquêtes
     const [searchText, setSearchText] = useState("");
     const getSearchText = (evt) => { setSearchText(evt.target.value); }
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
 
+    // chercher parmi tous les utilisateurs
     const [userResults, setUserResults] = useState([]);
     const searchUsers = async (e) => {
         e.preventDefault();
@@ -30,6 +33,8 @@ function Searchbar() {
     };
 
     const [postResults, setPostResults] = useState([]);
+
+    // chercher par des mots-clés
     const searchByText = async (e) => {
         e.preventDefault();
         fetch(`http://localhost:8000/api/search/all-posts/text?prompt=${searchText}`, { credentials: 'include' })
@@ -38,6 +43,7 @@ function Searchbar() {
             .catch(err => console.error("error searching by text", err));
     };
 
+    // chercher par une intervalle de temps
     const searchByDateRange = async (e) => {
         e.preventDefault();
         fetch(`http://localhost:8000/api/search/all-posts/date?start=${startDate}&end=${endDate}`, { credentials: 'include' })
@@ -46,6 +52,7 @@ function Searchbar() {
             .catch(err => console.error("error searching by date range", err));
     };
     
+    // chercher par des mot-clés et une intervalle de temps
     const searchByTextDateRange = async (e) => {
         e.preventDefault();
         fetch(`http://localhost:8000/api/search/all-posts/text-date?prompt=${searchText}&start=${startDate}&end=${endDate}`, { credentials: 'include' })
@@ -54,6 +61,7 @@ function Searchbar() {
             .catch(err => console.error("error searching by text and date range", err));
     };
 
+    // chercher selon les champs fournis
     const handleSearch = (e) => {
         setShowResults(false);
         searchUsers(e);

@@ -1,9 +1,11 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import "../styles/NewPost.css";
 
 import axios from 'axios';
 
+// composant qui permet de publier une nouvelle publication dans le forum général
 function NewPost() {
+    // basculer la zone d'écriture
     const [showWrite, setShowWrite] = useState(false);
     const [writeBtnText, setWriteBtnText] = useState("ouvrir une nouvelle discussion");
     const toggleShowWrite = () => {
@@ -21,6 +23,7 @@ function NewPost() {
     const [content, setContent] = useState("");
     const getContent = (evt) => { setContent(evt.target.value); }
 
+    // publier la publication
     const handlePublish = async () => {
         try {
             await axios.post('http://localhost:8000/api/posts/new-post', {

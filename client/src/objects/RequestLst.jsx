@@ -1,11 +1,13 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 
 import Request from "./Request.jsx";
 import "../styles/Requests.css";
 
+// composant qui récupère toutes les requêtes d'amitiés envoysé à l'utilisateur conneté
 function RequestLst(props) {
     const friendReqs = props.reqslst;
 
+    // basculer l'affichage des requêtes
     const [showRequests, setShowRequests] = useState(false);
     const [reqState, setReqLstState] = useState("hidden");
     const toggleRequests = () => {

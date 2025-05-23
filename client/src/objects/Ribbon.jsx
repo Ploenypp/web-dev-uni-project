@@ -5,12 +5,15 @@ import axios from 'axios';
 
 import "../styles/Ribbon.css";
 
+// barre de navigation qui permet de naviguer entre les pages 
+// (J'ai oublié comment elle s'appellait même en anglais donc j'ai choisi "Ribbon." Après j'ai eu peur de causer trop d'erreurs si j'ai changé le nom en "NavigationBar")
 function Ribbon(props) {
     const [userInfo, setUserInfo] = useState("");
     const [userID, setUserID] = useState("");
     const [status, setStatus] = useState("");
     const adminPage = props.pageType;
 
+    // récuperer les informations de l'utilisateur connecté
     useEffect(() => {
         fetch('http://localhost:8000/api/users/currentUser', { credentials: 'include' })
             .then(res => res.json())
@@ -22,6 +25,7 @@ function Ribbon(props) {
             .catch(err => console.error("Error fetching user data:", err))
     }, []);
 
+    // naviguer entres les différentes pages
     const navigate = useNavigate();
     const toDashboard = () => { navigate("/dashboard"); };
     const toProfile = () => { 
@@ -31,6 +35,7 @@ function Ribbon(props) {
     const toChats = () => { navigate("/chats"); };
     const toAdmin = () => { navigate("/admin"); };
 
+    // se déconnecter
     const handleLogout = async () => {
         try {
             await axios.post('http://localhost:8000/api/auth/logout', {}, { withCredentials: true });
