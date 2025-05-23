@@ -53,7 +53,7 @@ function MainPage () {
                 edited={post.edited}
                 editDate={post.editDate}
                 content={post.content}
-				currentUserID={currentUserID}
+				        currentUserID={currentUserID}
             />))}
         </div>
     </div>) 
