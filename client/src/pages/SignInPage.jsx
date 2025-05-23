@@ -5,17 +5,15 @@ import "../styles/SignIn.css";
 
 import axios from 'axios';
 
+// page de connexion
 function SignInPage() {
     const [username,setUsername] = useState("");
     const [password,setPassword] = useState("");
 
-    const getUsername = (evt) => {
-        setUsername(evt.target.value);
-    }
-    const getPassword = (evt) => {
-        setPassword(evt.target.value);
-    }
+    const getUsername = (evt) => { setUsername(evt.target.value); }
+    const getPassword = (evt) => { setPassword(evt.target.value); }
 
+    // se connecter
     const handleLogin = async () => {
         try {
             await axios.post('http://localhost:8000/api/auth/login', { username, password }, { withCredentials: true });
@@ -26,11 +24,11 @@ function SignInPage() {
         }
     };
 
+    // rediriger vers la page d'inscription
     const navigate = useNavigate();
-
     const toRegister = () => {
         navigate('/register');
-    }
+    };
 
     return(<div className="SignInPage">
         <img src={`http://localhost:8000/api/images/load_icon/${"org13"}`} id="org_signin" alt="Organiz'asso Logo"/>

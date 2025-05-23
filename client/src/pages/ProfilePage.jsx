@@ -11,7 +11,9 @@ import ProfileInfo from "../objects/ProfileInfo";
 import RequestLst from "../objects/RequestLst.jsx";
 import NotiLst from "../objects/NotiLst.jsx";
 
+// page qui montre les informations et les publications d'un utilisateur
 function ProfilePage() {
+	// vérifier si l'utilisatuer est bien connecté, sinon rediriger à la page de connexion
 	const navigate = useNavigate();
     useEffect(() => {
         fetch('http://localhost:8000/api/auth/check-session', { credentials: 'include' })
@@ -23,17 +25,21 @@ function ProfilePage() {
     const [userInfo, setUserInfo] = useState("");
 	const [currentUserID, setCurrentUserID] = useState(null);
     useEffect(() => {
+		// récupérer les informations de l'utilisateur de la page
       	fetch(`http://localhost:8000/api/users/byUserNames/${userNames}`, { credentials: 'include' })
         	.then(res => res.json())
           	.then(data => setUserInfo(data))
           	.catch(err => console.error("error fetching user data :", err));
 		
+		// récupérer l'userID de l'utilisateur connecté
 		fetch('http://localhost:8000/api/users/currentUserID', { credentials: 'include' })
 			.then(res => res.json())
 			.then(data => setCurrentUserID(data))
 			.catch(err => console.error("error getting current user id :", err));
     }, []);
+	// utilisateur de la page et l'utilisateur connecté n'est pas toujours le même utilisateur
 
+	// récupérer les publications de l'utilisateur de la page
     const [posts, setPosts] = useState([]);
     useEffect(() => {
 		if (userInfo) {
@@ -44,6 +50,7 @@ function ProfilePage() {
 		}
     }, [userInfo, posts]);
 
+	// récupérer les requêtes d'amitié de l'utilisateur connecté
     const [reqslst, setReqLst] = useState([]);
     useEffect(() => {
       	fetch('http://localhost:8000/api/users/get-friend-requests', { credentials: 'include' })
@@ -52,15 +59,18 @@ function ProfilePage() {
           	.catch(err => console.error("error fetching friend requests :", err));
     }, 	[reqslst]);
 
+	// récupérer le statut de l'utilisateur connecté par rapport de l'utilisateur de la page
 	const [requested, setRequested] = useState(false);
 	const [friend, setFriend] = useState(false);
 	useEffect(() => {
 		if (currentUserID && userInfo && currentUserID != userInfo._id) {
+			// vérifier si une requête d'amitié a été envoyé par l'utilisateur connecté ou l'utilisateur de la page
 			fetch(`http://localhost:8000/api/users/check-request/${userInfo._id}`, { credentials: 'include' })
 				.then(res => res.json())
 				.then(data => setRequested(data))
 				.catch(err => console.error("error fetching request status :", err));
 			
+			// vérifier si les utilisateurs sont déjà amis
 			fetch(`http://localhost:8000/api/users/check-friendship/${userInfo._id}`, { credentials: 'include' })
 				.then(res => res.json())
 				.then(data => setFriend(data))
@@ -68,6 +78,7 @@ function ProfilePage() {
 		}
 	}, [currentUserID, userInfo]);
 
+	// envoyer une requête d'amitié
 	const handleRequest = async() => {
 		try {
 			await axios.post(`http://localhost:8000/api/users/request-friendship/${userInfo._id}`, {}, { withCredentials: true });
@@ -77,6 +88,7 @@ function ProfilePage() {
 		window.location.reload();
 	};
 
+	// rediger vers la page des chats
     const toChats = () => { navigate("/chats"); }
 
     return(<div className="ProfilePage">
@@ -94,7 +106,7 @@ function ProfilePage() {
                   team={userInfo.team}
                 /> 
               	
-				{ currentUserID === userInfo._id ? 
+				{ currentUserID === userInfo._id ? // cas où l'utilisateur connecté est l'utilisateur de la page
 					(<div>
 						<RequestLst reqslst={reqslst}/> 
 						<NotiLst />
@@ -102,13 +114,14 @@ function ProfilePage() {
 							<img src={`http://localhost:8000/api/images/load_icon/${"gummiphone"}?t=${Date.now()}`} id="profile_msg_icon" alt="icon"/>
 							Messages
 						</button>
-					</div>) : 
+					</div>) : // cas où l'utilisateur connecté n'est pas l'utilisateur de la page
 					(<div>
-						{ !friend ? (
-							!requested ? 
-								(<button id="friendreq_btn" type="button" onClick={handleRequest}>Envoyer Friend Request</button>) : 
+						{ !friend ? ( // cas où ils ne sont pas encore amis
+							!requested ? // cas où personne n'a envoyé de requête 
+								(<button id="friendreq_btn" type="button" onClick={handleRequest}>Envoyer Friend Request</button>) : // cas où un utilisateur a envoyé une requête
 								(<button id="friendreq_btn" type="button">Friend Request envoyé</button>)) : 
 								
+								// cas où ils sont déjà amis
 								(<button id="redirChat_btn" type="button" onClick={toChats}>
 								<img src={`http://localhost:8000/api/images/load_icon/${"gummiphone"}?t=${Date.now()}`} id="profile_msg_icon" alt="icon"/>
 								Messager

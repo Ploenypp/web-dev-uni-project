@@ -1,26 +1,30 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import Ribbon from "../objects/Ribbon.jsx";
 import Message from "../objects/Message.jsx";
 
+// page qui permet aux utilisateurs d'envoyer et de recevoir  des messages privées avec leurs amis
 function ChatPage() {
+	// vérifier si l'utilisatuer est bien connecté, sinon rediriger à la page de connexion
   	const navigate = useNavigate();
     useEffect(() => {
         fetch('http://localhost:8000/api/auth/check-session', { credentials: 'include' })
             .then(res => { if (res.status === 401) { navigate('/'); }})
-            .catch(err => console.error("error checking session :", err));
+            .catch(err => console.error("error checking session ", err));
     },[]);
 
+	// récupérer l'userID de l'utilisateur connecté
 	const [userID, setUserID] = useState("");
     useEffect(() => {
         fetch('http://localhost:8000/api/users/currentUserID', { credentials: 'include' })
 			.then(res => res.json())
 			.then(data => setUserID(data))
-			.catch(err => console.error("error getting current user id :", err));
+			.catch(err => console.error("error getting current user id", err));
     }, []);
 
+	// récuperer tous les amis et leurs messages de l'utilisateursr connecté
     const [friends, setFriends] = useState([]);
     useEffect(() => {
       fetch('http://localhost:8000/api/messages/friends', { credentials: 'include' })
@@ -29,6 +33,7 @@ function ChatPage() {
         .catch(err => console.error("error fetching friends", err));
     }, []);
 
+	// selectionner le chat
     const [chatSelected, setChatSelected] = useState("none");
     const [friendName, setFriendName] = useState("");
     const selectChat = (ID, chatname) => {
@@ -42,6 +47,7 @@ function ChatPage() {
         }
     };
 
+	// récupérer les messages du chat selectionné
     const [messages, setMessages] = useState([]);
     const fetchMessages = () => {
       fetch(`http://localhost:8000/api/messages/get-messages/${chatSelected}`, { credentials: 'include' })
@@ -50,6 +56,7 @@ function ChatPage() {
         .catch(err => console.error("error fetching messages :", err));
     };
 
+	// envoyer un nouveau message
 	const [message,setMessage] = useState("");
     const getMessage = (evt) => { setMessage(evt.target.value); }
     const handleSendMessage = async () => {
@@ -64,6 +71,7 @@ function ChatPage() {
       }
     };
 
+	// mise à jour du chat 
     useEffect(() => {
       if (chatSelected != "none") {
         fetchMessages();

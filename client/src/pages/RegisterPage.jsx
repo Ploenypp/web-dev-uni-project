@@ -1,15 +1,14 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../styles/Register.css";
 
 import axios from 'axios';
 
+// page qui permet aux non utilisateurs d'envoyer une requête d'inscription
 function RegisterPage() {
-
+    // rediriger vers la page de connexion
     const navigate = useNavigate();
-    const toSignIn = () => {
-        navigate("/");
-    }
+    const toSignIn = () => { navigate("/"); }
 
     const [fstname, setFstname] = useState("");
     const [surname, setSurname] = useState("");
@@ -25,46 +24,29 @@ function RegisterPage() {
     const getUsername = (evt) => { setUsername(evt.target.value); }
     const getPassword = (evt) => { setPassword(evt.target.value); }
     
+    // vérifier si les mots de passe correspondent
     const getChkPwd = (evt) => { 
         const chk = evt.target.value; 
-        if (chk == password) {
-            setPwdMatch("match");
-        } else {
-            setPwdMatch("");
-        }
+        if (chk == password) { setPwdMatch("match"); } 
+        else { setPwdMatch(""); }
     }
-
-    useEffect(() => {
-        console.log(`
-        fstname: ${fstname}
-        surname: ${surname}
-        dob: ${dob}
-        username: ${username}
-        password: ${password}
-        chk: ${pwdMatch}
-        `);
-    }, [fstname,surname,dob,username,password,pwdMatch]);
 
     const handleRegister = async () => {
         if (pwdMatch != "match") {
             alert("Les mots de passe ne correspondent pas.");
             return ;
         }
-        
         try {
-            const response = await axios.post('http://localhost:8000/api/auth/register', {
+            await axios.post('http://localhost:8000/api/auth/register', {
                 fstname,
                 surname,
                 dob,
                 username,
                 password
             });
-
-            alert(response.data.message); //show success message
             navigate('/');
-            
         } catch (error) {
-            console.error("Registration failed:", error.response?.data?.message || error.message);
+            console.error("error registering", error.response?.data?.message || error.message);
             alert(error.response?.data?.message || "Something went wrong.");
         }
     };

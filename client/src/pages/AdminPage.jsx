@@ -1,6 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 import Ribbon from '../objects/Ribbon';
 import Registration from '../objects/admin_aux/Registration';
@@ -12,13 +11,17 @@ import AdminSearchbar from '../objects/admin_aux/AdminSearchbar';
 
 import '../styles/Admin.css';
 
+// page accessible qu'aux administrateurs qui leur permet de publier des publications, valider des inscriptions, et gérer les publications signalées les utilisateurs
 function AdminPage() {
     const navigate = useNavigate();
+    // vérifier si l'utilisatuer est bien connecté, sinon rediriger à la page de connexion
     useEffect(() => {
         fetch('http://localhost:8000/api/auth/check-session', { credentials: 'include' })
             .then(res => { if (res.status === 401) { navigate('/'); }})
             .catch(err => console.error("error checking session :", err));
     },[]);
+
+    // récupérer l'userID de l'utilisateur connecté
     const [currentUserID, setCurrentUserID] = useState("");
     useEffect(() => {
         fetch('http://localhost:8000/api/users/currentUserID', { credentials: 'include' })
@@ -26,7 +29,8 @@ function AdminPage() {
             .then(data => setCurrentUserID(data))
             .catch(err => console.error("error fetching current user's ID :", err));
     }, []);
-    
+
+    // choisir entre les responsabilités 
     const [showDuty, setShowDuty] = useState("forum");
     const toggleForum = () => {
         if (showDuty === "forum") { setShowDuty("none"); }
@@ -45,6 +49,7 @@ function AdminPage() {
         else { setShowDuty("users"); }
     }
 
+    // récuperer les publications du forum administrateur
     const [posts, setPosts] = useState([]);
     useEffect(() => {
         fetch('http://localhost:8000/api/admin/posts', { credentials: 'include' })
@@ -53,6 +58,7 @@ function AdminPage() {
             .catch(err => console.error("error fetching admin posts"));
     }, [posts])
 
+    // récupérer les requêtes d'inscription en attente
     const [registrations, setRegistrations] = useState([]);
     useEffect(() => {
         fetch('http://localhost:8000/api/admin/registrations', { credentials: 'include' })
@@ -61,6 +67,7 @@ function AdminPage() {
             .catch(err => console.error("error fetching registrations", err));
     },[registrations]);
 
+    // récupérer les publications signalées
     const [flaggedPosts, setFlaggedPosts] = useState([]);
     useEffect(() => {
         fetch('http://localhost:8000/api/admin/flagged-posts', { credentials: 'include' })
@@ -69,6 +76,7 @@ function AdminPage() {
             .catch(err => console.error("error fetching flagged posts", err));
     },[flaggedPosts]);
 
+    // récuperer les informations de tous les utilisateurs
     const [allUsers, setAllUsers] = useState([]);
     useEffect(() => {
         fetch('http://localhost:8000/api/admin/all-users', { credentials: 'include' })
