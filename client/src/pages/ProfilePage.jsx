@@ -92,7 +92,7 @@ function ProfilePage() {
     const toChats = () => { navigate("/chats"); }
 
     return(<div className="ProfilePage">
-        <Ribbon fstname={userInfo.fstname} surname={userInfo.surname} pageType={false}/>
+        <Ribbon pageType={false}/>
         
 		<div id="pf_container">
             <div id="profile_sidebar"> 
